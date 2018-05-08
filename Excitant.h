@@ -2,7 +2,7 @@
 #import <AVFoundation/AVFoundation.h>
 #include <spawn.h>
 
-@interface Auxtivator : NSObject
+@interface Excitant : NSObject
 -(void)AUXtoggleFlash;
 -(void)AUXtoggleLPM;
 -(void)AUXtoggleAirplaneMode;
