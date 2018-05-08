@@ -42,3 +42,22 @@
 +(id)sharedInstance;
 -(void)presentAnimated:(BOOL)arg1;
 @end
+
+@interface UIApplication (PrivateMethods)
+- (BOOL)launchApplicationWithIdentifier:(NSString *)identifier suspended:(BOOL)suspend;
+@end
+
+ //For TapTAputilsPortion
+@interface SBBacklightController
++(id)sharedInstance;
+-(void)_startFadeOutAnimationFromLockSource:(int)arg1 ;
+@end
+@interface UIStatusBarWindow : UIWindow
+//-(void)respring;
+-(void)check;
+@end
+
+@interface FBSystemService : NSObject
++(id)sharedInstance;
+-(void)shutdownAndReboot:(BOOL)arg1;
+@end

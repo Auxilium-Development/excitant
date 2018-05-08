@@ -1,0 +1,11 @@
+include $(THEOS)/makefiles/common.mk
+
+TWEAK_NAME = excitant
+excitant_FILES = Excitant.xm
+
+include $(THEOS_MAKE_PATH)/tweak.mk
+
+after-install::
+	install.exec "killall -9 SpringBoard"
+SUBPROJECTS += taptivatorprefs
+include $(THEOS_MAKE_PATH)/aggregate.mk
