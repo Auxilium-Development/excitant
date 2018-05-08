@@ -1,6 +1,6 @@
-#include <Auxtivator.h>
+#include <Excitant.h>
 
-@implementation Auxtivator
+@implementation Excitant
 
 -(void)AUXtoggleFlash {
 AVCaptureDevice *flashLight = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
