@@ -11,6 +11,7 @@
 -(void)AUXcontrolCenter;
 -(void)AUXrespring;
 -(void)AUXlaunchApp:(id)arg1;
+-(void)AUXhomePress;
 @end
 
 @interface _CDBatterySaver : NSObject
@@ -52,6 +53,7 @@
 +(id)sharedInstance;
 -(void)_startFadeOutAnimationFromLockSource:(int)arg1 ;
 @end
+
 @interface UIStatusBarWindow : UIWindow
 //-(void)respring;
 -(void)check;

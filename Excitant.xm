@@ -92,6 +92,10 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
 	[[UIApplication sharedApplication] launchApplicationWithIdentifier:arg1 suspended:FALSE];
 }
 
+-(void)AUXhomePress {
+	[((SpringBoard * [%c(SpringBoard) sharedApplication]) _simulateHomeButtonPress];
+}
+
 @end
 
 
