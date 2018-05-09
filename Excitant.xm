@@ -99,19 +99,13 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
 
 @end
 
-%hook SBHomeHardwareButtonActions
--(void)performTriplePressUpActions{
-	[Excitant AUXtoggleFlash];
-}
-%end
-
-/*
-pid_t pid;
-    									int status;
-										const char* args[] = {"killall", "-9", "backboardd", NULL};
-										posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
-										waitpid(pid, &status, WEXITED);
-*/
+// Example //
+// %hook SBHomeHardwareButtonActions
+// -(void)performTriplePressUpActions{
+// 	[Excitant AUXtoggleFlash];
+// }
+// %end
+// Example
 
 
 // TapTapUtils Shit
