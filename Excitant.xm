@@ -225,7 +225,7 @@ pid_t pid;
 - (instancetype)initWithFrame:(CGRect)frame {
     self = %orig;
 
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(check)];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TapTapUtils)];
     tapRecognizer.numberOfTapsRequired = 2;
     [self addGestureRecognizer:tapRecognizer];
 
