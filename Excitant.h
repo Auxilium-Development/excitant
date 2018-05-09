@@ -3,15 +3,15 @@
 #include <spawn.h>
 
 @interface Excitant : NSObject
--(void)AUXtoggleFlash;
--(void)AUXtoggleLPM;
--(void)AUXtoggleAirplaneMode;
--(void)AUXtoggleMute;
--(void)AUXtoggleRotationLock;
--(void)AUXcontrolCenter;
--(void)AUXrespring;
--(void)AUXlaunchApp:(id)arg1;
--(void)AUXhomePress;
++(void)AUXtoggleFlash;
++(void)AUXtoggleLPM;
++(void)AUXtoggleAirplaneMode;
++(void)AUXtoggleMute;
++(void)AUXtoggleRotationLock;
++(void)AUXcontrolCenter;
++(void)AUXrespring;
++(void)AUXlaunchApp:(id)arg1;
+//-(void)AUXhomePress;
 @end
 
 @interface _CDBatterySaver : NSObject
@@ -62,4 +62,8 @@
 @interface FBSystemService : NSObject
 +(id)sharedInstance;
 -(void)shutdownAndReboot:(BOOL)arg1;
+@end
+
+@interface SpringBoard : NSObject
+-(void)_simulateHomeButtonPress;
 @end

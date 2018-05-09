@@ -2,6 +2,7 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = excitant
 excitant_FILES = Excitant.xm
+excitant_LIBRARIES = applist
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 

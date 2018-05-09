@@ -4,6 +4,7 @@
 #import <spawn.h>
 #import <notify.h>
 #import <sys/wait.h>
+#import "AppList.h"
 
 #include <Excitant.h>
 
@@ -25,7 +26,7 @@ return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key]
 
 @implementation Excitant
 
--(void)AUXtoggleFlash {
++(void)AUXtoggleFlash {
 AVCaptureDevice *flashLight = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
 if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureTorchModeOn]) {
 	BOOL success = [flashLight lockForConfiguration:nil];
@@ -40,7 +41,7 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
 	}
 }
 
--(void)AUXtoggleLPM {
++(void)AUXtoggleLPM {
 	if([[objc_getClass("_CDBatterySaver") batterySaver] getPowerMode] == 1){
 		[[objc_getClass("_CDBatterySaver") batterySaver] setPowerMode:0 error:nil];
 	}else{
@@ -48,7 +49,7 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
 	}
 }
 
--(void)AUXtoggleAirplaneMode {
++(void)AUXtoggleAirplaneMode {
 	SBAirplaneModeController *airplaneManager = [objc_getClass("SBAirplaneModeController") sharedInstance];
 	if ([airplaneManager isInAirplaneMode]) {
 		[airplaneManager setInAirplaneMode:0];
@@ -58,7 +59,7 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
 	}
 }
 
--(void)AUXtoggleMute {
++(void)AUXtoggleMute {
 	MNRingerSwitchObserver *muteManager = [objc_getClass("MNRingerSwitchObserver") sharedInstance];
 	if ([muteManager ringerSwitchEnabled]) {
 		[muteManager setRingerSwitchEnabled:0];
@@ -67,7 +68,7 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
 	}
 }
 
--(void)AUXtoggleRotationLock {
++(void)AUXtoggleRotationLock {
 	SBOrientationLockManager *orientationManager = [%c(SBOrientationLockManager) sharedInstance];
 	if ([orientationManager isUserLocked]) {
 		[orientationManager unlock];
@@ -76,11 +77,11 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
 	}
 }
 
--(void)AUXcontrolCenter {
++(void)AUXcontrolCenter {
 	[[%c(SBControlCenterController) sharedInstance] presentAnimated:TRUE];
 }
 
--(void)AUXrespring {
++(void)AUXrespring {
 	pid_t pid;
     int status;
     const char* args[] = {"killall", "-9", "backboardd", NULL};
@@ -88,17 +89,21 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
     waitpid(pid, &status, WEXITED);
 }
 
--(void)AUXlaunchApp:(id)arg1 {	//Before calling, save bundle id to (AUXapp)
++(void)AUXlaunchApp:(id)arg1 {	//Before calling, save bundle id to (AUXapp)
 	[[UIApplication sharedApplication] launchApplicationWithIdentifier:arg1 suspended:FALSE];
 }
 
--(void)AUXhomePress {
-	[((SpringBoard * [%c(SpringBoard) sharedApplication]) _simulateHomeButtonPress];
-}
+/*-(void)AUXhomePress {
+	[[objc_getClass("SpringBoard") sharedApplication] _simulateHomeButtonPress];
+}*/
 
 @end
 
-
+%hook SBHomeHardwareButtonActions
+-(void)performTriplePressUpActions{
+	[Excitant AUXtoggleFlash];
+}
+%end
 
 /*
 pid_t pid;
