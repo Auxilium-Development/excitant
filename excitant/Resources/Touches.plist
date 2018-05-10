@@ -169,6 +169,24 @@
 							<string>Set the Color of the Tap Zones from Clear to Red</string>
 			</dict>
 
+			<dict>
+				<key>cell</key>
+				<string>PSSliderCell</string>
+				<key>default</key>
+				<integer>15</integer> <!-- Default value of the slider -->
+				<key>defaults</key>
+				<string>EXCITANTTOUCHES.plist</string> <!-- Path to your Entry.plist (WithoutExtension) -->
+				<key>key</key>
+				<string>kHeight</string> <!-- Your key name here -->
+				<key>max</key>
+				<real>30</real> <!-- Enter your maximum value here -->
+				<key>min</key>
+				<real>10</real> <!-- Enter your minimum value here -->
+				<key>showValue</key> <!-- Show the value of the slider. true or false. -->
+				<true/>
+				<key>label</key>
+				<string>X Coordinate</string>
+			</dict>
 
 		<dict>
 			<key>cell</key>
