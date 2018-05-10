@@ -21,6 +21,16 @@
 			<string>Tapping the status bar</string>
 		</dict>
 
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>SwitchRootListController</string>
+			<key>isController</key>
+			<true/>
+			<key>label</key>
+			<string>Toggle the Mute Switch</string>
+		</dict>
 
 		<dict>
 			<key>cell</key>
