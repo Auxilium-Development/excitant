@@ -17,6 +17,7 @@
 +(void)AUXcontrolCenter;
 +(void)AUXrespring;
 +(void)AUXlaunchApp:(id)arg1;
++(void)AUXLockDevice;
 //-(void)AUXhomePress;
 @end
 

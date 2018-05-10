@@ -5,7 +5,13 @@
 
 	<key>items</key>
 	<array>
-<dict>
+	<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Please Choose only one Enable</string>
+		</dict>
+	<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
@@ -21,7 +27,7 @@
 			<key>key</key>
 			<string>enableUtils</string>
 			<key>label</key>
-			<string>Enable Utilities</string>
+			<string>Enable</string>
 		</dict>
 	
 		<dict>
@@ -136,6 +142,96 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
+			<string>AirPlane Mode</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTAPS.plist</string>
+			<key>key</key>
+			<string>enableAPM</string>
+			<key>label</key>
+			<string>Enable</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Rotation Lock</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTAPS.plist</string>
+			<key>key</key>
+			<string>enableRL</string>
+			<key>label</key>
+			<string>Enable</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Show Control Center</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTAPS.plist</string>
+			<key>key</key>
+			<string>enableCC</string>
+			<key>label</key>
+			<string>Enable</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Respring</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTAPS.plist</string>
+			<key>key</key>
+			<string>enableRespring</string>
+			<key>label</key>
+			<string>Enable</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Lock Device</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTAPS.plist</string>
+			<key>key</key>
+			<string>enableSleep</string>
+			<key>label</key>
+			<string>Enable</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
 			<string>Apply Changes</string>
 		</dict>
 		<dict>
@@ -148,6 +244,6 @@
 		</dict>
 		</array>
 	<key>title</key>
-	<string>DoubleTap on the status bar</string>
+	<string>Tapping the Staus Bar</string>
 </dict>
 </plist> 

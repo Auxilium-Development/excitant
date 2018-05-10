@@ -124,6 +124,9 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
 	[[UIApplication sharedApplication] launchApplicationWithIdentifier:arg1 suspended:FALSE];
 }
 
++(void)AUXLockDevice{
+	[[objc_getClass("SBBacklightController") sharedInstance] _startFadeOutAnimationFromLockSource:1];
+}
 /*-(void)AUXhomePress {
 	[[objc_getClass("SpringBoard") sharedApplication] _simulateHomeButtonPress];
 }*/
@@ -337,6 +340,44 @@ tapRecognizer.numberOfTapsRequired = 2;
 	[Excitant AUXtoggleFlash];
 }
 
+%new
+
+-(void)lpm{
+	[Excitant AUXtoggleLPM];
+}
+
+%new
+
+-(void)apm{
+	[Excitant AUXtoggleAirplaneMode];
+}
+
+%new
+
+-(void)rotationLock{
+	[Excitant AUXtoggleRotationLock];
+}
+
+%new
+
+-(void)controlCenter{
+	[Excitant AUXcontrolCenter];
+}
+
+%new
+
+-(void)respring{
+	[Excitant AUXrespring];
+}
+
+%new
+
+-(void)lockDevice{
+	[Excitant AUXLockDevice];
+}
+
+
+
 - (instancetype)initWithFrame:(CGRect)frame {
     self = %orig;
     if(GetPrefBool(@"enableUtils")){
@@ -348,6 +389,36 @@ tapRecognizer.numberOfTapsRequired = 2;
     }
 	if(GetPrefBool(@"enableFlash")){
 		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(flash)];
+        tapRecognizer.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:tapRecognizer];
+	}
+	if(GetPrefBool(@"enableLPM")){
+		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lpm)];
+        tapRecognizer.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:tapRecognizer];
+	}
+	if(GetPrefBool(@"enableAPM")){
+		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(apm)];
+        tapRecognizer.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:tapRecognizer];
+	}
+	if(GetPrefBool(@"enableRL")){
+		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rotationLock)];
+        tapRecognizer.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:tapRecognizer];
+	}
+	if(GetPrefBool(@"enableCC")){
+		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(controlCenter)];
+        tapRecognizer.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:tapRecognizer];
+	}
+	if(GetPrefBool(@"enableRespring")){
+		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(respring)];
+        tapRecognizer.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:tapRecognizer];
+	}
+	if(GetPrefBool(@"enableSleep")){
+		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lockDevice)];
         tapRecognizer.numberOfTapsRequired = 2;
         [self addGestureRecognizer:tapRecognizer];
 	}
