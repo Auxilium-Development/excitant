@@ -156,6 +156,19 @@
 							<string>Open with 4 Taps</string>
 			</dict>
 
+			<dict>
+							<key>cell</key>
+							<string>PSSwitchCell</string>
+							<key>default</key>
+							<false/>
+							<key>defaults</key>
+							<string>EXCITANTTOUCHES.plist</string>
+							<key>key</key>
+							<string>setColor</string>
+							<key>label</key>
+							<string>Set the Color of the Tap Zones from Clear to Red</string>
+			</dict>
+
 
 		<dict>
 			<key>cell</key>
@@ -169,7 +182,7 @@
 			<key>label</key>
 			<string>Respring Device</string>
 			<key>action</key>
-			<string>respringDevice</string>
+			<string>RespringMe</string>
 		</dict>
 		</array>
 	<key>title</key>

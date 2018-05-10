@@ -156,13 +156,21 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
 		UIWindow * screen = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen]bounds]];
 
 		ExcitantView * rightView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height, - 20, - 100)];
-	    [rightView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
+			if(GetPrefTouchesBool(@"setColor")){
+				[rightView setBackgroundColor:[UIColor redColor]];
+			}else{
+				[rightView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
+			}
 	    [rightView setAlpha: 1];
 			[rightView setHidden:NO];
 	    rightView.userInteractionEnabled = TRUE;
 
 		ExcitantView * leftView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height, 20, - 100)];
-	    [leftView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
+			if(GetPrefTouchesBool(@"setColor")){
+				[leftView setBackgroundColor:[UIColor redColor]];
+			}else{
+			[leftView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
+		  }
 	    [leftView setAlpha: 1];
 			[leftView setHidden:NO];
 	    leftView.userInteractionEnabled = TRUE;

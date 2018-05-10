@@ -21,7 +21,7 @@
 			<string>Double tap on status bar</string>
 		</dict>
 
-		
+
 		<dict>
 			<key>cell</key>
 			<string>PSLinkCell</string>
@@ -31,8 +31,8 @@
 			<true/>
 			<key>label</key>
 			<string>Tap The Side</string>
-
 		</dict>
+		
 	</array>
 	<key>title</key>
 	<string>Excitant</string>
