@@ -11,3 +11,7 @@
 @interface TouchesRootListController : PSListController
 
 @end
+
+@interface SwitchRootListController : PSListController
+  
+@end
