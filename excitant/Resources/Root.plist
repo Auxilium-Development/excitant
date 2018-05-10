@@ -19,6 +19,18 @@
 			<true/>
 			<key>label</key>
 			<string>Double tap on status bar</string>
+		</dict>
+
+		
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>TouchesRootListController</string>
+			<key>isController</key>
+			<true/>
+			<key>label</key>
+			<string>Tap The Side</string>
 
 		</dict>
 	</array>

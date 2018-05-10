@@ -7,3 +7,7 @@
 @interface SBRootListController : PSListController
 
 @end
+
+@interface TouchesRootListController : PSListController
+
+@end

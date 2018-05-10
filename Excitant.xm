@@ -8,8 +8,8 @@
 
 #include <Excitant.h>
 
-#define PLIST_PATH @"/opt/projects/excitant/taptivatorprefs/entry.plist"
-#define HomeHijack_PATH @"/Library/PreferenceLoader/Preferences/HomeHijack.plist"
+#define PLIST_PATH @"/opt/projects/excitant/taptivatorprefs/entry"
+#define EXCITANTTOUCHES_PATH @"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"
 
 inline bool GetPrefBool(NSString *key) {
 return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] boolValue];
@@ -23,6 +23,37 @@ inline float GetPrefFloat(NSString *key) {
 return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] floatValue];
 }
 
+//Touches Prefs
+inline bool GetPrefTouchesBool(NSString *key) {
+return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] boolValue]; //Looks for bool
+}
+
+//Touches Applist
+static NSString *touchesLeft;
+static NSString *touchesRight;
+
+static void loadPrefsTouchesLeft() { //Triple Tap version
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
+touchesLeft = [prefs objectForKey:@"touchesAppLeft"]; //Setting up variables
+}
+
+static void loadPrefsTouchesRight() { //Triple Tap version
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
+touchesRight = [prefs objectForKey:@"touchesAppRight"]; //Setting up variables
+}
+
+@implementation ExcitantWindow
+-(BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    for (UIWindow *window in self.subviews) {
+        if (!window.hidden && window.userInteractionEnabled && [window pointInside:[self convertPoint:point toView:window] withEvent:event])
+            return YES;
+    }
+    return NO;
+}
+@end
+
+@implementation ExcitantView
+@end
 
 @implementation Excitant
 
@@ -118,6 +149,83 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
 //TapTapUtilsShit
 
 
+//Just hard coding in some gesture recognizers
+%hook SpringBoard
+-(void)applicationDidFinishLaunching:(id)application {
+    %orig;
+		UIWindow * screen = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen]bounds]];
+
+		ExcitantView * rightView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height, - 20, - 100)];
+	    [rightView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
+	    [rightView setAlpha: 1];
+			[rightView setHidden:NO];
+	    rightView.userInteractionEnabled = TRUE;
+
+		ExcitantView * leftView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height, 20, - 100)];
+	    [leftView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
+	    [leftView setAlpha: 1];
+			[leftView setHidden:NO];
+	    leftView.userInteractionEnabled = TRUE;
+
+		ExcitantWindow *window = [[ExcitantWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+		window.windowLevel = 1005;
+		[window setHidden:NO];
+		[window setAlpha:1.0];
+		[window setBackgroundColor:[UIColor clearColor]];
+		[window addSubview:rightView];
+		[window addSubview:leftView];
+
+
+/*UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TapTapUtils)];
+tapRecognizer.numberOfTapsRequired = 2;
+[self addGestureRecognizer:tapRecognizer];*/
+
+
+		UITapGestureRecognizer *rightRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerRight:)];
+		if(GetPrefTouchesBool(@"taps2")){
+	    rightRecognizer.numberOfTapsRequired = 2;
+			[rightView addGestureRecognizer:rightRecognizer];
+		}else if(GetPrefTouchesBool(@"taps3")){
+			rightRecognizer.numberOfTapsRequired = 3;
+			[rightView addGestureRecognizer:rightRecognizer];
+		}else if (GetPrefTouchesBool(@"taps4")){
+			rightRecognizer.numberOfTapsRequired = 4;
+			[rightView addGestureRecognizer:rightRecognizer];
+		}else{
+			rightRecognizer.numberOfTapsRequired = 1;
+	    [rightView addGestureRecognizer:rightRecognizer];
+		}
+
+		UITapGestureRecognizer *leftRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerLeft:)];
+		if(GetPrefTouchesBool(@"taps2")){
+			leftRecognizer.numberOfTapsRequired = 2;
+			[leftView addGestureRecognizer:leftRecognizer];
+		}else if(GetPrefTouchesBool(@"taps3")){
+			leftRecognizer.numberOfTapsRequired = 3;
+			[leftView addGestureRecognizer:leftRecognizer];
+		}else if (GetPrefTouchesBool(@"taps4")){
+			leftRecognizer.numberOfTapsRequired = 4;
+			[leftView addGestureRecognizer:leftRecognizer];
+		}else{
+			leftRecognizer.numberOfTapsRequired = 1;
+			[leftView addGestureRecognizer:leftRecognizer];
+		}
+}
+
+
+
+%new
+- (void) TouchRecognizerRight:(UITapGestureRecognizer *)sender {
+	loadPrefsTouchesRight();
+	[Excitant AUXlaunchApp:touchesRight];
+}
+
+%new
+- (void) TouchRecognizerLeft:(UITapGestureRecognizer *)sender {
+	loadPrefsTouchesLeft();
+	[Excitant AUXlaunchApp:touchesLeft];
+}
+%end
 
 
 

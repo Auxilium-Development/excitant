@@ -2,6 +2,12 @@
 #import <AVFoundation/AVFoundation.h>
 #include <spawn.h>
 
+@interface ExcitantWindow : UIWindow
+@end
+
+@interface ExcitantView : UIView
+@end
+
 @interface Excitant : NSObject
 +(void)AUXtoggleFlash;
 +(void)AUXtoggleLPM;
