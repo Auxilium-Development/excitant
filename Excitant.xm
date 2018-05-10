@@ -8,7 +8,7 @@
 
 #include <Excitant.h>
 
-#define PLIST_PATH @"/opt/projects/excitant/taptivatorprefs/entry"
+#define PLIST_PATH @"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"
 #define EXCITANTTOUCHES_PATH @"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"
 
 inline bool GetPrefBool(NSString *key) {
@@ -331,14 +331,26 @@ tapRecognizer.numberOfTapsRequired = 2;
         [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:confirmationAlertController animated:YES completion:NULL];
 }
 
+%new
+
+-(void)flash{
+	[Excitant AUXtoggleFlash];
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = %orig;
+    if(GetPrefBool(@"enableUtils")){
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TapTapUtils)];
+        tapRecognizer.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:tapRecognizer];
 
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TapTapUtils)];
-    tapRecognizer.numberOfTapsRequired = 2;
-    [self addGestureRecognizer:tapRecognizer];
-
+        //return self;
+    }
+	if(GetPrefBool(@"enableFlash")){
+		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(flash)];
+        tapRecognizer.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:tapRecognizer];
+	}
     return self;
 }
 

@@ -17,9 +17,9 @@
 			<key>default</key>
 			<false/>
 			<key>defaults</key>
-			<string>/opt/projects/excitant/taptivatorprefs/entry</string>
+			<string>EXCITANTTAPS.plist</string>
 			<key>key</key>
-			<string>enable</string>
+			<string>enableUtils</string>
 			<key>label</key>
 			<string>Enable Utilities</string>
 		</dict>
@@ -30,7 +30,7 @@
 			<key>default</key>
 			<false/>
 			<key>defaults</key>
-			<string>/opt/projects/excitant/taptivatorprefs/entry</string>
+			<string>EXCITANTTAPS.plist</string>
 			<key>key</key>
 			<string>uicache</string>
 			<key>label</key>
@@ -42,7 +42,7 @@
 			<key>default</key>
 			<false/>
 			<key>defaults</key>
-			<string>/opt/projects/excitant/taptivatorprefs/entry</string>
+			<string>EXCITANTTAPS.plist</string>
 			<key>key</key>
 			<string>respring</string>
 			<key>label</key>
@@ -54,7 +54,7 @@
 			<key>default</key>
 			<false/>
 			<key>defaults</key>
-			<string>/opt/projects/excitant/taptivatorprefs/entry</string>
+			<string>EXCITANTTAPS.plist</string>
 			<key>key</key>
 			<string>reboot</string>
 			<key>label</key>
@@ -66,7 +66,7 @@
 			<key>default</key>
 			<false/>
 			<key>defaults</key>
-			<string>/opt/projects/excitant/taptivatorprefs/entry</string>
+			<string>EXCITANTTAPS.plist</string>
 			<key>key</key>
 			<string>safemode</string>
 			<key>label</key>
@@ -78,7 +78,7 @@
 			<key>default</key>
 			<false/>
 			<key>defaults</key>
-			<string>/opt/projects/excitant/taptivatorprefs/entry</string>
+			<string>EXCITANTTAPS.plist</string>
 			<key>key</key>
 			<string>shutdown</string>
 			<key>label</key>
@@ -90,11 +90,47 @@
 			<key>default</key>
 			<false/>
 			<key>defaults</key>
-			<string>/opt/projects/excitant/taptivatorprefs/entry</string>
+			<string>EXCITANTTAPS.plist</string>
 			<key>key</key>
 			<string>sleep</string>
 			<key>label</key>
 			<string>Sleep</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>FlashLight/Tourch</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTAPS.plist</string>
+			<key>key</key>
+			<string>enableFlash</string>
+			<key>label</key>
+			<string>Enable</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Low Power Mode</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTAPS.plist</string>
+			<key>key</key>
+			<string>enableLPM</string>
+			<key>label</key>
+			<string>Enable</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -112,6 +148,6 @@
 		</dict>
 		</array>
 	<key>title</key>
-	<string>Title Goes Here</string>
+	<string>DoubleTap on the status bar</string>
 </dict>
 </plist> 
