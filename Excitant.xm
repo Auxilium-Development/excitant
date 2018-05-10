@@ -23,6 +23,14 @@ inline float GetPrefFloat(NSString *key) {
 return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] floatValue];
 }
 
+//Mute Switch Prefs
+NSString *switchpath = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/com.chilaxan.ezswitchprefs.plist"];
+NSDictionary *switchsettings = [NSMutableDictionary dictionaryWithContentsOfFile:switchpath];
+
+static BOOL isEzSwitchEnabled = (BOOL)[[settings objectForKey:@"switchenabled"]?:@TRUE boolValue];
+static NSInteger switchPreference = (NSInteger)[[settings objectForKey:@"switchPreferences"]?:@9 integerValue];
+//End Mute Switch Prefs
+
 //Touches Prefs
 inline bool GetPrefTouchesBool(NSString *key) {
 return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] boolValue]; //Looks for bool
@@ -223,7 +231,31 @@ tapRecognizer.numberOfTapsRequired = 2;
 		}
 }
 
-
+//Mute Switch Function
+- (void)_updateRingerState:(int)arg1 withVisuals:(BOOL)arg2 updatePreferenceRegister:(BOOL)arg3 {
+	if(arg1) {
+		if (isEzSwitchEnabled) {
+			if (switchPreference == 0) {		
+				[Excitant AUXtoggleFlash];
+				}	
+			if (switchPreference == 1){
+				[Excitant AUXtoggleLPM];
+			}
+			if (switchPreference == 2) {
+                [Excitant AUXtoggleAirplaneMode];
+			}
+            if (switchPreference == 3) {
+                [Excitant AUXtoggleMute]; //DOES NOT WORK YET
+			}
+			if (switchPreference == 4) {
+                [Excitant AUXtoggleRotationLock];
+			}            
+		} else {
+			%orig;
+		}
+	} 
+}	
+//End Mute Switch Function
 
 %new
 - (void) TouchRecognizerRight:(UITapGestureRecognizer *)sender {
