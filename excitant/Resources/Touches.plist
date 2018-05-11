@@ -5,6 +5,94 @@
 
 	<key>items</key>
 	<array>
+
+		<dict>
+					<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Enable The Touch Areas You Want</string>
+			<key>footerText</key>
+			<string>Go On, Don't Be Shy!</string>
+	</dict>
+
+	<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTOUCHES.plist</string>
+			<key>key</key>
+			<string>enableRB</string>
+			<key>label</key>
+			<string>Enable Right Bottom</string>
+	</dict>
+	<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTOUCHES.plist</string>
+			<key>key</key>
+			<string>enableRM</string>
+			<key>label</key>
+			<string>Enable Right Middle</string>
+	</dict>
+	<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTOUCHES.plist</string>
+			<key>key</key>
+			<string>enableRT</string>
+			<key>label</key>
+			<string>Enable Right Top</string>
+	</dict>
+
+	<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTOUCHES.plist</string>
+			<key>key</key>
+			<string>enableLB</string>
+			<key>label</key>
+			<string>Enable Left Bottom</string>
+	</dict>
+
+	<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTOUCHES.plist</string>
+			<key>key</key>
+			<string>enableLM</string>
+			<key>label</key>
+			<string>Enable Left Middle</string>
+	</dict>
+
+	<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>EXCITANTTOUCHES.plist</string>
+			<key>key</key>
+			<string>enableLT</string>
+			<key>label</key>
+			<string>Enable Left Top</string>
+	</dict>
+
+
+
 <dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -320,7 +408,7 @@
 			<string>taps2</string>
 			<key>label</key>
 			<string>Open with 2 Taps</string>
-			</dict>
+	</dict>
 
 			<dict>
 					<key>cell</key>
@@ -362,42 +450,53 @@
 			</dict>
 
 			<dict>
+						<key>cell</key>
+				<string>PSGroupCell</string>
+				<key>label</key>
+				<string>Set the Height And Width</string>
+				<key>footerText</key>
+				<string>First Option is Height, Second is Width.</string>
+		</dict>
+
+
+			<dict>
 				<key>cell</key>
 				<string>PSSliderCell</string>
 				<key>default</key>
-				<integer>150</integer> <!-- Default value of the slider -->
+				<integer>100</integer> <!-- Default value of the slider -->
 				<key>defaults</key>
 				<string>EXCITANTTOUCHES.plist</string> <!-- Path to your Entry.plist (WithoutExtension) -->
 				<key>key</key>
-				<string>xLocation</string> <!-- Your key name here -->
+				<string>vHeight</string> <!-- Your key name here -->
 				<key>max</key>
-				<real>1</real> <!-- Enter your maximum value here -->
+				<real>500</real> <!-- Enter your maximum value here -->
 				<key>min</key>
-				<real>0</real> <!-- Enter your minimum value here -->
+				<real>1</real> <!-- Enter your minimum value here -->
 				<key>showValue</key> <!-- Show the value of the slider. true or false. -->
 				<true/>
 				<key>label</key>
-				<string>X Coordinate (across the top of the screen)</string>
+				<string>Set the Length of the Bar</string>
 			</dict>
 
 			<dict>
 				<key>cell</key>
 				<string>PSSliderCell</string>
 				<key>default</key>
-				<integer>150</integer> <!-- Default value of the slider -->
+				<integer>10</integer> <!-- Default value of the slider -->
 				<key>defaults</key>
 				<string>EXCITANTTOUCHES.plist</string> <!-- Path to your Entry.plist (WithoutExtension) -->
 				<key>key</key>
-				<string>yLocation</string> <!-- Your key name here -->
+				<string>vWidth</string> <!-- Your key name here -->
 				<key>max</key>
-				<real>1</real> <!-- Enter your maximum value here -->
+				<real>100</real> <!-- Enter your maximum value here -->
 				<key>min</key>
-				<real>0</real> <!-- Enter your minimum value here -->
+				<real>1</real> <!-- Enter your minimum value here -->
 				<key>showValue</key> <!-- Show the value of the slider. true or false. -->
 				<true/>
 				<key>label</key>
-				<string>Y Coordinate (Down The Left of your screen)</string>
+				<string>Set the Width of the Bar</string>
 			</dict>
+
 
 		<dict>
 			<key>cell</key>

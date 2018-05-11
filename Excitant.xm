@@ -22,6 +22,14 @@ return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key]
 inline float GetPrefFloat(NSString *key) {
 return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] floatValue];
 }
+//Loading for UIView taps
+inline bool GetTouchBool(NSString *key) {
+return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] boolValue];
+}
+inline float GetTouchFloats(NSString *key) {
+return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
+}
+
 
 //Mute Switch Prefs
 NSString *switchpath = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/com.chilaxan.ezswitchprefs.plist"];
@@ -187,12 +195,6 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
 
 
 //Just hard coding in some gesture recognizers
-inline float yLocation(NSString *key) {
-return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
-}
-inline float xLocation(NSString *key) {
-return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
-}
 
 ExcitantView *rightBottomView;
 ExcitantView *leftBottomView;
@@ -205,13 +207,13 @@ ExcitantView *rightTopView;
 
 %hook SpringBoard
 -(void)applicationDidFinishLaunching:(id)application {
-	//float setX = xLocation(@"xLocation");
-	//float setY = yLocation(@"xLocation");
+	float width = GetTouchFloats(@"vWidth");
+    float height = GetTouchFloats(@"vHeight");
 
     %orig;
 		UIWindow * screen = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen]bounds]];
 
-		rightBottomView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height, - 20, - 100)];
+		rightBottomView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height, - width, - height)];
 			if(GetPrefTouchesBool(@"setColor")){
 				[rightBottomView setBackgroundColor:[UIColor redColor]];
 			}else{
@@ -221,7 +223,7 @@ ExcitantView *rightTopView;
 			[rightBottomView setHidden:NO];
 	    rightBottomView.userInteractionEnabled = TRUE;
 
-		  leftBottomView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height, 20, - 100)];
+		  leftBottomView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height, width, - height)];
 			if(GetPrefTouchesBool(@"setColor")){
 				[leftBottomView setBackgroundColor:[UIColor redColor]];
 			}else{
@@ -231,7 +233,7 @@ ExcitantView *rightTopView;
 			[leftBottomView setHidden:NO];
 	    leftBottomView.userInteractionEnabled = TRUE;
 
-			rightMiddleView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height*.60, - 20, - 100)];
+			rightMiddleView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height*.60, - width, - height)];
 				if(GetPrefTouchesBool(@"setColor")){
 					[rightMiddleView setBackgroundColor:[UIColor blueColor]];
 				}else{
@@ -241,7 +243,7 @@ ExcitantView *rightTopView;
 				[rightMiddleView setHidden:NO];
 		    rightMiddleView.userInteractionEnabled = TRUE;
 
-			leftMiddleView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height*.60, 20, - 100)];
+			leftMiddleView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height*.60, width, - height)];
 				if(GetPrefTouchesBool(@"setColor")){
 					[leftMiddleView setBackgroundColor:[UIColor blueColor]];
 				}else{
@@ -251,7 +253,7 @@ ExcitantView *rightTopView;
 				[leftMiddleView setHidden:NO];
 		    leftMiddleView.userInteractionEnabled = TRUE;
 
-				rightTopView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height*0.001, - 20,  100)];
+				rightTopView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height*0.001, - width,  height)];
 					if(GetPrefTouchesBool(@"setColor")){
 						[rightTopView setBackgroundColor:[UIColor greenColor]];
 					}else{
@@ -261,7 +263,7 @@ ExcitantView *rightTopView;
 					[rightTopView setHidden:NO];
 			    rightTopView.userInteractionEnabled = TRUE;
 
-				leftTopView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height*0.001, 20,  100)];
+				leftTopView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height*0.001, width,  height)];
 					if(GetPrefTouchesBool(@"setColor")){
 						[leftTopView setBackgroundColor:[UIColor greenColor]];
 					}else{
@@ -276,20 +278,31 @@ ExcitantView *rightTopView;
 		[window setHidden:NO];
 		[window setAlpha:1.0];
 		[window setBackgroundColor:[UIColor clearColor]];
-		[window addSubview:rightBottomView];
+        if(GetTouchBool(@"enableRB")){
+        [window addSubview:rightBottomView];
+    }else {nil;}
+      if(GetTouchBool(@"enableRM")){
 		[window addSubview:rightMiddleView];
+    }else {nil;}
+       if(GetTouchBool(@"enableRT")){
 		[window addSubview:rightTopView];
+    }else {nil;}
+       if(GetTouchBool(@"enableLB")){
 		[window addSubview:leftBottomView];
+    }else {nil;}
+       if(GetTouchBool(@"enableLM")){
 		[window addSubview:leftMiddleView];
+    }else {nil;}
+       if(GetTouchBool(@"enableLT")){
 		[window addSubview:leftTopView];
-
+    }else {nil;}
 
 /*UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TapTapUtils)];
 tapRecognizer.numberOfTapsRequired = 2;
 [self addGestureRecognizer:tapRecognizer];*/
 
 
-		UITapGestureRecognizer *rightBottomRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerBottmRight:)];
+		UITapGestureRecognizer *rightBottomRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerBottomRight:)];
 		if(GetPrefTouchesBool(@"taps2")){
 	    rightBottomRecognizer.numberOfTapsRequired = 2;
 			[rightBottomView addGestureRecognizer:rightBottomRecognizer];
