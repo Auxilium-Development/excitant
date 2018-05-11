@@ -42,7 +42,18 @@
 			<key>label</key>
 			<string>Tap The Side</string>
 		</dict>
-		
+
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>HomeHijackController</string>
+			<key>isController</key>
+			<true/>
+			<key>label</key>
+			<string>HomeHijack</string>
+		</dict>
+
 	</array>
 	<key>title</key>
 	<string>Excitant</string>

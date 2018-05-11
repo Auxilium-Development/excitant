@@ -6,6 +6,7 @@
 #import <sys/wait.h>
 #import "AppList.h"
 
+
 #include <Excitant.h>
 
 #define PLIST_PATH @"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"
@@ -30,6 +31,31 @@ inline float GetTouchFloats(NSString *key) {
 return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
 }
 
+//HomeHijack Stuff
+static NSString *selectedApp; //Applist stuff
+static NSString *tapLaunch; //TripleTap Launcher
+static NSString *volUp; //Volume Up String
+static NSString *volDown; //Volume Down String
+
+static void loadPrefs() { //Siri Version applist
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
+selectedApp = [prefs objectForKey:@"otherApp"]; //Setting up variables
+}
+
+static void loadPrefsTap() { //Triple Tap version
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
+tapLaunch = [prefs objectForKey:@"tripleTap"]; //Setting up variables
+}
+
+static void loadPrefsVolUp() { //Triple Tap version
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
+volUp = [prefs objectForKey:@"volUp"]; //Setting up variables
+}
+
+static void loadPrefsVolDown() { //Triple Tap version
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
+volDown = [prefs objectForKey:@"volDown"]; //Setting up variables
+}
 
 //Mute Switch Prefs
 NSString *switchpath = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/com.chilaxan.ezswitchprefs.plist"];
@@ -402,8 +428,7 @@ tapRecognizer.numberOfTapsRequired = 2;
                                              name:UIKeyboardDidHideNotification
                                            object:nil];
 }
-//rightBottomView?//line 245
-//where is the subview
+
 //Mute Switch Function
 - (void)_updateRingerState:(int)arg1 withVisuals:(BOOL)arg2 updatePreferenceRegister:(BOOL)arg3 {
 	if(arg1) {
@@ -486,9 +511,124 @@ tapRecognizer.numberOfTapsRequired = 2;
 %end
 
 
+//Start HomeHijack
+%hook SBAssistantController
+-(void)_viewWillAppearOnMainScreen:(BOOL)arg1{
+    //[[UIApplication sharedApplication] launchApplicationWithIdentifier:@"com.amazon.echo" suspended:FALSE];
+    loadPrefs();
+    if(GetPrefBool(@"kCC")){
+        [Excitant AUXcontrolCenter];
+        %orig;
+    }else if (GetPrefBool(@"kSiriRespring")){
+      [Excitant AUXrespring];
+    }else if(selectedApp != nil){
+        [[UIApplication sharedApplication] launchApplicationWithIdentifier:selectedApp suspended:FALSE];
+        %orig(NO);
+      }else if(GetPrefBool(@"kSiriFlash")){
+        //Flashlight
+            [Excitant AUXtoggleFlash];
+          }else if (GetPrefBool(@"kSiriBat")){
+              [Excitant AUXtoggleLPM];
+              }else{
+        %orig;
+    }
+}
 
-//hu
+%end
 
+%hook SBAssistantWindow
+-(id)initWithScreen:(id)arg1 layoutStrategy:(id)arg2 debugName:(id)arg3 scene:(id)arg4 {
+    loadPrefs();
+    if (selectedApp !=nil) {
+        return NULL;
+    }else if(GetPrefBool(@"kCC")){
+        return NULL;
+    }else if (GetPrefBool(@"kSiriBat")){
+        return NULL;
+    }else if(GetPrefBool(@"kSiriFlash")){
+        return NULL;
+    }else{
+        return %orig;
+    }
+}
+%end
+
+%hook SBHomeHardwareButtonActions
+-(void)performTriplePressUpActions{
+  loadPrefsTap();
+  if (GetPrefBool(@"kRespring")){
+    [Excitant AUXrespring];
+  }else if (GetPrefBool(@"kCCTap")){
+    [Excitant AUXcontrolCenter];
+  }else if (tapLaunch != nil){
+    [[UIApplication sharedApplication] launchApplicationWithIdentifier:tapLaunch suspended:FALSE];
+    }else if(GetPrefBool(@"kTapFlash")){
+    //Flashlight
+        [Excitant AUXtoggleFlash];
+      }
+      else if (GetPrefBool(@"kTapBat")){
+        [Excitant AUXtoggleLPM];
+        }else{
+    %orig;
+  }
+}
+%end
+
+%hook VolumeControl //Volume Up Controller
+-(void)increaseVolume{
+  loadPrefsVolUp();
+
+  //Battery Saver
+  if(GetPrefBool(@"kVolUpBat")){
+      [Excitant AUXtoggleLPM];
+
+      }else if(GetPrefBool(@"kVolUpRespring")){
+      [Excitant AUXrespring];
+
+      }else if(GetPrefBool(@"kVolUpCC")){
+        [Excitant AUXcontrolCenter];
+
+      }else if(GetPrefBool(@"kVolUpFlash")){
+      //Flashlight
+          [Excitant AUXtoggleFlash];
+    }
+    else if (volUp != nil) {
+      [[UIApplication sharedApplication] launchApplicationWithIdentifier:volUp suspended:FALSE];
+    }
+    else{
+      %orig;
+    }
+}
+
+
+%end
+
+%hook VolumeControl //Volume Up Controller
+-(void)decreaseVolume{
+  loadPrefsVolDown();
+
+  //Battery Saver
+  if(GetPrefBool(@"kVolDownBat")){
+      [Excitant AUXtoggleLPM];
+      }else if(GetPrefBool(@"kVolDownRespring")){
+      [Excitant AUXrespring];
+      }else if(GetPrefBool(@"kVolDownCC")){
+        [Excitant AUXcontrolCenter];
+      }else if(GetPrefBool(@"kVolDownFlash")){
+      //Flashlight
+          [Excitant AUXtoggleFlash];
+    }
+    else if (volDown != nil) {
+      [[UIApplication sharedApplication] launchApplicationWithIdentifier:volDown suspended:FALSE];
+    }
+    else{
+      %orig;
+    }
+
+}
+
+%end
+//End HomeHijack
 
 
 

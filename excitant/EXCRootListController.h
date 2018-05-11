@@ -13,5 +13,9 @@
 @end
 
 @interface SwitchRootListController : PSListController
-  
+
+@end
+
+@interface HomeHijackController : PSListController
+
 @end
