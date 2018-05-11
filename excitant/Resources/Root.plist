@@ -61,27 +61,7 @@
 			<string>Created By:</string>
 		</dict>
 
-		<dict>
-		<key>action</key>
-		<string>ContactmeTwitter</string>
-		<key>cell</key>
-		<string>PSButtonCell</string>
-		<key>icon</key>
-				<string>twitter.png</string>
-		<key>label</key>
-		<string>@MidnightChip</string>
-		</dict>
 
-		<dict>
-		<key>action</key>
-		<string>ContactmeReddit</string>
-		<key>cell</key>
-		<string>PSButtonCell</string>
-		<key>icon</key>
-				<string>reddit.png</string>
-		<key>label</key>
-		<string>/u/midnightchip</string>
-		</dict>
 
 		<dict>
 		<key>action</key>
@@ -103,6 +83,28 @@
 				<string>reddit.png</string>
 		<key>label</key>
 		<string>Clarke</string>
+		</dict>
+
+		<dict>
+		<key>action</key>
+		<string>ContactmeTwitter</string>
+		<key>cell</key>
+		<string>PSButtonCell</string>
+		<key>icon</key>
+				<string>twitter.png</string>
+		<key>label</key>
+		<string>@MidnightChip</string>
+		</dict>
+
+		<dict>
+		<key>action</key>
+		<string>ContactmeReddit</string>
+		<key>cell</key>
+		<string>PSButtonCell</string>
+		<key>icon</key>
+				<string>reddit.png</string>
+		<key>label</key>
+		<string>MidnightChips</string>
 		</dict>
 
 
@@ -162,7 +164,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Thanks to all of the people who we annoyed with our questions, and yet still helped us.</string>
+			<string>Thanks to all of the people who we annoyed with our questions, and yet still helped us. Copyright 2018, Auxilium Development</string>
 		</dict>
 
 

@@ -27,6 +27,10 @@
 - (void)ContactmeReddit {
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/user/midnightchips"]];
 }
+- (void)ContactmeRedditChila {
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/user/chilaxan"]];
+}
+
 - (void)RespringMe {
 	pid_t pid;
 	int status;
