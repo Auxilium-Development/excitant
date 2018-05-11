@@ -432,7 +432,7 @@ tapRecognizer.numberOfTapsRequired = 2;
 
 //Mute Switch Function
 - (void)_updateRingerState:(int)arg1 withVisuals:(BOOL)arg2 updatePreferenceRegister:(BOOL)arg3 {
-	if(arg1 != 2 && arg1 != 3) {
+	if(arg1) {
 		if (isEzSwitchEnabled) {
 			if (switchPreference == 0) {
 				[Excitant AUXtoggleFlash];
@@ -453,14 +453,6 @@ tapRecognizer.numberOfTapsRequired = 2;
 			%orig;
 		}
 	}
-     if (arg1 == 2) {
-          arg1 = 0;
-          %orig;
-     }
-     if (arg1 == 3) {
-          arg1 = 1;
-          %orig;
-     }
 }
 //End Mute Switch Function
 
