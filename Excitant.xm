@@ -37,14 +37,14 @@ static NSString *tapLaunch; //TripleTap Launcher
 static NSString *volUp; //Volume Up String
 static NSString *volDown; //Volume Down String
 
-static void loadPrefs() { //Siri Version applist
+static void loadSiriPrefs() { //Siri Version applist
 NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
-selectedApp = [prefs objectForKey:@"otherApp"]; //Setting up variables
+selectedApp = [prefs objectForKey:@"siriApp"]; //Setting up variables
 }
 
-static void loadPrefsTap() { //Triple Tap version
+static void loadPrefsTriTap() { //Triple Tap version
 NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
-tapLaunch = [prefs objectForKey:@"tripleTap"]; //Setting up variables
+tapLaunch = [prefs objectForKey:@"homeTriTap"]; //Setting up variables
 }
 
 static void loadPrefsVolUp() { //Triple Tap version
@@ -515,19 +515,19 @@ tapRecognizer.numberOfTapsRequired = 2;
 %hook SBAssistantController
 -(void)_viewWillAppearOnMainScreen:(BOOL)arg1{
     //[[UIApplication sharedApplication] launchApplicationWithIdentifier:@"com.amazon.echo" suspended:FALSE];
-    loadPrefs();
-    if(GetPrefBool(@"kCC")){
+    loadSiriPrefs();
+    if(GetTouchBool(@"kCC")){
         [Excitant AUXcontrolCenter];
         %orig;
-    }else if (GetPrefBool(@"kSiriRespring")){
+    }else if (GetTouchBool(@"kSiriRespring")){
       [Excitant AUXrespring];
     }else if(selectedApp != nil){
         [[UIApplication sharedApplication] launchApplicationWithIdentifier:selectedApp suspended:FALSE];
         %orig(NO);
-      }else if(GetPrefBool(@"kSiriFlash")){
+      }else if(GetTouchBool(@"kSiriFlash")){
         //Flashlight
             [Excitant AUXtoggleFlash];
-          }else if (GetPrefBool(@"kSiriBat")){
+          }else if (GetTouchBool(@"kSiriBat")){
               [Excitant AUXtoggleLPM];
               }else{
         %orig;
@@ -538,14 +538,14 @@ tapRecognizer.numberOfTapsRequired = 2;
 
 %hook SBAssistantWindow
 -(id)initWithScreen:(id)arg1 layoutStrategy:(id)arg2 debugName:(id)arg3 scene:(id)arg4 {
-    loadPrefs();
+    loadSiriPrefs();
     if (selectedApp !=nil) {
         return NULL;
-    }else if(GetPrefBool(@"kCC")){
+    }else if(GetTouchBool(@"kCC")){
         return NULL;
-    }else if (GetPrefBool(@"kSiriBat")){
+    }else if (GetTouchBool(@"kSiriBat")){
         return NULL;
-    }else if(GetPrefBool(@"kSiriFlash")){
+    }else if(GetTouchBool(@"kSiriFlash")){
         return NULL;
     }else{
         return %orig;
@@ -555,18 +555,18 @@ tapRecognizer.numberOfTapsRequired = 2;
 
 %hook SBHomeHardwareButtonActions
 -(void)performTriplePressUpActions{
-  loadPrefsTap();
-  if (GetPrefBool(@"kRespring")){
+  loadPrefsTriTap();
+  if (GetTouchBool(@"kRespring")){
     [Excitant AUXrespring];
-  }else if (GetPrefBool(@"kCCTap")){
+  }else if (GetTouchBool(@"kCCTap")){
     [Excitant AUXcontrolCenter];
   }else if (tapLaunch != nil){
     [[UIApplication sharedApplication] launchApplicationWithIdentifier:tapLaunch suspended:FALSE];
-    }else if(GetPrefBool(@"kTapFlash")){
+    }else if(GetTouchBool(@"kTapFlash")){
     //Flashlight
         [Excitant AUXtoggleFlash];
       }
-      else if (GetPrefBool(@"kTapBat")){
+      else if (GetTouchBool(@"kTapBat")){
         [Excitant AUXtoggleLPM];
         }else{
     %orig;
@@ -579,16 +579,16 @@ tapRecognizer.numberOfTapsRequired = 2;
   loadPrefsVolUp();
 
   //Battery Saver
-  if(GetPrefBool(@"kVolUpBat")){
+  if(GetTouchBool(@"kVolUpBat")){
       [Excitant AUXtoggleLPM];
 
-      }else if(GetPrefBool(@"kVolUpRespring")){
+      }else if(GetTouchBool(@"kVolUpRespring")){
       [Excitant AUXrespring];
 
-      }else if(GetPrefBool(@"kVolUpCC")){
+      }else if(GetTouchBool(@"kVolUpCC")){
         [Excitant AUXcontrolCenter];
 
-      }else if(GetPrefBool(@"kVolUpFlash")){
+      }else if(GetTouchBool(@"kVolUpFlash")){
       //Flashlight
           [Excitant AUXtoggleFlash];
     }
@@ -608,13 +608,13 @@ tapRecognizer.numberOfTapsRequired = 2;
   loadPrefsVolDown();
 
   //Battery Saver
-  if(GetPrefBool(@"kVolDownBat")){
+  if(GetTouchBool(@"kVolDownBat")){
       [Excitant AUXtoggleLPM];
-      }else if(GetPrefBool(@"kVolDownRespring")){
+      }else if(GetTouchBool(@"kVolDownRespring")){
       [Excitant AUXrespring];
-      }else if(GetPrefBool(@"kVolDownCC")){
+      }else if(GetTouchBool(@"kVolDownCC")){
         [Excitant AUXcontrolCenter];
-      }else if(GetPrefBool(@"kVolDownFlash")){
+      }else if(GetTouchBool(@"kVolDownFlash")){
       //Flashlight
           [Excitant AUXtoggleFlash];
     }

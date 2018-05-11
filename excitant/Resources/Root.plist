@@ -54,6 +54,118 @@
 			<string>HomeHijack</string>
 		</dict>
 
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Created By:</string>
+		</dict>
+
+		<dict>
+		<key>action</key>
+		<string>ContactmeTwitter</string>
+		<key>cell</key>
+		<string>PSButtonCell</string>
+		<key>icon</key>
+				<string>twitter.png</string>
+		<key>label</key>
+		<string>@MidnightChip</string>
+		</dict>
+
+		<dict>
+		<key>action</key>
+		<string>ContactmeReddit</string>
+		<key>cell</key>
+		<string>PSButtonCell</string>
+		<key>icon</key>
+				<string>reddit.png</string>
+		<key>label</key>
+		<string>/u/midnightchip</string>
+		</dict>
+
+		<dict>
+		<key>action</key>
+		<string>ContactmeRedditChila</string>
+		<key>cell</key>
+		<string>PSButtonCell</string>
+		<key>icon</key>
+				<string>reddit.png</string>
+		<key>label</key>
+		<string>Chilaxan</string>
+		</dict>
+
+		<dict>
+		<key>action</key>
+		<string>ContactmeRedditClarke</string>
+		<key>cell</key>
+		<string>PSButtonCell</string>
+		<key>icon</key>
+				<string>reddit.png</string>
+		<key>label</key>
+		<string>Clarke</string>
+		</dict>
+
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Join the Auxilium Discord!</string>
+		</dict>
+
+		<dict>
+		<key>action</key>
+		<string>AuxiliumDiscord</string>
+		<key>cell</key>
+		<string>PSButtonCell</string>
+		<key>icon</key>
+				<string>discord.png</string>
+		<key>label</key>
+		<string>Auxilium</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Support us and our antics!</string>
+			<key>footerText</key>
+			<string>We promise to never lock any of our content behind Patreon.</string>
+		</dict>
+
+		<dict>
+		<key>action</key>
+		<string>Paypal</string>
+		<key>cell</key>
+		<string>PSButtonCell</string>
+		<key>icon</key>
+				<string>paypal.png</string>
+		<key>label</key>
+		<string>Buy us a soda or something (ᵔᴥᵔ)</string>
+		</dict>
+
+		<dict>
+		<key>action</key>
+		<string>Patreon</string>
+		<key>cell</key>
+		<string>PSButtonCell</string>
+		<key>icon</key>
+				<string>patreon.png</string>
+		<key>label</key>
+		<string>Help us continue to make tweaks :P</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Thanks to all of the people who we annoyed with our questions, and yet still helped us.</string>
+		</dict>
+
+
 	</array>
 	<key>title</key>
 	<string>Excitant</string>

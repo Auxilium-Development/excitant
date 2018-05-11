@@ -136,7 +136,7 @@
 			<key>isController</key>
 			<string>1</string>
 			<key>label</key>
-			<string>Hold Volume Up</string>
+			<string>Tap Volume Up</string>
 			<key>icon</key>
 			<string></string>
 			<key>ALSettingsKey</key>
@@ -184,7 +184,7 @@
 			<key>isController</key>
 			<string>1</string>
 			<key>label</key>
-			<string>Hold Volume Down</string>
+			<string>Tap Volume Down</string>
 			<key>icon</key>
 			<string></string>
 			<key>ALSettingsKey</key>
