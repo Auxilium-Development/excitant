@@ -11,7 +11,7 @@
 
 #define PLIST_PATH @"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"
 #define EXCITANTTOUCHES_PATH @"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"
-
+// Status Bar Shit
 inline bool GetPrefBool(NSString *key) {
 return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] boolValue];
 }
@@ -30,7 +30,8 @@ return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueF
 inline float GetTouchFloats(NSString *key) {
 return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
 }
-
+static NSString *tapapp;
+// End the Status Bar Shit
 //HomeHijack Stuff
 static NSString *selectedApp; //Applist stuff
 static NSString *tapLaunch; //TripleTap Launcher
@@ -431,7 +432,7 @@ tapRecognizer.numberOfTapsRequired = 2;
 
 //Mute Switch Function
 - (void)_updateRingerState:(int)arg1 withVisuals:(BOOL)arg2 updatePreferenceRegister:(BOOL)arg3 {
-	if(arg1 != 2 && arg1 != 3) {
+	if(arg1) {
 		if (isEzSwitchEnabled) {
 			if (switchPreference == 0) {
 				[Excitant AUXtoggleFlash];
@@ -452,14 +453,6 @@ tapRecognizer.numberOfTapsRequired = 2;
 			%orig;
 		}
 	}
-     if (arg1 == 2) {
-          arg1 = 0;
-          %orig;
-     }
-     if (arg1 == 3) {
-          arg1 = 1;
-          %orig;
-     }
 }
 //End Mute Switch Function
 
@@ -779,6 +772,13 @@ If you're reading this listen to this xxxtentacion playlist:
 -(void)lockDevice{
 	[Excitant AUXLockDevice];
 }
+%new
+
+- (void)launchApp {
+	NSDictionary *Tapprefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"];
+	tapapp = [Tapprefs objectForKey:@"launchAppTap"]; //doesnt work
+	[Excitant AUXlaunchApp:tapapp];
+}
 
 
 
@@ -836,6 +836,11 @@ If you're reading this listen to this xxxtentacion playlist:
 	}
 	if(GetPrefBool(@"enableSleep")){
 		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lockDevice)];
+        tapRecognizer.numberOfTapsRequired = taps;
+        [self addGestureRecognizer:tapRecognizer];
+	}
+	if(GetPrefBool(@"enableAppTap")){
+		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(launchApp)];
         tapRecognizer.numberOfTapsRequired = taps;
         [self addGestureRecognizer:tapRecognizer];
 	}
