@@ -27,8 +27,8 @@ return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key]
 NSString *switchpath = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/com.chilaxan.ezswitchprefs.plist"];
 NSDictionary *switchsettings = [NSMutableDictionary dictionaryWithContentsOfFile:switchpath];
 
-static BOOL isEzSwitchEnabled = (BOOL)[[settings objectForKey:@"switchenabled"]?:@TRUE boolValue];
-static NSInteger switchPreference = (NSInteger)[[settings objectForKey:@"switchPreferences"]?:@9 integerValue];
+static BOOL isEzSwitchEnabled = (BOOL)[[switchsettings objectForKey:@"switchenabled"]?:@TRUE boolValue];
+static NSInteger switchPreference = (NSInteger)[[switchsettings objectForKey:@"switchPreferences"]?:@9 integerValue];
 //End Mute Switch Prefs
 
 //Touches Prefs
@@ -37,18 +37,44 @@ return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueF
 }
 
 //Touches Applist
-static NSString *touchesLeft;
-static NSString *touchesRight;
+static NSString *touchesRightBottom;
+static NSString *touchesRightMiddle;
+static NSString *touchesRightTop;
+static NSString *touchesLeftBottom;
+static NSString *touchesLeftMiddle;
+static NSString *touchesLeftTop;
 
-static void loadPrefsTouchesLeft() { //Triple Tap version
+static void loadPrefsTouchesRightBottom() { //Triple Tap version
 NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
-touchesLeft = [prefs objectForKey:@"touchesAppLeft"]; //Setting up variables
+touchesRightBottom = [prefs objectForKey:@"touchesAppRightBottom"]; //Setting up variables
 }
 
-static void loadPrefsTouchesRight() { //Triple Tap version
+static void loadPrefsTouchesLeftBottom() { //Triple Tap version
 NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
-touchesRight = [prefs objectForKey:@"touchesAppRight"]; //Setting up variables
+touchesLeftBottom = [prefs objectForKey:@"touchesAppLeftBottom"]; //Setting up variables
 }
+
+static void loadPrefsTouchesLeftMiddle() { //Triple Tap version
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
+touchesLeftMiddle = [prefs objectForKey:@"touchesAppLeftMiddle"]; //Setting up variables
+}
+
+static void loadPrefsTouchesRightMiddle() { //Triple Tap version
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
+touchesRightMiddle = [prefs objectForKey:@"touchesAppRightMiddle"]; //Setting up variables
+}
+
+static void loadPrefsTouchesRightTop() { //Triple Tap version
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
+touchesRightTop = [prefs objectForKey:@"touchesAppRightTop"]; //Setting up variables
+}
+
+static void loadPrefsTouchesLeftTop() { //Triple Tap version
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
+touchesLeftTop = [prefs objectForKey:@"touchesAppLeftTop"]; //Setting up variables
+}
+
+
 
 @implementation ExcitantWindow
 -(BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
@@ -161,38 +187,101 @@ if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureT
 
 
 //Just hard coding in some gesture recognizers
+inline float yLocation(NSString *key) {
+return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
+}
+inline float xLocation(NSString *key) {
+return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
+}
+
+ExcitantView *rightBottomView;
+ExcitantView *leftBottomView;
+ExcitantView *rightMiddleView;
+ExcitantView *leftMiddleView;
+ExcitantView *leftTopView;
+ExcitantView *rightTopView;
+// dont use global, there is almost never reason to use it
+
+
 %hook SpringBoard
 -(void)applicationDidFinishLaunching:(id)application {
+	//float setX = xLocation(@"xLocation");
+	//float setY = yLocation(@"xLocation");
+
     %orig;
 		UIWindow * screen = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen]bounds]];
 
-		ExcitantView * rightView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height, - 20, - 100)];
+		rightBottomView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height, - 20, - 100)];
 			if(GetPrefTouchesBool(@"setColor")){
-				[rightView setBackgroundColor:[UIColor redColor]];
+				[rightBottomView setBackgroundColor:[UIColor redColor]];
 			}else{
-				[rightView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
+				[rightBottomView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
 			}
-	    [rightView setAlpha: 1];
-			[rightView setHidden:NO];
-	    rightView.userInteractionEnabled = TRUE;
+	    [rightBottomView setAlpha: 1];
+			[rightBottomView setHidden:NO];
+	    rightBottomView.userInteractionEnabled = TRUE;
 
-		ExcitantView * leftView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height, 20, - 100)];
+		  leftBottomView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height, 20, - 100)];
 			if(GetPrefTouchesBool(@"setColor")){
-				[leftView setBackgroundColor:[UIColor redColor]];
+				[leftBottomView setBackgroundColor:[UIColor redColor]];
 			}else{
-			[leftView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
+			[leftBottomView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
 		  }
-	    [leftView setAlpha: 1];
-			[leftView setHidden:NO];
-	    leftView.userInteractionEnabled = TRUE;
+	    [leftBottomView setAlpha: 1];
+			[leftBottomView setHidden:NO];
+	    leftBottomView.userInteractionEnabled = TRUE;
+
+			rightMiddleView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height*.60, - 20, - 100)];
+				if(GetPrefTouchesBool(@"setColor")){
+					[rightMiddleView setBackgroundColor:[UIColor blueColor]];
+				}else{
+					[rightMiddleView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
+				}
+		    [rightMiddleView setAlpha: 1];
+				[rightMiddleView setHidden:NO];
+		    rightMiddleView.userInteractionEnabled = TRUE;
+
+			leftMiddleView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height*.60, 20, - 100)];
+				if(GetPrefTouchesBool(@"setColor")){
+					[leftMiddleView setBackgroundColor:[UIColor blueColor]];
+				}else{
+				[leftMiddleView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
+			  }
+		    [leftMiddleView setAlpha: 1];
+				[leftMiddleView setHidden:NO];
+		    leftMiddleView.userInteractionEnabled = TRUE;
+
+				rightTopView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height*0.001, - 20,  100)];
+					if(GetPrefTouchesBool(@"setColor")){
+						[rightTopView setBackgroundColor:[UIColor greenColor]];
+					}else{
+						[rightTopView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
+					}
+			    [rightTopView setAlpha: 1];
+					[rightTopView setHidden:NO];
+			    rightTopView.userInteractionEnabled = TRUE;
+
+				leftTopView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height*0.001, 20,  100)];
+					if(GetPrefTouchesBool(@"setColor")){
+						[leftTopView setBackgroundColor:[UIColor greenColor]];
+					}else{
+					[leftTopView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
+				  }
+			    [leftTopView setAlpha: 1];
+					[leftTopView setHidden:NO];
+			    leftTopView.userInteractionEnabled = TRUE;
 
 		ExcitantWindow *window = [[ExcitantWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 		window.windowLevel = 1005;
 		[window setHidden:NO];
 		[window setAlpha:1.0];
 		[window setBackgroundColor:[UIColor clearColor]];
-		[window addSubview:rightView];
-		[window addSubview:leftView];
+		[window addSubview:rightBottomView];
+		[window addSubview:rightMiddleView];
+		[window addSubview:rightTopView];
+		[window addSubview:leftBottomView];
+		[window addSubview:leftMiddleView];
+		[window addSubview:leftTopView];
 
 
 /*UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TapTapUtils)];
@@ -200,44 +289,115 @@ tapRecognizer.numberOfTapsRequired = 2;
 [self addGestureRecognizer:tapRecognizer];*/
 
 
-		UITapGestureRecognizer *rightRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerRight:)];
+		UITapGestureRecognizer *rightBottomRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerBottmRight:)];
 		if(GetPrefTouchesBool(@"taps2")){
-	    rightRecognizer.numberOfTapsRequired = 2;
-			[rightView addGestureRecognizer:rightRecognizer];
+	    rightBottomRecognizer.numberOfTapsRequired = 2;
+			[rightBottomView addGestureRecognizer:rightBottomRecognizer];
 		}else if(GetPrefTouchesBool(@"taps3")){
-			rightRecognizer.numberOfTapsRequired = 3;
-			[rightView addGestureRecognizer:rightRecognizer];
+			rightBottomRecognizer.numberOfTapsRequired = 3;
+			[rightBottomView addGestureRecognizer:rightBottomRecognizer];
 		}else if (GetPrefTouchesBool(@"taps4")){
-			rightRecognizer.numberOfTapsRequired = 4;
-			[rightView addGestureRecognizer:rightRecognizer];
+			rightBottomRecognizer.numberOfTapsRequired = 4;
+			[rightBottomView addGestureRecognizer:rightBottomRecognizer];
 		}else{
-			rightRecognizer.numberOfTapsRequired = 1;
-	    [rightView addGestureRecognizer:rightRecognizer];
+			rightBottomRecognizer.numberOfTapsRequired = 1;
+	    [rightBottomView addGestureRecognizer:rightBottomRecognizer];
 		}
 
-		UITapGestureRecognizer *leftRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerLeft:)];
+		UITapGestureRecognizer *leftBottomRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerBottomLeft:)];
 		if(GetPrefTouchesBool(@"taps2")){
-			leftRecognizer.numberOfTapsRequired = 2;
-			[leftView addGestureRecognizer:leftRecognizer];
+			leftBottomRecognizer.numberOfTapsRequired = 2;
+			[leftBottomView addGestureRecognizer:leftBottomRecognizer];
 		}else if(GetPrefTouchesBool(@"taps3")){
-			leftRecognizer.numberOfTapsRequired = 3;
-			[leftView addGestureRecognizer:leftRecognizer];
+			leftBottomRecognizer.numberOfTapsRequired = 3;
+			[leftBottomView addGestureRecognizer:leftBottomRecognizer];
 		}else if (GetPrefTouchesBool(@"taps4")){
-			leftRecognizer.numberOfTapsRequired = 4;
-			[leftView addGestureRecognizer:leftRecognizer];
+			leftBottomRecognizer.numberOfTapsRequired = 4;
+			[leftBottomView addGestureRecognizer:leftBottomRecognizer];
 		}else{
-			leftRecognizer.numberOfTapsRequired = 1;
-			[leftView addGestureRecognizer:leftRecognizer];
+			leftBottomRecognizer.numberOfTapsRequired = 1;
+			[leftBottomView addGestureRecognizer:leftBottomRecognizer];
 		}
+
+		UITapGestureRecognizer *leftMiddleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerLeftMiddle:)];
+		if(GetPrefTouchesBool(@"taps2")){
+			leftMiddleRecognizer.numberOfTapsRequired = 2;
+			[leftMiddleView addGestureRecognizer:leftMiddleRecognizer];
+		}else if(GetPrefTouchesBool(@"taps3")){
+			leftMiddleRecognizer.numberOfTapsRequired = 3;
+			[leftMiddleView addGestureRecognizer:leftMiddleRecognizer];
+		}else if (GetPrefTouchesBool(@"taps4")){
+			leftMiddleRecognizer.numberOfTapsRequired = 4;
+			[leftMiddleView addGestureRecognizer:leftMiddleRecognizer];
+		}else{
+			leftMiddleRecognizer.numberOfTapsRequired = 1;
+			[leftMiddleView addGestureRecognizer:leftMiddleRecognizer];
+		}
+
+		UITapGestureRecognizer *rightMiddleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerRightMiddle:)];
+		if(GetPrefTouchesBool(@"taps2")){
+			rightMiddleRecognizer.numberOfTapsRequired = 2;
+			[rightMiddleView addGestureRecognizer:rightMiddleRecognizer];
+		}else if(GetPrefTouchesBool(@"taps3")){
+			rightMiddleRecognizer.numberOfTapsRequired = 3;
+			[rightMiddleView addGestureRecognizer:rightMiddleRecognizer];
+		}else if (GetPrefTouchesBool(@"taps4")){
+			rightMiddleRecognizer.numberOfTapsRequired = 4;
+			[rightMiddleView addGestureRecognizer:rightMiddleRecognizer];
+		}else{
+			rightMiddleRecognizer.numberOfTapsRequired = 1;
+			[rightMiddleView addGestureRecognizer:rightMiddleRecognizer];
+		}
+
+		UITapGestureRecognizer *leftTopRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerLeftTop:)];
+		if(GetPrefTouchesBool(@"taps2")){
+			leftTopRecognizer.numberOfTapsRequired = 2;
+			[leftTopView addGestureRecognizer:leftTopRecognizer];
+		}else if(GetPrefTouchesBool(@"taps3")){
+			leftTopRecognizer.numberOfTapsRequired = 3;
+			[leftTopView addGestureRecognizer:leftTopRecognizer];
+		}else if (GetPrefTouchesBool(@"taps4")){
+			leftTopRecognizer.numberOfTapsRequired = 4;
+			[leftTopView addGestureRecognizer:leftTopRecognizer];
+		}else{
+			leftTopRecognizer.numberOfTapsRequired = 1;
+			[leftTopView addGestureRecognizer:leftTopRecognizer];
+		}
+
+		UITapGestureRecognizer *rightTopRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerRightTop:)];
+		if(GetPrefTouchesBool(@"taps2")){
+			rightTopRecognizer.numberOfTapsRequired = 2;
+			[rightTopView addGestureRecognizer:rightTopRecognizer];
+		}else if(GetPrefTouchesBool(@"taps3")){
+			rightTopRecognizer.numberOfTapsRequired = 3;
+			[rightTopView addGestureRecognizer:rightTopRecognizer];
+		}else if (GetPrefTouchesBool(@"taps4")){
+			rightTopRecognizer.numberOfTapsRequired = 4;
+			[rightTopView addGestureRecognizer:rightTopRecognizer];
+		}else{
+			rightTopRecognizer.numberOfTapsRequired = 1;
+			[rightTopView addGestureRecognizer:rightTopRecognizer];
+		}
+
+		[[NSNotificationCenter defaultCenter] addObserver:self
+                                         selector:@selector(keyboardDidShow:)
+                                             name:UIKeyboardDidShowNotification
+                                           object:nil];
+
+		[[NSNotificationCenter defaultCenter] addObserver:self
+                                         selector:@selector(keyboardDidHide:)
+                                             name:UIKeyboardDidHideNotification
+                                           object:nil];
 }
-
+//rightBottomView?//line 245
+//where is the subview
 //Mute Switch Function
 - (void)_updateRingerState:(int)arg1 withVisuals:(BOOL)arg2 updatePreferenceRegister:(BOOL)arg3 {
 	if(arg1) {
 		if (isEzSwitchEnabled) {
-			if (switchPreference == 0) {		
+			if (switchPreference == 0) {
 				[Excitant AUXtoggleFlash];
-				}	
+				}
 			if (switchPreference == 1){
 				[Excitant AUXtoggleLPM];
 			}
@@ -249,29 +409,80 @@ tapRecognizer.numberOfTapsRequired = 2;
 			}
 			if (switchPreference == 4) {
                 [Excitant AUXtoggleRotationLock];
-			}            
+			}
 		} else {
 			%orig;
 		}
-	} 
-}	
+	}
+}
 //End Mute Switch Function
 
 %new
-- (void) TouchRecognizerRight:(UITapGestureRecognizer *)sender {
-	loadPrefsTouchesRight();
-	[Excitant AUXlaunchApp:touchesRight];
+- (void) TouchRecognizerBottomRight:(UITapGestureRecognizer *)sender {
+	loadPrefsTouchesRightBottom();
+	[Excitant AUXlaunchApp:touchesRightBottom];
 }
+//what else is there?
 
 %new
-- (void) TouchRecognizerLeft:(UITapGestureRecognizer *)sender {
-	loadPrefsTouchesLeft();
-	[Excitant AUXlaunchApp:touchesLeft];
+- (void) TouchRecognizerBottomLeft:(UITapGestureRecognizer *)sender {
+	loadPrefsTouchesLeftBottom();
+	[Excitant AUXlaunchApp:touchesLeftBottom];
 }
+%new
+- (void) TouchRecognizerLeftMiddle:(UITapGestureRecognizer *)sender {
+	loadPrefsTouchesLeftMiddle();
+	[Excitant AUXlaunchApp:touchesLeftMiddle];
+}
+%new
+- (void) TouchRecognizerRightMiddle:(UITapGestureRecognizer *)sender {
+	loadPrefsTouchesRightMiddle();
+	[Excitant AUXlaunchApp:touchesRightMiddle];
+}
+%new
+- (void) TouchRecognizerLeftTop:(UITapGestureRecognizer *)sender {
+	loadPrefsTouchesLeftTop();
+	[Excitant AUXlaunchApp:touchesLeftTop];
+}
+%new
+- (void) TouchRecognizerRightTop:(UITapGestureRecognizer *)sender {
+	loadPrefsTouchesRightTop();
+	[Excitant AUXlaunchApp:touchesRightTop];
+}
+%new
+-(void)keyboardDidShow:(NSNotification *)hideViews {
+  rightBottomView.hidden = YES;
+  leftBottomView.hidden = YES;
+  rightMiddleView.hidden = YES;
+  leftMiddleView.hidden = YES;
+  leftTopView.hidden = YES;
+  rightTopView.hidden = YES;
+}
+%new
+-(void)keyboardDidHide:(NSNotification *)showViews {
+  rightBottomView.hidden = NO;
+  leftBottomView.hidden = NO;
+  rightMiddleView.hidden = NO;
+  leftMiddleView.hidden = NO;
+  leftTopView.hidden = NO;
+  rightTopView.hidden = NO;
+}
+
+
+
 %end
 
 
 
+//hu
+
+
+
+
+/* Tony was here
+If you're reading this listen to this xxxtentacion playlist:
+
+*/
 
 
 //TapTapUtils
