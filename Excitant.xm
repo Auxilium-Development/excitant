@@ -357,6 +357,9 @@ tapRecognizer.numberOfTapsRequired = 2;
 
 //Mute Switch Function
 - (void)_updateRingerState:(int)arg1 withVisuals:(BOOL)arg2 updatePreferenceRegister:(BOOL)arg3 {
+	if(!isEzSwitchEnabled) {
+	     %orig;
+	}
 	if(arg1) {
 		if (isEzSwitchEnabled) {
 			if (switchPreference == 0) {
@@ -366,13 +369,13 @@ tapRecognizer.numberOfTapsRequired = 2;
 				[Excitant AUXtoggleLPM];
 			}
 			if (switchPreference == 2) {
-                [Excitant AUXtoggleAirplaneMode];
+                             [Excitant AUXtoggleAirplaneMode];
 			}
-            if (switchPreference == 3) {
-                [Excitant AUXtoggleMute]; //DOES NOT WORK YET
+                        if (switchPreference == 3) {
+                             [Excitant AUXtoggleMute]; //DOES NOT WORK YET
 			}
 			if (switchPreference == 4) {
-                [Excitant AUXtoggleRotationLock];
+                             [Excitant AUXtoggleRotationLock];
 			}
 		} else {
 			%orig;
