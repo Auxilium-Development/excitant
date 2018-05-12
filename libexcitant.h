@@ -14,4 +14,6 @@
 +(BOOL)AUXisDeviceOnSB;
 +(BOOL)AUXisDeviceOnNC;
 +(void)AUXtoggleWiFi;
++(void)AUXreboot;
++(void)AUXshutdown;
 @end
