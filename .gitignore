@@ -173,6 +173,8 @@ packages/com\.auxilium\.excitant_0\.0\.1_iphoneos-arm\.deb
 
 \.theos/obj/debug/ExcitantPrefs\.bundle/Touches\.plist
 
+\.theos/*
+
 packages/com\.auxilium\.excitant_0\.0\.1-37\+debug_iphoneos-arm\.deb
 
 packages/com\.auxilium\.excitant_0\.0\.1-38\+debug_iphoneos-arm\.deb

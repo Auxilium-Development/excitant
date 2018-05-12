@@ -6,12 +6,13 @@
 #import <sys/wait.h>
 #import "AppList.h"
 
-
 #include <Excitant.h>
+#include <libexcitant.h>
+
 
 #define PLIST_PATH @"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"
 #define EXCITANTTOUCHES_PATH @"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"
-
+// Status Bar Shit
 inline bool GetPrefBool(NSString *key) {
 return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] boolValue];
 }
@@ -30,7 +31,8 @@ return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueF
 inline float GetTouchFloats(NSString *key) {
 return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
 }
-
+static NSString *tapapp;
+// End the Status Bar Shit
 //HomeHijack Stuff
 static NSString *selectedApp; //Applist stuff
 static NSString *tapLaunch; //TripleTap Launcher
@@ -121,84 +123,6 @@ touchesLeftTop = [prefs objectForKey:@"touchesAppLeftTop"]; //Setting up variabl
 @end
 
 @implementation ExcitantView
-@end
-
-@implementation Excitant
-
-+(void)AUXtoggleFlash {
-AVCaptureDevice *flashLight = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureTorchModeOn]) {
-	BOOL success = [flashLight lockForConfiguration:nil];
-		if (success) {
-			if (flashLight.torchMode == AVCaptureTorchModeOn) {
-				[flashLight setTorchMode:AVCaptureTorchModeOff];
-			} else {
-				[flashLight setTorchMode:AVCaptureTorchModeOn];
-			}
-			[flashLight unlockForConfiguration];
-		}
-	}
-}
-
-+(void)AUXtoggleLPM {
-	if([[objc_getClass("_CDBatterySaver") batterySaver] getPowerMode] == 1){
-		[[objc_getClass("_CDBatterySaver") batterySaver] setPowerMode:0 error:nil];
-	}else{
-		[[objc_getClass("_CDBatterySaver") batterySaver] setPowerMode:1 error:nil];
-	}
-}
-
-+(void)AUXtoggleAirplaneMode {
-	SBAirplaneModeController *airplaneManager = [objc_getClass("SBAirplaneModeController") sharedInstance];
-	if ([airplaneManager isInAirplaneMode]) {
-		[airplaneManager setInAirplaneMode:0];
-	} else {
-		[airplaneManager setInAirplaneMode:1];
-
-	}
-}
-
-+(void)AUXtoggleMute {
-	MNRingerSwitchObserver *muteManager = [objc_getClass("MNRingerSwitchObserver") sharedInstance];
-	if ([muteManager ringerSwitchEnabled]) {
-		[muteManager setRingerSwitchEnabled:0];
-	} else {
-		[muteManager setRingerSwitchEnabled:1];
-	}
-}
-
-+(void)AUXtoggleRotationLock {
-	SBOrientationLockManager *orientationManager = [%c(SBOrientationLockManager) sharedInstance];
-	if ([orientationManager isUserLocked]) {
-		[orientationManager unlock];
-	} else {
-		[orientationManager lock];
-	}
-}
-
-+(void)AUXcontrolCenter {
-	[[%c(SBControlCenterController) sharedInstance] presentAnimated:TRUE];
-}
-
-+(void)AUXrespring {
-	pid_t pid;
-    int status;
-    const char* args[] = {"killall", "-9", "backboardd", NULL};
-    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
-    waitpid(pid, &status, WEXITED);
-}
-
-+(void)AUXlaunchApp:(id)arg1 {	//Before calling, save bundle id to (AUXapp)
-	[[UIApplication sharedApplication] launchApplicationWithIdentifier:arg1 suspended:FALSE];
-}
-
-+(void)AUXLockDevice{
-	[[objc_getClass("SBBacklightController") sharedInstance] _startFadeOutAnimationFromLockSource:1];
-}
-/*-(void)AUXhomePress {
-	[[objc_getClass("SpringBoard") sharedApplication] _simulateHomeButtonPress];
-}*/
-
 @end
 
 // Example //
@@ -431,6 +355,9 @@ tapRecognizer.numberOfTapsRequired = 2;
 
 //Mute Switch Function
 - (void)_updateRingerState:(int)arg1 withVisuals:(BOOL)arg2 updatePreferenceRegister:(BOOL)arg3 {
+	if(!isEzSwitchEnabled) {
+	     %orig;
+	}
 	if(arg1) {
 		if (isEzSwitchEnabled) {
 			if (switchPreference == 0) {
@@ -440,13 +367,13 @@ tapRecognizer.numberOfTapsRequired = 2;
 				[Excitant AUXtoggleLPM];
 			}
 			if (switchPreference == 2) {
-                [Excitant AUXtoggleAirplaneMode];
+                             [Excitant AUXtoggleAirplaneMode];
 			}
-            if (switchPreference == 3) {
-                [Excitant AUXtoggleMute]; //DOES NOT WORK YET
+                        if (switchPreference == 3) {
+                             [Excitant AUXtoggleMute]; //DOES NOT WORK YET
 			}
 			if (switchPreference == 4) {
-                [Excitant AUXtoggleRotationLock];
+                             [Excitant AUXtoggleRotationLock];
 			}
 		} else {
 			%orig;
@@ -514,7 +441,6 @@ tapRecognizer.numberOfTapsRequired = 2;
 //Start HomeHijack
 %hook SBAssistantController
 -(void)_viewWillAppearOnMainScreen:(BOOL)arg1{
-    //[[UIApplication sharedApplication] launchApplicationWithIdentifier:@"com.amazon.echo" suspended:FALSE];
     loadSiriPrefs();
     if(GetTouchBool(@"kCC")){
         [Excitant AUXcontrolCenter];
@@ -522,7 +448,7 @@ tapRecognizer.numberOfTapsRequired = 2;
     }else if (GetTouchBool(@"kSiriRespring")){
       [Excitant AUXrespring];
     }else if(selectedApp != nil){
-        [[UIApplication sharedApplication] launchApplicationWithIdentifier:selectedApp suspended:FALSE];
+        [Excitant AUXlaunchApp:selectedApp];
         %orig(NO);
       }else if(GetTouchBool(@"kSiriFlash")){
         //Flashlight
@@ -561,7 +487,7 @@ tapRecognizer.numberOfTapsRequired = 2;
   }else if (GetTouchBool(@"kCCTap")){
     [Excitant AUXcontrolCenter];
   }else if (tapLaunch != nil){
-    [[UIApplication sharedApplication] launchApplicationWithIdentifier:tapLaunch suspended:FALSE];
+    [Excitant AUXlaunchApp:tapLaunch];
     }else if(GetTouchBool(@"kTapFlash")){
     //Flashlight
         [Excitant AUXtoggleFlash];
@@ -593,7 +519,7 @@ tapRecognizer.numberOfTapsRequired = 2;
           [Excitant AUXtoggleFlash];
     }
     else if (volUp != nil) {
-      [[UIApplication sharedApplication] launchApplicationWithIdentifier:volUp suspended:FALSE];
+      [Excitant AUXlaunchApp:volUp];
     }
     else{
       %orig;
@@ -619,7 +545,7 @@ tapRecognizer.numberOfTapsRequired = 2;
           [Excitant AUXtoggleFlash];
     }
     else if (volDown != nil) {
-      [[UIApplication sharedApplication] launchApplicationWithIdentifier:volDown suspended:FALSE];
+      [Excitant AUXlaunchApp:volDown];
     }
     else{
       %orig;
@@ -769,7 +695,14 @@ If you're reading this listen to this xxxtentacion playlist:
 %new
 
 -(void)lockDevice{
-	[Excitant AUXLockDevice];
+	[Excitant AUXlockDevice];
+}
+%new
+
+- (void)launchApp {
+	NSDictionary *Tapprefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"];
+	tapapp = [Tapprefs objectForKey:@"launchAppTap"]; //doesnt work
+	[Excitant AUXlaunchApp:tapapp];
 }
 
 
@@ -831,6 +764,11 @@ If you're reading this listen to this xxxtentacion playlist:
         tapRecognizer.numberOfTapsRequired = taps;
         [self addGestureRecognizer:tapRecognizer];
 	}
+	if(GetPrefBool(@"enableAppTap")){
+		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(launchApp)];
+        tapRecognizer.numberOfTapsRequired = taps;
+        [self addGestureRecognizer:tapRecognizer];
+	}
     return self;
 }
 
@@ -868,7 +806,7 @@ If you're reading this listen to this xxxtentacion playlist:
 				CFRunLoopRunInMode(kCFRunLoopDefaultMode, 20.0, false);
 		});
 		notify_register_dispatch("com.clarke1234.taptapreboot", &regToken, dispatch_get_main_queue(), ^(int token){
-			[[%c(FBSystemService) sharedInstance] shutdownAndReboot:YES];
+			[Excitant AUXreboot];
 		});
 		notify_register_dispatch("com.clarke1234.taptapsafemode", &regToken, dispatch_get_main_queue(), ^(int token){
 			pid_t pid;
@@ -878,10 +816,10 @@ If you're reading this listen to this xxxtentacion playlist:
 			waitpid(pid, &status, WEXITED);
 		});
 		notify_register_dispatch("com.clarke1234.taptapshutdown", &regToken, dispatch_get_main_queue(), ^(int token){
-			[[%c(FBSystemService) sharedInstance] shutdownAndReboot:NO];
+			[Excitant AUXshutdown];
 		});
 		notify_register_dispatch("com.kietha.taptapsleep", &regToken, dispatch_get_main_queue(), ^(int token){
-             [[objc_getClass("SBBacklightController") sharedInstance] _startFadeOutAnimationFromLockSource:1];
+             [Excitant AUXlockDevice];
         });
 
 }
