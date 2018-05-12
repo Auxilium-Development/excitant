@@ -6,13 +6,11 @@
 #import <sys/wait.h>
 #import "AppList.h"
 
-<<<<<<< HEAD
 #include "Excitant.h"
-=======
 
 #include <Excitant.h>
 #include <libexcitant.h>
->>>>>>> adbbc386a56c481f94425dcd1806d0c83bcddbe7
+
 
 #define PLIST_PATH @"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"
 #define EXCITANTTOUCHES_PATH @"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"
