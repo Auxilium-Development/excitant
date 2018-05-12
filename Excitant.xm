@@ -5,7 +5,7 @@
 #import <notify.h>
 #import <sys/wait.h>
 #import "AppList.h"
-
+#import <Foundation/Foundation.h>
 #include <Excitant.h>
 #include <libexcitant.h>
 
@@ -14,22 +14,22 @@
 #define EXCITANTTOUCHES_PATH @"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"
 // Status Bar Shit
 inline bool GetPrefBool(NSString *key) {
-return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] boolValue];
+  return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] boolValue];
 }
 
 inline int GetPrefInt(NSString *key) {
-return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] intValue];
+  return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] intValue];
 }
 
 inline float GetPrefFloat(NSString *key) {
-return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] floatValue];
+  return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] floatValue];
 }
 //Loading for UIView taps
 inline bool GetTouchBool(NSString *key) {
-return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] boolValue];
+  return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] boolValue];
 }
 inline float GetTouchFloats(NSString *key) {
-return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
+  return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
 }
 static NSString *tapapp;
 // End the Status Bar Shit
@@ -125,6 +125,114 @@ touchesLeftTop = [prefs objectForKey:@"touchesAppLeftTop"]; //Setting up variabl
 @implementation ExcitantView
 @end
 
+
+//Start VolSkip11
+%group volFunction
+NSTimer *timer;
+BOOL volUpButtonIsDown;
+BOOL volDownButtonIsDown;
+
+%hook SBVolumeHardwareButtonActions
+
+%new
+-(void)handleTimer:(NSTimer *)timer
+{
+	if( (volUpButtonIsDown == YES && [[timer userInfo] intValue] == 1) || ( volDownButtonIsDown == YES &&[[timer userInfo] intValue] == -1) )
+	{
+			HBLogInfo(@"************handleTimer");
+
+		[[%c(SBMediaController) sharedInstance] changeTrack:[[timer userInfo] intValue]];
+		volUpButtonIsDown = NO;
+		volDownButtonIsDown = NO;
+	}
+
+}
+
+-(void)volumeIncreasePressDown
+{
+	//HBLogInfo(@"************volumeIncreasePressDown");
+
+	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
+	{
+		%orig;
+	}
+	else
+	{
+			volUpButtonIsDown = YES;
+		    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @1 repeats: NO];
+	}
+}
+
+-(void)volumeIncreasePressUp
+{
+	//	HBLogInfo(@"************volumeIncreasePressUp");
+	if (volDownButtonIsDown == YES)
+		{
+			[timer invalidate];
+			timer = nil;
+			[[%c(SBMediaController) sharedInstance] togglePlayPause];
+			//volUpButtonIsDown = NO;
+			//volDownButtonIsDown = NO;
+		}
+	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
+	{
+		%orig;
+	}
+
+	else
+	{
+		// [timer invalidate];
+		timer = nil;
+
+		if(volUpButtonIsDown == YES)
+		{
+			[[%c(SBMediaController) sharedInstance] _changeVolumeBy:0.062500];
+			volUpButtonIsDown = NO;
+		}
+	}
+}
+
+-(void)volumeDecreasePressDown
+{
+	//HBLogInfo(@"************volumeDecreasePressDown");
+	//if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
+	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
+	{
+		%orig;
+	}
+	else
+	{
+		volDownButtonIsDown = YES;
+	    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @-1 repeats: NO];
+	}
+}
+
+-(void)volumeDecreasePressUp
+{
+		//HBLogInfo(@"************volumeDecreasePressUp");
+
+	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
+	{
+		%orig;
+	}
+	else
+	{
+		// [timer invalidate];
+		timer = nil;
+
+		if(volDownButtonIsDown == YES)
+		{
+			[[%c(SBMediaController) sharedInstance] _changeVolumeBy:-0.062500];
+			volDownButtonIsDown = NO;
+		}
+	}
+}
+
+
+%end
+%end
+
+//End VolSkip11
 // Example //
 // %hook SBHomeHardwareButtonActions
 // -(void)performTriplePressUpActions{
@@ -143,9 +251,9 @@ touchesLeftTop = [prefs objectForKey:@"touchesAppLeftTop"]; //Setting up variabl
 // NSNumber* sleepdd;
 //TapTapUtilsShit
 
-
 //Just hard coding in some gesture recognizers
-
+/* hi */
+%group Main
 ExcitantView *rightBottomView;
 ExcitantView *leftBottomView;
 ExcitantView *rightMiddleView;
@@ -774,11 +882,15 @@ If you're reading this listen to this xxxtentacion playlist:
 
 
 %end
-
+%end
 
 
 //Prefs for TapTapUtils
 %ctor{
+    	@autoreleasepool {
+    		%init(volFunction);
+    	}
+        %init(Main) //autoreleasepool for volskip, just applying it to everything rn
 	NSString *currentID = NSBundle.mainBundle.bundleIdentifier;
 	//NSDictionary *settings = [[NSDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.clarke1234.taptivatorprefs.plist"];
 	// uicache = [settings objectForKey:@"uicache"];
