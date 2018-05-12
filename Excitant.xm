@@ -8,6 +8,7 @@
 
 
 #include <Excitant.h>
+#include <libexcitant.h>
 
 #define PLIST_PATH @"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"
 #define EXCITANTTOUCHES_PATH @"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"
@@ -437,7 +438,6 @@ tapRecognizer.numberOfTapsRequired = 2;
 //Start HomeHijack
 %hook SBAssistantController
 -(void)_viewWillAppearOnMainScreen:(BOOL)arg1{
-    //[[UIApplication sharedApplication] launchApplicationWithIdentifier:@"com.amazon.echo" suspended:FALSE];
     loadSiriPrefs();
     if(GetTouchBool(@"kCC")){
         [Excitant AUXcontrolCenter];
@@ -445,7 +445,7 @@ tapRecognizer.numberOfTapsRequired = 2;
     }else if (GetTouchBool(@"kSiriRespring")){
       [Excitant AUXrespring];
     }else if(selectedApp != nil){
-        [[UIApplication sharedApplication] launchApplicationWithIdentifier:selectedApp suspended:FALSE];
+        [Excitant AUXlaunchApp:selectedApp];
         %orig(NO);
       }else if(GetTouchBool(@"kSiriFlash")){
         //Flashlight
@@ -484,7 +484,7 @@ tapRecognizer.numberOfTapsRequired = 2;
   }else if (GetTouchBool(@"kCCTap")){
     [Excitant AUXcontrolCenter];
   }else if (tapLaunch != nil){
-    [[UIApplication sharedApplication] launchApplicationWithIdentifier:tapLaunch suspended:FALSE];
+    [Excitant AUXlaunchApp:tapLaunch];
     }else if(GetTouchBool(@"kTapFlash")){
     //Flashlight
         [Excitant AUXtoggleFlash];
@@ -516,7 +516,7 @@ tapRecognizer.numberOfTapsRequired = 2;
           [Excitant AUXtoggleFlash];
     }
     else if (volUp != nil) {
-      [[UIApplication sharedApplication] launchApplicationWithIdentifier:volUp suspended:FALSE];
+      [Excitant AUXlaunchApp:volUp];
     }
     else{
       %orig;
@@ -542,7 +542,7 @@ tapRecognizer.numberOfTapsRequired = 2;
           [Excitant AUXtoggleFlash];
     }
     else if (volDown != nil) {
-      [[UIApplication sharedApplication] launchApplicationWithIdentifier:volDown suspended:FALSE];
+      [Excitant AUXlaunchApp:volDown];
     }
     else{
       %orig;
@@ -803,7 +803,7 @@ If you're reading this listen to this xxxtentacion playlist:
 				CFRunLoopRunInMode(kCFRunLoopDefaultMode, 20.0, false);
 		});
 		notify_register_dispatch("com.clarke1234.taptapreboot", &regToken, dispatch_get_main_queue(), ^(int token){
-			[[%c(FBSystemService) sharedInstance] shutdownAndReboot:YES];
+			[Excitant AUXreboot];
 		});
 		notify_register_dispatch("com.clarke1234.taptapsafemode", &regToken, dispatch_get_main_queue(), ^(int token){
 			pid_t pid;
@@ -813,10 +813,10 @@ If you're reading this listen to this xxxtentacion playlist:
 			waitpid(pid, &status, WEXITED);
 		});
 		notify_register_dispatch("com.clarke1234.taptapshutdown", &regToken, dispatch_get_main_queue(), ^(int token){
-			[[%c(FBSystemService) sharedInstance] shutdownAndReboot:NO];
+			[Excitant AUXshutdown];
 		});
 		notify_register_dispatch("com.kietha.taptapsleep", &regToken, dispatch_get_main_queue(), ^(int token){
-             [[objc_getClass("SBBacklightController") sharedInstance] _startFadeOutAnimationFromLockSource:1];
+             [Excitant AUXlockDevice];
         });
 
 }
