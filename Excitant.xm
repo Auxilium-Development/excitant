@@ -6,8 +6,6 @@
 #import <sys/wait.h>
 #import "AppList.h"
 
-#include "Excitant.h"
-
 #include <Excitant.h>
 #include <libexcitant.h>
 

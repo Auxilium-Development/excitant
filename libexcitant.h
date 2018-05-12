@@ -16,4 +16,9 @@
 +(void)AUXtoggleWiFi;
 +(void)AUXreboot;
 +(void)AUXshutdown;
++(void)AUXtoggleReachability;
++(void)AUXtakeScreenshot;
++(void)AUXtoggleAppSwitcher;
++(void)AUXcallSiri;
++(void)AUXtoggleNC;
 @end
