@@ -12,7 +12,12 @@
 
 #define PLIST_PATH @"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"
 #define EXCITANTTOUCHES_PATH @"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"
-#define Volume_PATH @"/var/mobile/Library/Preferences/com.midnightchips.volume.plist"
+#define kVolPath @"/var/mobile/Library/Preferences/com.midnightchips.volume.plist"
+
+//Testing Lonestar Prefs
+#define kIdentifier @"com.midnightchips.volume"
+#define kSettingsChangedNotification (CFStringRef)@"com.midnightchips.volume.plist/ReloadPrefs"
+#define kSettingsPath @"/var/mobile/Library/Preferences/com.midnightchips.volume.plist"
 // Status Bar Shit
 inline bool GetPrefBool(NSString *key) {
   return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] boolValue];
@@ -29,9 +34,9 @@ inline float GetPrefFloat(NSString *key) {
 inline bool GetTouchBool(NSString *key) {
   return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] boolValue];
 }
-inline bool GetVolumeBool(NSString *key) {
+/*inline bool GetVolumeBool(NSString *key) {
   return [[[NSDictionary dictionaryWithContentsOfFile:Volume_PATH] valueForKey:key] boolValue];
-}
+}*/
 inline float GetTouchFloats(NSString *key) {
   return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
 }
@@ -43,6 +48,8 @@ static NSString *tapLaunch; //TripleTap Launcher
 static NSString *volUp; //Volume Up String
 static NSString *volDown; //Volume Down String
 static NSString *switchApp; //EzLauncher Applist
+
+
 
 
 static void loadSwitchApp() { //Siri Version applist
@@ -60,17 +67,60 @@ NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/L
 tapLaunch = [prefs objectForKey:@"homeTriTap"]; //Setting up variables
 }
 
-static void loadPrefsVolUp() { //Triple Tap version
-NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:Volume_PATH];
+static void loadPrefsVolAppUp() { //Triple Tap version
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:kSettingsPath];
 volUp = [prefs objectForKey:@"volUp"]; //Setting up variables
 }
 
-static void loadPrefsVolDown() { //Triple Tap version
-NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:Volume_PATH];
+static void loadPrefsVolAppDown() { //Triple Tap version
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:kSettingsPath];
 volDown = [prefs objectForKey:@"volDown"]; //Setting up variables
 }
+//Vol Prefs
+static BOOL enableFlashUP;
+static BOOL enableRespringUP;
+static BOOL enablePowerUP;
+static BOOL enableFlashDown;
+static BOOL enableRespringDown;
+static BOOL enablePowerDown;
+static BOOL enableVolUpSkip;
+static BOOL enableVolDownSkip;
+static BOOL enableVolUpCC;
+static BOOL enableVolDownCC;
 
-//Mute Switch Prefs
+
+static void reloadPrefs() {
+    CFPreferencesAppSynchronize((CFStringRef)kIdentifier);
+    NSLog(@"Being Called");
+    NSDictionary *prefs = nil;
+    if ([NSHomeDirectory() isEqualToString:@"/var/mobile"]) {
+        CFArrayRef keyList = CFPreferencesCopyKeyList((CFStringRef)kIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+        if (keyList != nil) {
+            prefs = (NSDictionary *)CFBridgingRelease(CFPreferencesCopyMultiple(keyList, (CFStringRef)kIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
+            if (prefs == nil)
+                prefs = [NSDictionary dictionary];
+            CFRelease(keyList);
+        }
+    } else {
+        prefs = [NSDictionary dictionaryWithContentsOfFile:kSettingsPath];
+    }
+    enableFlashUP = [prefs objectForKey:@"kVolUpFlash"] ? [(NSNumber *)[prefs objectForKey:@"kVolUpFlash"] boolValue] : false;
+    enableRespringUP = [prefs objectForKey:@"kVolUpRespring"] ? [(NSNumber *)[prefs objectForKey:@"kVolUpRespring"] boolValue] : false;
+    enablePowerUP = [prefs objectForKey:@"kVolUpBat"] ? [(NSNumber *)[prefs objectForKey:@"kVolUpBat"] boolValue] : false;
+    enableVolUpSkip = [prefs objectForKey:@"kVolUpSkip"] ? [(NSNumber *)[prefs objectForKey:@"kVolUpSkip"] boolValue] : false;
+    enableVolUpCC = [prefs objectForKey:@"kVolUpCC"] ? [(NSNumber *)[prefs objectForKey:@"kVolUpCC"] boolValue] : false;
+
+    enableFlashDown = [prefs objectForKey:@"kVolDownFlash"] ? [(NSNumber *)[prefs objectForKey:@"kVolDownFlash"] boolValue] : false;
+    enableVolDownCC = [prefs objectForKey:@"kVolDownCC"] ? [(NSNumber *)[prefs objectForKey:@"kVolDownCC"] boolValue] : false;
+    enableVolDownSkip = [prefs objectForKey:@"kVolDownSkip"] ? [(NSNumber *)[prefs objectForKey:@"kVolDownSkip"] boolValue] : false;
+    enableRespringDown = [prefs objectForKey:@"kVolDownRespring"] ? [(NSNumber *)[prefs objectForKey:@"kVolDownRespring"] boolValue] : false;
+    enablePowerDown = [prefs objectForKey:@"kVolDownBat"] ? [(NSNumber *)[prefs objectForKey:@"kVolDownBat"] boolValue] : false;
+    NSLog(@"Toggled On %d", enableFlashDown);
+
+
+  }
+
+//Mute Switch
 NSString *switchpath = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/com.chilaxan.ezswitchprefs.plist"];
 NSDictionary *switchsettings = [NSMutableDictionary dictionaryWithContentsOfFile:switchpath];
 
@@ -140,6 +190,8 @@ touchesLeftTop = [prefs objectForKey:@"touchesAppLeftTop"]; //Setting up variabl
 
 
 //Start VolSkip11
+
+
 %group volFunction
 NSTimer *timer;
 BOOL volUpButtonIsDown;
@@ -153,12 +205,13 @@ BOOL volDownButtonIsDown;
 
 	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	{
-    %orig;
+    volUpButtonIsDown = YES;
+      timer = [NSTimer scheduledTimerWithTimeInterval: 0.7 target: self selector: @selector(handleTimer:) userInfo: @1 repeats: NO];
 	}
 	else
 	{
 			volUpButtonIsDown = YES;
-		    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @1 repeats: NO];
+		    timer = [NSTimer scheduledTimerWithTimeInterval: 0.7 target: self selector: @selector(handleTimer:) userInfo: @1 repeats: NO];
 	}
 }
 
@@ -197,12 +250,13 @@ BOOL volDownButtonIsDown;
 	//if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	{
-    %orig;
+    volDownButtonIsDown = YES;
+	    timer = [NSTimer scheduledTimerWithTimeInterval: 0.7 target: self selector: @selector(handleTimer:) userInfo: @-1 repeats: NO];
 	}
 	else
 	{
 		volDownButtonIsDown = YES;
-	    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @-1 repeats: NO];
+	    timer = [NSTimer scheduledTimerWithTimeInterval: 0.7 target: self selector: @selector(handleTimer:) userInfo: @-1 repeats: NO];
 	}
 }
 
@@ -230,25 +284,34 @@ BOOL volDownButtonIsDown;
 %new
 -(void)handleTimer:(NSTimer *)timer{
 	if( (volUpButtonIsDown == YES && [[timer userInfo] intValue] == 1) || ( volDownButtonIsDown == YES &&[[timer userInfo] intValue] == -1) ) {
-    loadPrefsVolUp();
+
+    /*static BOOL enableFlashUP
+    static BOOL enableRespringUP
+    static BOOL enablePowerUP
+    static BOOL enableFlashDown
+    static BOOL enableRespringDown
+    static BOOL enablePowerDown*/
     if ([[timer userInfo] intValue] == 1){
     //Battery Saver
-    if(GetVolumeBool(@"kVolUpBat")){
+    loadPrefsVolAppUp();
+    reloadPrefs();
+    if(enablePowerUP == YES){
         [Excitant AUXtoggleLPM];
+        NSLog(@"Running Toggle");
         volUpButtonIsDown = NO;
     		volDownButtonIsDown = NO;
 
-        }else if(GetVolumeBool(@"kVolUpRespring")){
+        }else if(enableRespringUP == YES){
         [Excitant AUXrespring];
         volUpButtonIsDown = NO;
     		volDownButtonIsDown = NO;
 
-        }else if(GetVolumeBool(@"kVolUpCC")){
+        }else if(enableVolUpCC == YES){
           [Excitant AUXcontrolCenter];
           volUpButtonIsDown = NO;
       		volDownButtonIsDown = NO;
 
-        }else if(GetVolumeBool(@"kVolUpFlash")){
+        }else if(enableFlashUP == YES){
         //Flashlight
             [Excitant AUXtoggleFlash];
             volUpButtonIsDown = NO;
@@ -259,7 +322,7 @@ BOOL volDownButtonIsDown;
         volUpButtonIsDown = NO;
     		volDownButtonIsDown = NO;
       }
-      else if (GetVolumeBool(@"kVolUpSkip")){
+      else if (enableVolUpSkip == YES){
         HBLogInfo(@"************handleTimer");
 
   		[[%c(SBMediaController) sharedInstance] changeTrack:[[timer userInfo] intValue]];
@@ -267,24 +330,29 @@ BOOL volDownButtonIsDown;
   		volDownButtonIsDown = NO;
       }else{
       }
-
+      /*static BOOL enableFlashUP
+      static BOOL enableRespringUP
+      static BOOL enablePowerUP
+      static BOOL enableFlashDown
+      static BOOL enableRespringDown
+      static BOOL enablePowerDown*/
 	}else if ([[timer userInfo] intValue] == -1){
-    loadPrefsVolDown();
-
+    loadPrefsVolAppDown();
+    reloadPrefs();
     //Battery Saver
-    if(GetVolumeBool(@"kVolDownBat")){
+    if(enablePowerDown == YES){
         [Excitant AUXtoggleLPM];
         volUpButtonIsDown = NO;
     		volDownButtonIsDown = NO;
-        }else if(GetVolumeBool(@"kVolDownRespring")){
+        }else if(enableRespringDown == YES){
         [Excitant AUXrespring];
         volUpButtonIsDown = NO;
     		volDownButtonIsDown = NO;
-        }else if(GetVolumeBool(@"kVolDownCC")){
+        }else if(enableVolDownCC == YES){
           [Excitant AUXcontrolCenter];
           volUpButtonIsDown = NO;
       		volDownButtonIsDown = NO;
-        }else if(GetVolumeBool(@"kVolDownFlash")){
+        }else if(enableFlashDown == YES){
         //Flashlight
             [Excitant AUXtoggleFlash];
             volUpButtonIsDown = NO;
@@ -294,7 +362,7 @@ BOOL volDownButtonIsDown;
         [Excitant AUXlaunchApp:volDown];
         volUpButtonIsDown = NO;
     		volDownButtonIsDown = NO;
-      }else if (GetVolumeBool(@"kVolUpSkip")){
+      }else if (enableVolDownSkip == YES){
         [[%c(SBMediaController) sharedInstance] changeTrack:[[timer userInfo] intValue]];
     		volUpButtonIsDown = NO;
     		volDownButtonIsDown = NO;
@@ -913,6 +981,8 @@ If you're reading this listen to this xxxtentacion playlist:
 
 //Prefs for TapTapUtils
 %ctor{
+  reloadPrefs();
+CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadPrefs, kSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
     	@autoreleasepool {
     		%init(volFunction);
     	}

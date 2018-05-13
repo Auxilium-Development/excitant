@@ -29,7 +29,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Who uses Siri anyway?</string>
+			<string>Free the Volume</string>
 		</dict>
 
 			<dict>
@@ -50,7 +50,7 @@
 			<key>ALSingleEnabledMode</key>
 			<string>1</string>
 			<key>ALChangeNotification</key>
-			<string>com.midnightchips.volume.plist/saved</string>
+			<string>com.midnightchips.volume.plist/ReloadPrefs</string>
 			<key>ALSectionDescriptors</key>
 			<array>
 			<dict>
@@ -98,7 +98,7 @@
 			<key>ALSingleEnabledMode</key>
 			<string>1</string>
 			<key>ALChangeNotification</key>
-			<string>com.midnightchips.volume.plist/saved</string>
+			<string>com.midnightchips.volume.plist/ReloadPrefs</string>
 			<key>ALSectionDescriptors</key>
 			<array>
 			<dict>
@@ -143,6 +143,8 @@
 												<false/>
 												<key>defaults</key>
 												<string>com.midnightchips.volume.plist</string>
+												<key>PostNotification</key>
+												<string>com.midnightchips.volume.plist/ReloadPrefs</string>
 												<key>key</key>
 												<string>kVolUpRespring</string>
 												<key>label</key>
@@ -155,6 +157,8 @@
 														<false/>
 														<key>defaults</key>
 														<string>com.midnightchips.volume.plist</string>
+														<key>PostNotification</key>
+														<string>com.midnightchips.volume.plist/ReloadPrefs</string>
 														<key>key</key>
 														<string>kVolUpCC</string>
 														<key>label</key>
@@ -167,6 +171,8 @@
 															<false/>
 															<key>defaults</key>
 															<string>com.midnightchips.volume.plist</string>
+															<key>PostNotification</key>
+															<string>com.midnightchips.volume.plist/ReloadPrefs</string>
 															<key>key</key>
 															<string>kVolUpBat</string>
 															<key>label</key>
@@ -179,11 +185,27 @@
 																<false/>
 																<key>defaults</key>
 																<string>com.midnightchips.volume.plist</string>
+																<key>PostNotification</key>
+																<string>com.midnightchips.volume.plist/ReloadPrefs</string>
 																<key>key</key>
 																<string>kVolUpFlash</string>
 																<key>label</key>
 																<string>Turn On (and off) Torch</string>
 														</dict>
+														<dict>
+																	<key>cell</key>
+																	<string>PSSwitchCell</string>
+																	<key>default</key>
+																	<false/>
+																	<key>defaults</key>
+																	<string>com.midnightchips.volume.plist</string>
+																	<key>PostNotification</key>
+																	<string>com.midnightchips.volume.plist/ReloadPrefs</string>
+																	<key>key</key>
+																	<string>kVolUpSkip</string>
+																	<key>label</key>
+																	<string>Skip Forward A Song</string>
+															</dict>
 												<dict>
 												<key>action</key>
 												<string>RespringMe</string>
@@ -210,6 +232,8 @@
 															<false/>
 															<key>defaults</key>
 															<string>com.midnightchips.volume.plist</string>
+															<key>PostNotification</key>
+															<string>com.midnightchips.volume.plist/ReloadPrefs</string>
 															<key>key</key>
 															<string>kVolDownRespring</string>
 															<key>label</key>
@@ -222,6 +246,8 @@
 																	<false/>
 																	<key>defaults</key>
 																	<string>com.midnightchips.volume.plist</string>
+																	<key>PostNotification</key>
+																	<string>com.midnightchips.volume.plist/ReloadPrefs</string>
 																	<key>key</key>
 																	<string>kVolDownCC</string>
 																	<key>label</key>
@@ -234,6 +260,8 @@
 																		<false/>
 																		<key>defaults</key>
 																		<string>com.midnightchips.volume.plist</string>
+																		<key>PostNotification</key>
+																		<string>com.midnightchips.volume.plist/ReloadPrefs</string>
 																		<key>key</key>
 																		<string>kVolDownBat</string>
 																		<key>label</key>
@@ -246,11 +274,28 @@
 																			<false/>
 																			<key>defaults</key>
 																			<string>com.midnightchips.volume.plist</string>
+																			<key>PostNotification</key>
+																			<string>com.midnightchips.volume.plist/ReloadPrefs</string>
 																			<key>key</key>
 																			<string>kVolDownFlash</string>
 																			<key>label</key>
 																			<string>Turn On (and off) Torch</string>
 																	</dict>
+																	<dict>
+																				<key>cell</key>
+																				<string>PSSwitchCell</string>
+																				<key>default</key>
+																				<false/>
+																				<key>defaults</key>
+																				<string>com.midnightchips.volume.plist</string>
+																				<key>PostNotification</key>
+																				<string>com.midnightchips.volume.plist/ReloadPrefs</string>
+																				<key>key</key>
+																				<string>kVolDownSkip</string>
+																				<key>label</key>
+																				<string>Skip Back A song</string>
+																		</dict>
+
 															<dict>
 															<key>action</key>
 															<string>RespringMe</string>
