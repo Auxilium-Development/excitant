@@ -1,7 +1,7 @@
 include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = ExcitantPrefs
-ExcitantPrefs_FILES = EXCRootListController.m SBRootListController.m TouchesRootListController.m SwitchRootListController.m HomeHijackController.m
+ExcitantPrefs_FILES = EXCRootListController.m SBRootListController.m TouchesRootListController.m SwitchRootListController.m HomeHijackController.m VolumeController.m
 ExcitantPrefs_INSTALL_PATH = /Library/PreferenceBundles
 ExcitantPrefs_FRAMEWORKS = UIKit
 ExcitantPrefs_PRIVATE_FRAMEWORKS = Preferences

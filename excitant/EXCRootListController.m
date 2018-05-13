@@ -30,6 +30,10 @@
 - (void)ContactmeRedditChila {
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.reddit.com/user/chilaxan"]];
 }
+- (void)ContactmeTwitterRobChila {
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/rob311apps"]];
+}
+
 
 - (void)RespringMe {
 	pid_t pid;

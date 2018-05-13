@@ -12,6 +12,7 @@
 
 #define PLIST_PATH @"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"
 #define EXCITANTTOUCHES_PATH @"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"
+#define Volume_PATH @"/var/mobile/Library/Preferences/com.midnightchips.volume.plist"
 // Status Bar Shit
 inline bool GetPrefBool(NSString *key) {
   return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] boolValue];
@@ -28,6 +29,9 @@ inline float GetPrefFloat(NSString *key) {
 inline bool GetTouchBool(NSString *key) {
   return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] boolValue];
 }
+inline bool GetVolumeBool(NSString *key) {
+  return [[[NSDictionary dictionaryWithContentsOfFile:Volume_PATH] valueForKey:key] boolValue];
+}
 inline float GetTouchFloats(NSString *key) {
   return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
 }
@@ -38,6 +42,13 @@ static NSString *selectedApp; //Applist stuff
 static NSString *tapLaunch; //TripleTap Launcher
 static NSString *volUp; //Volume Up String
 static NSString *volDown; //Volume Down String
+static NSString *switchApp; //EzLauncher Applist
+
+
+static void loadSwitchApp() { //Siri Version applist
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.chilaxan.ezswitchprefs"];
+switchApp = [prefs objectForKey:@"switchApp"]; //Setting up variables
+}
 
 static void loadSiriPrefs() { //Siri Version applist
 NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
@@ -50,12 +61,12 @@ tapLaunch = [prefs objectForKey:@"homeTriTap"]; //Setting up variables
 }
 
 static void loadPrefsVolUp() { //Triple Tap version
-NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:Volume_PATH];
 volUp = [prefs objectForKey:@"volUp"]; //Setting up variables
 }
 
 static void loadPrefsVolDown() { //Triple Tap version
-NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:Volume_PATH];
 volDown = [prefs objectForKey:@"volDown"]; //Setting up variables
 }
 
@@ -79,6 +90,8 @@ static NSString *touchesRightTop;
 static NSString *touchesLeftBottom;
 static NSString *touchesLeftMiddle;
 static NSString *touchesLeftTop;
+
+
 
 static void loadPrefsTouchesRightBottom() { //Triple Tap version
 NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
@@ -134,27 +147,13 @@ BOOL volDownButtonIsDown;
 
 %hook SBVolumeHardwareButtonActions
 
-%new
--(void)handleTimer:(NSTimer *)timer
-{
-	if( (volUpButtonIsDown == YES && [[timer userInfo] intValue] == 1) || ( volDownButtonIsDown == YES &&[[timer userInfo] intValue] == -1) )
-	{
-			HBLogInfo(@"************handleTimer");
-
-		[[%c(SBMediaController) sharedInstance] changeTrack:[[timer userInfo] intValue]];
-		volUpButtonIsDown = NO;
-		volDownButtonIsDown = NO;
-	}
-
-}
-
 -(void)volumeIncreasePressDown
 {
 	//HBLogInfo(@"************volumeIncreasePressDown");
 
 	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	{
-		%orig;
+    %orig;
 	}
 	else
 	{
@@ -176,7 +175,7 @@ BOOL volDownButtonIsDown;
 		}
 	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	{
-		%orig;
+    %orig;
 	}
 
 	else
@@ -198,7 +197,7 @@ BOOL volDownButtonIsDown;
 	//if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	{
-		%orig;
+    %orig;
 	}
 	else
 	{
@@ -213,7 +212,7 @@ BOOL volDownButtonIsDown;
 
 	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	{
-		%orig;
+    %orig;
 	}
 	else
 	{
@@ -228,7 +227,84 @@ BOOL volDownButtonIsDown;
 	}
 }
 
+%new
+-(void)handleTimer:(NSTimer *)timer{
+	if( (volUpButtonIsDown == YES && [[timer userInfo] intValue] == 1) || ( volDownButtonIsDown == YES &&[[timer userInfo] intValue] == -1) ) {
+    loadPrefsVolUp();
+    if ([[timer userInfo] intValue] == 1){
+    //Battery Saver
+    if(GetVolumeBool(@"kVolUpBat")){
+        [Excitant AUXtoggleLPM];
+        volUpButtonIsDown = NO;
+    		volDownButtonIsDown = NO;
 
+        }else if(GetVolumeBool(@"kVolUpRespring")){
+        [Excitant AUXrespring];
+        volUpButtonIsDown = NO;
+    		volDownButtonIsDown = NO;
+
+        }else if(GetVolumeBool(@"kVolUpCC")){
+          [Excitant AUXcontrolCenter];
+          volUpButtonIsDown = NO;
+      		volDownButtonIsDown = NO;
+
+        }else if(GetVolumeBool(@"kVolUpFlash")){
+        //Flashlight
+            [Excitant AUXtoggleFlash];
+            volUpButtonIsDown = NO;
+        		volDownButtonIsDown = NO;
+      }
+      else if (volUp != nil) {
+        [Excitant AUXlaunchApp:volUp];
+        volUpButtonIsDown = NO;
+    		volDownButtonIsDown = NO;
+      }
+      else if (GetVolumeBool(@"kVolUpSkip")){
+        HBLogInfo(@"************handleTimer");
+
+  		[[%c(SBMediaController) sharedInstance] changeTrack:[[timer userInfo] intValue]];
+  		volUpButtonIsDown = NO;
+  		volDownButtonIsDown = NO;
+      }else{
+      }
+
+	}else if ([[timer userInfo] intValue] == -1){
+    loadPrefsVolDown();
+
+    //Battery Saver
+    if(GetVolumeBool(@"kVolDownBat")){
+        [Excitant AUXtoggleLPM];
+        volUpButtonIsDown = NO;
+    		volDownButtonIsDown = NO;
+        }else if(GetVolumeBool(@"kVolDownRespring")){
+        [Excitant AUXrespring];
+        volUpButtonIsDown = NO;
+    		volDownButtonIsDown = NO;
+        }else if(GetVolumeBool(@"kVolDownCC")){
+          [Excitant AUXcontrolCenter];
+          volUpButtonIsDown = NO;
+      		volDownButtonIsDown = NO;
+        }else if(GetVolumeBool(@"kVolDownFlash")){
+        //Flashlight
+            [Excitant AUXtoggleFlash];
+            volUpButtonIsDown = NO;
+        		volDownButtonIsDown = NO;
+      }
+      else if (volDown != nil) {
+        [Excitant AUXlaunchApp:volDown];
+        volUpButtonIsDown = NO;
+    		volDownButtonIsDown = NO;
+      }else if (GetVolumeBool(@"kVolUpSkip")){
+        [[%c(SBMediaController) sharedInstance] changeTrack:[[timer userInfo] intValue]];
+    		volUpButtonIsDown = NO;
+    		volDownButtonIsDown = NO;
+      }else{
+
+      }
+
+  }
+}
+}
 %end
 %end
 
@@ -267,7 +343,7 @@ ExcitantView *rightTopView;
 -(void)applicationDidFinishLaunching:(id)application {
 	float width = GetTouchFloats(@"vWidth");
     float height = GetTouchFloats(@"vHeight");
-
+//Side Subviews
     %orig;
 		UIWindow * screen = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen]bounds]];
 
@@ -460,9 +536,10 @@ tapRecognizer.numberOfTapsRequired = 2;
                                              name:UIKeyboardDidHideNotification
                                            object:nil];
 }
-
+//End Side Subviews
 //Mute Switch Function
 - (void)_updateRingerState:(int)arg1 withVisuals:(BOOL)arg2 updatePreferenceRegister:(BOOL)arg3 {
+  loadSwitchApp();
 	if(!isEzSwitchEnabled) {
 	     %orig;
 	}
@@ -483,19 +560,22 @@ tapRecognizer.numberOfTapsRequired = 2;
 			if (switchPreference == 4) {
                              [Excitant AUXtoggleRotationLock];
 			}
+      if (switchPreference == 5) {
+                              [Excitant AUXlaunchApp:switchApp];
+      }
 		} else {
 			%orig;
 		}
 	}
 }
 //End Mute Switch Function
-
+//Side Subviews Selectors
 %new
 - (void) TouchRecognizerBottomRight:(UITapGestureRecognizer *)sender {
 	loadPrefsTouchesRightBottom();
 	[Excitant AUXlaunchApp:touchesRightBottom];
 }
-//what else is there?
+
 
 %new
 - (void) TouchRecognizerBottomLeft:(UITapGestureRecognizer *)sender {
@@ -522,6 +602,7 @@ tapRecognizer.numberOfTapsRequired = 2;
 	loadPrefsTouchesRightTop();
 	[Excitant AUXlaunchApp:touchesRightTop];
 }
+//End Selectors, Start Observers
 %new
 -(void)keyboardDidShow:(NSNotification *)hideViews {
   rightBottomView.hidden = YES;
@@ -540,7 +621,7 @@ tapRecognizer.numberOfTapsRequired = 2;
   leftTopView.hidden = NO;
   rightTopView.hidden = NO;
 }
-
+//End Side Subviews Observers
 
 
 %end
@@ -606,61 +687,6 @@ tapRecognizer.numberOfTapsRequired = 2;
     %orig;
   }
 }
-%end
-
-%hook VolumeControl //Volume Up Controller
--(void)increaseVolume{
-  loadPrefsVolUp();
-
-  //Battery Saver
-  if(GetTouchBool(@"kVolUpBat")){
-      [Excitant AUXtoggleLPM];
-
-      }else if(GetTouchBool(@"kVolUpRespring")){
-      [Excitant AUXrespring];
-
-      }else if(GetTouchBool(@"kVolUpCC")){
-        [Excitant AUXcontrolCenter];
-
-      }else if(GetTouchBool(@"kVolUpFlash")){
-      //Flashlight
-          [Excitant AUXtoggleFlash];
-    }
-    else if (volUp != nil) {
-      [Excitant AUXlaunchApp:volUp];
-    }
-    else{
-      %orig;
-    }
-}
-
-
-%end
-
-%hook VolumeControl //Volume Up Controller
--(void)decreaseVolume{
-  loadPrefsVolDown();
-
-  //Battery Saver
-  if(GetTouchBool(@"kVolDownBat")){
-      [Excitant AUXtoggleLPM];
-      }else if(GetTouchBool(@"kVolDownRespring")){
-      [Excitant AUXrespring];
-      }else if(GetTouchBool(@"kVolDownCC")){
-        [Excitant AUXcontrolCenter];
-      }else if(GetTouchBool(@"kVolDownFlash")){
-      //Flashlight
-          [Excitant AUXtoggleFlash];
-    }
-    else if (volDown != nil) {
-      [Excitant AUXlaunchApp:volDown];
-    }
-    else{
-      %orig;
-    }
-
-}
-
 %end
 //End HomeHijack
 

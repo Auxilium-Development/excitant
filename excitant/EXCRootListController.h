@@ -19,3 +19,7 @@
 @interface HomeHijackController : PSListController
 
 @end
+
+@interface VolumeController : PSListController
+
+@end

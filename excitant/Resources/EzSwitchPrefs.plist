@@ -41,13 +41,14 @@
 						<string>switchPreferences</string>
 					<key>detail</key>
 						<string>PSListItemsController</string>
-					<key>validValues</key>	
+					<key>validValues</key>
 						<array>
 							<integer>0</integer>
 							<integer>1</integer>
 							<integer>2</integer>
 							<integer>3</integer>
-							<integer>4</integer>                            
+							<integer>4</integer>
+							<integer>5</integer>
 						</array>
 					<key>validTitles</key>
 						<array>
@@ -56,7 +57,56 @@
 							<string>Toggle Airplane Mode</string>
                             <string>Toggle Mute *Does not work yet</string>
                             <string>Toggle Rotation Lock</string>
+														<string>Open an App</string>
+
 						</array>
+				</dict>
+				<dict>
+				<key>cell</key>
+				<string>PSLinkCell</string>
+				<key>bundle</key>
+				<string>AppList</string>
+				<key>isController</key>
+				<string>1</string>
+				<key>label</key>
+				<string>Select an App</string>
+				<key>icon</key>
+				<string></string>
+				<key>ALSettingsKey</key>
+				<string>switchApp</string>
+				<key>ALSettingsPath</key>
+				<string>/var/mobile/Library/Preferences/com.chilaxan.ezswitchprefs</string>
+				<key>ALSingleEnabledMode</key>
+				<string>1</string>
+				<key>ALChangeNotification</key>
+				<string>com.chilaxan.ezswitchprefs/settingsupdated</string>
+				<key>ALSectionDescriptors</key>
+				<array>
+				<dict>
+				<key>cell-class-name</key>
+				<string>ALSwitchCell</string>
+				<key>predicate</key>
+				<string>isSystemApplication = TRUE</string>
+				<key>icon-size</key>
+				<string>29</string>
+				<key>suppress-hidden-apps</key>
+				<string>1</string>
+				<key>title</key>
+				<string>System Applications</string>
+				</dict>
+				<dict>
+				<key>cell-class-name</key>
+				<string>ALSwitchCell</string>
+				<key>predicate</key>
+				<string>isSystemApplication = FALSE</string>
+				<key>icon-size</key>
+				<string>29</string>
+				<key>suppress-hidden-apps</key>
+				<string>1</string>
+				<key>title</key>
+				<string>User Applications</string>
+				</dict>
+				</array>
 				</dict>
 				<dict>
 					<key>cell</key>

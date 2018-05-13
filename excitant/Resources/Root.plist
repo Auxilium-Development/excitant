@@ -50,6 +50,17 @@
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>detail</key>
+			<string>VolumeController</string>
+			<key>isController</key>
+			<true/>
+			<key>label</key>
+			<string>Control The Volume Keys</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
 			<string>TouchesRootListController</string>
 			<key>isController</key>
 			<true/>
@@ -75,8 +86,6 @@
 			<string>Created By:</string>
 		</dict>
 
-
-
 		<dict>
 		<key>action</key>
 		<string>ContactmeRedditChila</string>
@@ -97,6 +106,17 @@
 				<string>reddit.png</string>
 		<key>label</key>
 		<string>Clarke</string>
+		</dict>
+
+		<dict>
+		<key>action</key>
+		<string>ContactmeTwitterRob</string>
+		<key>cell</key>
+		<string>PSButtonCell</string>
+		<key>icon</key>
+				<string>twitter.png</string>
+		<key>label</key>
+		<string>Rob311</string>
 		</dict>
 
 		<dict>
