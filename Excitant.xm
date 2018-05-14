@@ -215,38 +215,14 @@ BOOL volDownButtonIsDown;
 {
 	//HBLogInfo(@"************volumeIncreasePressDown");
 
-	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
-	{
-	%orig;
+
     volUpButtonIsDown = YES;
       timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @1 repeats: NO];
-	}
-	else
-	{
-			volUpButtonIsDown = YES;
-		    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @1 repeats: NO];
-	}
 }
 
 -(void)volumeIncreasePressUp
 {
 	//	HBLogInfo(@"************volumeIncreasePressUp");
-	if (volDownButtonIsDown == YES)
-		{
-			[timer invalidate];
-			timer = nil;
-			[[%c(SBMediaController) sharedInstance] togglePlayPause];
-			//volUpButtonIsDown = NO;
-			//volDownButtonIsDown = NO;
-		}
-	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
-	{
-    %orig;
-	}
-
-	else
-	{
-		// [timer invalidate];
 		timer = nil;
 
 		if(volUpButtonIsDown == YES)
@@ -255,35 +231,20 @@ BOOL volDownButtonIsDown;
 			volUpButtonIsDown = NO;
 		}
 	}
-}
+
 
 -(void)volumeDecreasePressDown
 {
 	//HBLogInfo(@"************volumeDecreasePressDown");
 	//if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
-	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
-	{
-	%orig;
-    volDownButtonIsDown = YES;
-	    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @-1 repeats: NO];
-	}
-	else
-	{
 		volDownButtonIsDown = YES;
 	    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @-1 repeats: NO];
-	}
 }
 
 -(void)volumeDecreasePressUp
 {
 		//HBLogInfo(@"************volumeDecreasePressUp");
 
-	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
-	{
-    %orig;
-	}
-	else
-	{
 		// [timer invalidate];
 		timer = nil;
 
@@ -291,7 +252,7 @@ BOOL volDownButtonIsDown;
 		{
 			[[%c(SBMediaController) sharedInstance] _changeVolumeBy:-0.062500];
 			volDownButtonIsDown = NO;
-		}
+
 	}
 }
 
@@ -330,18 +291,19 @@ BOOL volDownButtonIsDown;
             [Excitant AUXtoggleFlash];
             volUpButtonIsDown = NO;
         		volDownButtonIsDown = NO;
+          }
+          else if (enableVolUpSkip == YES){
+            HBLogInfo(@"************handleTimer");
+
+          [[%c(SBMediaController) sharedInstance] changeTrack:[[timer userInfo] intValue]];
+          volUpButtonIsDown = NO;
+          volDownButtonIsDown = NO;
       }
       else if (volUp != nil) {
         [Excitant AUXlaunchApp:volUp];
         volUpButtonIsDown = NO;
     		volDownButtonIsDown = NO;
-      }
-      else if (enableVolUpSkip == YES){
-        HBLogInfo(@"************handleTimer");
 
-  		[[%c(SBMediaController) sharedInstance] changeTrack:[[timer userInfo] intValue]];
-  		volUpButtonIsDown = NO;
-  		volDownButtonIsDown = NO;
       }else{
       }
       /*static BOOL enableFlashUP
@@ -371,15 +333,16 @@ BOOL volDownButtonIsDown;
             [Excitant AUXtoggleFlash];
             volUpButtonIsDown = NO;
         		volDownButtonIsDown = NO;
-      }
-      else if (volDown != nil) {
-        [Excitant AUXlaunchApp:volDown];
-        volUpButtonIsDown = NO;
-    		volDownButtonIsDown = NO;
+
       }else if (enableVolDownSkip == YES){
         [[%c(SBMediaController) sharedInstance] changeTrack:[[timer userInfo] intValue]];
     		volUpButtonIsDown = NO;
     		volDownButtonIsDown = NO;
+      }
+      else if (volDown != nil) {
+        [Excitant AUXlaunchApp:volDown];
+        volUpButtonIsDown = NO;
+        volDownButtonIsDown = NO;
       }else{
 
       }
