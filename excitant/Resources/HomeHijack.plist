@@ -147,6 +147,8 @@
             <string>kCC</string>
             <key>label</key>
             <string>Open The CC Rather then Siri</string>
+						<key>PostNotification</key>
+						<string>EXCITANTTOUCHES.plist/saved</string>
             </dict>
 						<dict>
 		            <key>cell</key>
@@ -159,6 +161,8 @@
 		            <string>kSiriRespring</string>
 		            <key>label</key>
 		            <string>Respring With Siri</string>
+								<key>PostNotification</key>
+								<string>EXCITANTTOUCHES.plist/saved</string>
 		            </dict>
 
 								<dict>
@@ -172,6 +176,8 @@
 											<string>kSiriBat</string>
 											<key>label</key>
 											<string>Turn On (and off) Low Power Mode</string>
+											<key>PostNotification</key>
+											<string>EXCITANTTOUCHES.plist/saved</string>
 									</dict>
 									<dict>
 												<key>cell</key>
@@ -181,9 +187,11 @@
 												<key>defaults</key>
 												<string>EXCITANTTOUCHES.plist</string>
 												<key>key</key>
-												<string>kSiriFlash</string>
+												<string>siriFlash</string>
 												<key>label</key>
 												<string>Turn On (and off) Torch</string>
+												<key>PostNotification</key>
+												<string>EXCITANTTOUCHES.plist/saved</string>
 										</dict>
 
 						<dict>
@@ -216,6 +224,8 @@
 									<string>kRespring</string>
 									<key>label</key>
 									<string>Respring your Phone</string>
+									<key>PostNotification</key>
+									<string>EXCITANTTOUCHES.plist/saved</string>
 									</dict>
 								<dict>
 											<key>cell</key>
@@ -228,6 +238,8 @@
 											<string>kCCTap</string>
 											<key>label</key>
 											<string>Open the CC</string>
+											<key>PostNotification</key>
+											<string>EXCITANTTOUCHES.plist/saved</string>
 									</dict>
 
 									<dict>
@@ -241,6 +253,8 @@
 												<string>kTapBat</string>
 												<key>label</key>
 												<string>Turn On (and off) Low Power Mode</string>
+												<key>PostNotification</key>
+												<string>EXCITANTTOUCHES.plist/saved</string>
 										</dict>
 										<dict>
 													<key>cell</key>
@@ -253,6 +267,8 @@
 													<string>kTapFlash</string>
 													<key>label</key>
 													<string>Turn On (and off) Torch</string>
+													<key>PostNotification</key>
+													<string>EXCITANTTOUCHES.plist/saved</string>
 											</dict>
 
 									<dict>

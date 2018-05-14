@@ -10,10 +10,11 @@
 #include <libexcitant.h>
 
 
+
 #define PLIST_PATH @"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"
 #define EXCITANTTOUCHES_PATH @"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"
 #define kVolPath @"/var/mobile/Library/Preferences/com.midnightchips.volume.plist"
-
+#define kHijackSettingsChangedNotification (CFStringRef)@"EXCITANTTOUCHES.plist/saved"
 //Testing Lonestar Prefs
 #define kIdentifier @"com.midnightchips.volume"
 #define kSettingsChangedNotification (CFStringRef)@"com.midnightchips.volume.plist/ReloadPrefs"
@@ -57,15 +58,7 @@ NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/L
 switchApp = [prefs objectForKey:@"switchApp"]; //Setting up variables
 }
 
-static void loadSiriPrefs() { //Siri Version applist
-NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
-selectedApp = [prefs objectForKey:@"siriApp"]; //Setting up variables
-}
 
-static void loadPrefsTriTap() { //Triple Tap version
-NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
-tapLaunch = [prefs objectForKey:@"homeTriTap"]; //Setting up variables
-}
 
 static void loadPrefsVolAppUp() { //Triple Tap version
 NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:kSettingsPath];
@@ -89,36 +82,55 @@ static BOOL enableVolUpCC;
 static BOOL enableVolDownCC;
 
 
-static void reloadPrefs() {
-    CFPreferencesAppSynchronize((CFStringRef)kIdentifier);
-    NSLog(@"Being Called");
-    NSDictionary *prefs = nil;
-    if ([NSHomeDirectory() isEqualToString:@"/var/mobile"]) {
-        CFArrayRef keyList = CFPreferencesCopyKeyList((CFStringRef)kIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-        if (keyList != nil) {
-            prefs = (NSDictionary *)CFBridgingRelease(CFPreferencesCopyMultiple(keyList, (CFStringRef)kIdentifier, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
-            if (prefs == nil)
-                prefs = [NSDictionary dictionary];
-            CFRelease(keyList);
-        }
-    } else {
-        prefs = [NSDictionary dictionaryWithContentsOfFile:kSettingsPath];
-    }
-    enableFlashUP = [prefs objectForKey:@"kVolUpFlash"] ? [(NSNumber *)[prefs objectForKey:@"kVolUpFlash"] boolValue] : false;
-    enableRespringUP = [prefs objectForKey:@"kVolUpRespring"] ? [(NSNumber *)[prefs objectForKey:@"kVolUpRespring"] boolValue] : false;
-    enablePowerUP = [prefs objectForKey:@"kVolUpBat"] ? [(NSNumber *)[prefs objectForKey:@"kVolUpBat"] boolValue] : false;
-    enableVolUpSkip = [prefs objectForKey:@"kVolUpSkip"] ? [(NSNumber *)[prefs objectForKey:@"kVolUpSkip"] boolValue] : false;
-    enableVolUpCC = [prefs objectForKey:@"kVolUpCC"] ? [(NSNumber *)[prefs objectForKey:@"kVolUpCC"] boolValue] : false;
+static void reloadVolPrefs() { //Vol Prefs
+    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
+    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:kVolPath]];
+    enableFlashUP = defaults[@"kVolUpFlash"] ? [defaults[@"kVolUpFlash"] boolValue] : NO;
+    enableRespringUP = defaults[@"kVolUpRespring"] ? [defaults[@"kVolUpRespring"] boolValue] : NO;
+    enablePowerUP = defaults[@"kVolUpBat"] ? [defaults[@"kVolUpBat"] boolValue] : NO;
+    enableVolUpSkip = defaults[@"kVolUpSkip"] ? [defaults[@"kVolUpSkip"] boolValue] : NO;
+    enableVolUpCC = defaults[@"kVolUpCC"] ? [defaults[@"kVolUpCC"] boolValue] : NO;
 
-    enableFlashDown = [prefs objectForKey:@"kVolDownFlash"] ? [(NSNumber *)[prefs objectForKey:@"kVolDownFlash"] boolValue] : false;
-    enableVolDownCC = [prefs objectForKey:@"kVolDownCC"] ? [(NSNumber *)[prefs objectForKey:@"kVolDownCC"] boolValue] : false;
-    enableVolDownSkip = [prefs objectForKey:@"kVolDownSkip"] ? [(NSNumber *)[prefs objectForKey:@"kVolDownSkip"] boolValue] : false;
-    enableRespringDown = [prefs objectForKey:@"kVolDownRespring"] ? [(NSNumber *)[prefs objectForKey:@"kVolDownRespring"] boolValue] : false;
-    enablePowerDown = [prefs objectForKey:@"kVolDownBat"] ? [(NSNumber *)[prefs objectForKey:@"kVolDownBat"] boolValue] : false;
+    enableFlashDown = defaults[@"kVolDownFlash"] ? [defaults[@"kVolDownFlash"] boolValue] : NO;
+    enableVolDownCC = defaults[@"kVolDownCC"] ? [defaults[@"kVolDownCC"] boolValue] : NO;
+    enableVolDownSkip = defaults[@"kVolDownSkip"] ? [defaults[@"kVolDownSkip"] boolValue] : NO;
+    enableRespringDown = defaults[@"kVolDownRespring"] ? [defaults[@"kVolDownRespring"] boolValue] : NO;
+    enablePowerDown = defaults[@"kVolDownBat"] ? [defaults[@"kVolDownBat"] boolValue] : NO;
     NSLog(@"Toggled On %d", enableFlashDown);
+}
 
 
-  }
+static BOOL siriCC;
+static BOOL siriRespring;
+static BOOL siriBat;
+static BOOL siriFlash;
+static BOOL tritapCC;
+static BOOL tritapRespring;
+static BOOL tritapBat;
+static BOOL tritapFlash;
+
+static void reloadHijackPrefs() { //Vol Prefs
+    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
+    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH]];
+    siriCC = defaults[@"kCC"] ? [defaults[@"kCC"] boolValue] : NO;
+    siriRespring = defaults[@"kSiriRespring"] ? [defaults[@"kSiriRespring"] boolValue] : NO;
+    siriBat = defaults[@"kSiriBat"] ? [defaults[@"kSiriBat"] boolValue] : NO;
+    siriFlash = defaults[@"siriFlash"] ? [defaults[@"siriFlash"] boolValue] : NO;
+    tritapRespring = defaults[@"kRespring"] ? [defaults[@"kRespring"] boolValue] : NO;
+    tritapCC = defaults[@"kCCTap"] ? [defaults[@"kCCTap"] boolValue] : NO;
+    tritapBat = defaults[@"kTapBat"] ? [defaults[@"kTapBat"] boolValue] : NO;
+    tritapFlash = defaults[@"kTapFlash"] ? [defaults[@"kTapFlash"] boolValue] : NO;
+}
+
+void updateSettings(CFNotificationCenterRef center,
+                    void *observer,
+                    CFStringRef name,
+                    const void *object,
+                    CFDictionaryRef userInfo) {
+    reloadVolPrefs();
+    reloadHijackPrefs();
+}
+
 
 //Mute Switch
 NSString *switchpath = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/com.chilaxan.ezswitchprefs.plist"];
@@ -206,12 +218,12 @@ BOOL volDownButtonIsDown;
 	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	{
     volUpButtonIsDown = YES;
-      timer = [NSTimer scheduledTimerWithTimeInterval: 0.7 target: self selector: @selector(handleTimer:) userInfo: @1 repeats: NO];
+      timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @1 repeats: NO];
 	}
 	else
 	{
 			volUpButtonIsDown = YES;
-		    timer = [NSTimer scheduledTimerWithTimeInterval: 0.7 target: self selector: @selector(handleTimer:) userInfo: @1 repeats: NO];
+		    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @1 repeats: NO];
 	}
 }
 
@@ -251,12 +263,12 @@ BOOL volDownButtonIsDown;
 	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	{
     volDownButtonIsDown = YES;
-	    timer = [NSTimer scheduledTimerWithTimeInterval: 0.7 target: self selector: @selector(handleTimer:) userInfo: @-1 repeats: NO];
+	    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @-1 repeats: NO];
 	}
 	else
 	{
 		volDownButtonIsDown = YES;
-	    timer = [NSTimer scheduledTimerWithTimeInterval: 0.7 target: self selector: @selector(handleTimer:) userInfo: @-1 repeats: NO];
+	    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @-1 repeats: NO];
 	}
 }
 
@@ -294,7 +306,7 @@ BOOL volDownButtonIsDown;
     if ([[timer userInfo] intValue] == 1){
     //Battery Saver
     loadPrefsVolAppUp();
-    reloadPrefs();
+    reloadVolPrefs();
     if(enablePowerUP == YES){
         [Excitant AUXtoggleLPM];
         NSLog(@"Running Toggle");
@@ -338,7 +350,7 @@ BOOL volDownButtonIsDown;
       static BOOL enablePowerDown*/
 	}else if ([[timer userInfo] intValue] == -1){
     loadPrefsVolAppDown();
-    reloadPrefs();
+    reloadVolPrefs();
     //Battery Saver
     if(enablePowerDown == YES){
         [Excitant AUXtoggleLPM];
@@ -698,20 +710,20 @@ tapRecognizer.numberOfTapsRequired = 2;
 //Start HomeHijack
 %hook SBAssistantController
 -(void)_viewWillAppearOnMainScreen:(BOOL)arg1{
-    loadSiriPrefs();
-    if(GetTouchBool(@"kCC")){
+    reloadHijackPrefs();
+    if(siriCC == YES){
         [Excitant AUXcontrolCenter];
         %orig;
-    }else if (GetTouchBool(@"kSiriRespring")){
+    }else if (siriRespring == YES){
       [Excitant AUXrespring];
-    }else if(selectedApp != nil){
-        [Excitant AUXlaunchApp:selectedApp];
-        %orig(NO);
-      }else if(GetTouchBool(@"kSiriFlash")){
+      }else if(siriFlash == YES){
         //Flashlight
             [Excitant AUXtoggleFlash];
-          }else if (GetTouchBool(@"kSiriBat")){
+          }else if (siriBat == YES){
               [Excitant AUXtoggleLPM];
+              }else if(selectedApp != nil){
+                  [Excitant AUXlaunchApp:selectedApp];
+                  %orig(NO);
               }else{
         %orig;
     }
@@ -721,14 +733,15 @@ tapRecognizer.numberOfTapsRequired = 2;
 
 %hook SBAssistantWindow
 -(id)initWithScreen:(id)arg1 layoutStrategy:(id)arg2 debugName:(id)arg3 scene:(id)arg4 {
-    loadSiriPrefs();
+    reloadHijackPrefs();
+
     if (selectedApp !=nil) {
         return NULL;
-    }else if(GetTouchBool(@"kCC")){
+    }else if(siriCC == YES){
         return NULL;
-    }else if (GetTouchBool(@"kSiriBat")){
+    }else if (siriBat == YES){
         return NULL;
-    }else if(GetTouchBool(@"kSiriFlash")){
+    }else if(siriFlash == YES){
         return NULL;
     }else{
         return %orig;
@@ -738,19 +751,27 @@ tapRecognizer.numberOfTapsRequired = 2;
 
 %hook SBHomeHardwareButtonActions
 -(void)performTriplePressUpActions{
-  loadPrefsTriTap();
-  if (GetTouchBool(@"kRespring")){
+  reloadHijackPrefs();
+  /*static BOOL siriCC;
+  static BOOL siriRespring;
+  static BOOL siriBat;
+  static BOOL siriFlash;
+  static BOOL tritapCC;
+  static BOOL tritapRespring;
+  static BOOL tritapBat;
+  static BOOL tritapFlash;*/
+  if (tritapRespring == YES){
     [Excitant AUXrespring];
-  }else if (GetTouchBool(@"kCCTap")){
+  }else if (tritapCC == YES){
     [Excitant AUXcontrolCenter];
-  }else if (tapLaunch != nil){
-    [Excitant AUXlaunchApp:tapLaunch];
-    }else if(GetTouchBool(@"kTapFlash")){
+    }else if(tritapFlash == YES){
     //Flashlight
         [Excitant AUXtoggleFlash];
       }
-      else if (GetTouchBool(@"kTapBat")){
+      else if (tritapBat == YES){
         [Excitant AUXtoggleLPM];
+        }else if (tapLaunch != nil){
+          [Excitant AUXlaunchApp:tapLaunch];
         }else{
     %orig;
   }
@@ -981,12 +1002,15 @@ If you're reading this listen to this xxxtentacion playlist:
 
 //Prefs for TapTapUtils
 %ctor{
-  reloadPrefs();
-CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadPrefs, kSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
+  reloadVolPrefs();
+CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadVolPrefs, kSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
+reloadHijackPrefs();
+CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadHijackPrefs, kHijackSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
     	@autoreleasepool {
     		%init(volFunction);
-    	}
-        %init(Main) //autoreleasepool for volskip, just applying it to everything rn
+    	}@autoreleasepool{
+        %init(Main)
+        } //autoreleasepool for volskip, just applying it to everything rn
 	NSString *currentID = NSBundle.mainBundle.bundleIdentifier;
 	//NSDictionary *settings = [[NSDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.clarke1234.taptivatorprefs.plist"];
 	// uicache = [settings objectForKey:@"uicache"];
