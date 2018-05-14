@@ -217,6 +217,7 @@ BOOL volDownButtonIsDown;
 
 	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	{
+	%orig;
     volUpButtonIsDown = YES;
       timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @1 repeats: NO];
 	}
@@ -262,6 +263,7 @@ BOOL volDownButtonIsDown;
 	//if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	if([%c(SBMediaController) applicationCanBeConsideredNowPlaying:[[%c(SBMediaController) sharedInstance] nowPlayingApplication]] == NO)
 	{
+	%orig;
     volDownButtonIsDown = YES;
 	    timer = [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(handleTimer:) userInfo: @-1 repeats: NO];
 	}
