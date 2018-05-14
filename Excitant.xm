@@ -136,7 +136,7 @@ void updateSettings(CFNotificationCenterRef center,
 NSString *switchpath = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/com.chilaxan.ezswitchprefs.plist"];
 NSDictionary *switchsettings = [NSMutableDictionary dictionaryWithContentsOfFile:switchpath];
 
-static BOOL isEzSwitchEnabled = (BOOL)[[switchsettings objectForKey:@"switchenabled"]?:@TRUE boolValue];
+static BOOL isEzSwitchEnabled = (BOOL)[[switchsettings objectForKey:@"switchenabled"]?:@FALSE boolValue];
 static NSInteger switchPreference = (NSInteger)[[switchsettings objectForKey:@"switchPreferences"]?:@9 integerValue];
 //End Mute Switch Prefs
 
