@@ -60,12 +60,12 @@ switchApp = [prefs objectForKey:@"switchApp"]; //Setting up variables
 
 
 
-static void loadPrefsVolAppUp() { //Triple Tap version
+static void loadPrefsVolAppUp() { //volume version applist
 NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:kSettingsPath];
 volUp = [prefs objectForKey:@"volUp"]; //Setting up variables
 }
 
-static void loadPrefsVolAppDown() { //Triple Tap version
+static void loadPrefsVolAppDown() { //volume down applist
 NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:kSettingsPath];
 volDown = [prefs objectForKey:@"volDown"]; //Setting up variables
 }
