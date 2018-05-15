@@ -414,14 +414,24 @@ ExcitantView *rightTopView;
 
 %hook SpringBoard
 -(void)applicationDidFinishLaunching:(id)application {
-	float width = GetTouchFloats(@"vWidth");
-    float height = GetTouchFloats(@"vHeight");
+  /*
+  static BOOL enableRB;
+  static BOOL enableRM;
+  static BOOL enableRT;
+  static BOOL enableLB;
+  static BOOL enableLM;
+  static BOOL enableLT;
+  static BOOL setColor;
+  static NSInteger numTaps;
+  static float height;
+  static float width;
+*/
 //Side Subviews
     %orig;
 		UIWindow * screen = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen]bounds]];
 
 		rightBottomView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height, - width, - height)];
-			if(GetPrefTouchesBool(@"setColor")){
+			if(setColor == YES){
 				[rightBottomView setBackgroundColor:[UIColor redColor]];
 			}else{
 				[rightBottomView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
@@ -431,7 +441,7 @@ ExcitantView *rightTopView;
 	    rightBottomView.userInteractionEnabled = TRUE;
 
 		  leftBottomView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height, width, - height)];
-			if(GetPrefTouchesBool(@"setColor")){
+			if(setColor == YES){
 				[leftBottomView setBackgroundColor:[UIColor redColor]];
 			}else{
 			[leftBottomView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
@@ -441,7 +451,7 @@ ExcitantView *rightTopView;
 	    leftBottomView.userInteractionEnabled = TRUE;
 
 			rightMiddleView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height*.60, - width, - height)];
-				if(GetPrefTouchesBool(@"setColor")){
+				if(setColor == YES){
 					[rightMiddleView setBackgroundColor:[UIColor blueColor]];
 				}else{
 					[rightMiddleView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
@@ -451,7 +461,7 @@ ExcitantView *rightTopView;
 		    rightMiddleView.userInteractionEnabled = TRUE;
 
 			leftMiddleView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height*.60, width, - height)];
-				if(GetPrefTouchesBool(@"setColor")){
+				if(setColor == YES){
 					[leftMiddleView setBackgroundColor:[UIColor blueColor]];
 				}else{
 				[leftMiddleView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
@@ -461,7 +471,7 @@ ExcitantView *rightTopView;
 		    leftMiddleView.userInteractionEnabled = TRUE;
 
 				rightTopView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height*0.001, - width,  height)];
-					if(GetPrefTouchesBool(@"setColor")){
+					if(setColor == YES){
 						[rightTopView setBackgroundColor:[UIColor greenColor]];
 					}else{
 						[rightTopView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
@@ -471,7 +481,7 @@ ExcitantView *rightTopView;
 			    rightTopView.userInteractionEnabled = TRUE;
 
 				leftTopView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.origin.x, screen.bounds.size.height*0.001, width,  height)];
-					if(GetPrefTouchesBool(@"setColor")){
+					if(setColor == YES){
 						[leftTopView setBackgroundColor:[UIColor greenColor]];
 					}else{
 					[leftTopView setBackgroundColor:[UIColor colorWithWhite:0.001 alpha:0.001]];
@@ -485,22 +495,33 @@ ExcitantView *rightTopView;
 		[window setHidden:NO];
 		[window setAlpha:1.0];
 		[window setBackgroundColor:[UIColor clearColor]];
-        if(GetTouchBool(@"enableRB")){
+    /*static BOOL enableRB;
+    static BOOL enableRM;
+    static BOOL enableRT;
+    static BOOL enableLB;
+    static BOOL enableLM;
+    static BOOL enableLT;
+    static BOOL setColor;
+    static NSInteger numTaps;
+    static float height;
+    static float width;
+*/
+        if(enableRB == YES){
         [window addSubview:rightBottomView];
     }else {nil;}
-      if(GetTouchBool(@"enableRM")){
+      if(enableRM == YES){
 		[window addSubview:rightMiddleView];
     }else {nil;}
-       if(GetTouchBool(@"enableRT")){
+       if(enableRT == YES){
 		[window addSubview:rightTopView];
     }else {nil;}
-       if(GetTouchBool(@"enableLB")){
+       if(enableLB == YES){
 		[window addSubview:leftBottomView];
     }else {nil;}
-       if(GetTouchBool(@"enableLM")){
+       if(enableLM == YES){
 		[window addSubview:leftMiddleView];
     }else {nil;}
-       if(GetTouchBool(@"enableLT")){
+       if(enableLT == YES){
 		[window addSubview:leftTopView];
     }else {nil;}
 
@@ -508,93 +529,103 @@ ExcitantView *rightTopView;
 tapRecognizer.numberOfTapsRequired = 2;
 [self addGestureRecognizer:tapRecognizer];*/
 
-
+/*static BOOL enableRB;
+static BOOL enableRM;
+static BOOL enableRT;
+static BOOL enableLB;
+static BOOL enableLM;
+static BOOL enableLT;
+static BOOL setColor;
+static NSInteger numTaps;
+static float height;
+static float width;
+*/
 		UITapGestureRecognizer *rightBottomRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerBottomRight:)];
-		if(GetPrefTouchesBool(@"taps2")){
+		if(numTaps = 2){
 	    rightBottomRecognizer.numberOfTapsRequired = 2;
 			[rightBottomView addGestureRecognizer:rightBottomRecognizer];
-		}else if(GetPrefTouchesBool(@"taps3")){
+		}else if(numTaps = 3){
 			rightBottomRecognizer.numberOfTapsRequired = 3;
 			[rightBottomView addGestureRecognizer:rightBottomRecognizer];
-		}else if (GetPrefTouchesBool(@"taps4")){
+		}else if (numTaps = 4){
 			rightBottomRecognizer.numberOfTapsRequired = 4;
 			[rightBottomView addGestureRecognizer:rightBottomRecognizer];
-		}else{
+		}else if (numTaps = 1){
 			rightBottomRecognizer.numberOfTapsRequired = 1;
 	    [rightBottomView addGestureRecognizer:rightBottomRecognizer];
 		}
 
 		UITapGestureRecognizer *leftBottomRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerBottomLeft:)];
-		if(GetPrefTouchesBool(@"taps2")){
+		if(numTaps = 2){
 			leftBottomRecognizer.numberOfTapsRequired = 2;
 			[leftBottomView addGestureRecognizer:leftBottomRecognizer];
-		}else if(GetPrefTouchesBool(@"taps3")){
+		}else if(numTaps = 3){
 			leftBottomRecognizer.numberOfTapsRequired = 3;
 			[leftBottomView addGestureRecognizer:leftBottomRecognizer];
-		}else if (GetPrefTouchesBool(@"taps4")){
+		}else if (numTaps = 4){
 			leftBottomRecognizer.numberOfTapsRequired = 4;
 			[leftBottomView addGestureRecognizer:leftBottomRecognizer];
-		}else{
+		}else if (numTaps = 1){
 			leftBottomRecognizer.numberOfTapsRequired = 1;
 			[leftBottomView addGestureRecognizer:leftBottomRecognizer];
 		}
 
 		UITapGestureRecognizer *leftMiddleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerLeftMiddle:)];
-		if(GetPrefTouchesBool(@"taps2")){
+		if(numTaps = 2){
 			leftMiddleRecognizer.numberOfTapsRequired = 2;
 			[leftMiddleView addGestureRecognizer:leftMiddleRecognizer];
-		}else if(GetPrefTouchesBool(@"taps3")){
+		}else if(numTaps = 3){
 			leftMiddleRecognizer.numberOfTapsRequired = 3;
 			[leftMiddleView addGestureRecognizer:leftMiddleRecognizer];
-		}else if (GetPrefTouchesBool(@"taps4")){
+		}else if (numTaps = 4){
 			leftMiddleRecognizer.numberOfTapsRequired = 4;
 			[leftMiddleView addGestureRecognizer:leftMiddleRecognizer];
-		}else{
+		}else (numTaps = 1){
 			leftMiddleRecognizer.numberOfTapsRequired = 1;
 			[leftMiddleView addGestureRecognizer:leftMiddleRecognizer];
 		}
 
 		UITapGestureRecognizer *rightMiddleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerRightMiddle:)];
-		if(GetPrefTouchesBool(@"taps2")){
+		if(numTaps = 2){
 			rightMiddleRecognizer.numberOfTapsRequired = 2;
 			[rightMiddleView addGestureRecognizer:rightMiddleRecognizer];
-		}else if(GetPrefTouchesBool(@"taps3")){
+		}else if(numTaps = 3){
 			rightMiddleRecognizer.numberOfTapsRequired = 3;
 			[rightMiddleView addGestureRecognizer:rightMiddleRecognizer];
-		}else if (GetPrefTouchesBool(@"taps4")){
+		}else if (numTaps = 4){
 			rightMiddleRecognizer.numberOfTapsRequired = 4;
 			[rightMiddleView addGestureRecognizer:rightMiddleRecognizer];
-		}else{
+		}else (numTaps = 1){
 			rightMiddleRecognizer.numberOfTapsRequired = 1;
 			[rightMiddleView addGestureRecognizer:rightMiddleRecognizer];
 		}
 
 		UITapGestureRecognizer *leftTopRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerLeftTop:)];
-		if(GetPrefTouchesBool(@"taps2")){
+		if(numTaps = 2){
 			leftTopRecognizer.numberOfTapsRequired = 2;
 			[leftTopView addGestureRecognizer:leftTopRecognizer];
-		}else if(GetPrefTouchesBool(@"taps3")){
+		}else if(numTaps = 3){
 			leftTopRecognizer.numberOfTapsRequired = 3;
 			[leftTopView addGestureRecognizer:leftTopRecognizer];
-		}else if (GetPrefTouchesBool(@"taps4")){
+		}else if (numTaps = 4){
 			leftTopRecognizer.numberOfTapsRequired = 4;
 			[leftTopView addGestureRecognizer:leftTopRecognizer];
-		}else{
+		}else (numTaps = 1){
 			leftTopRecognizer.numberOfTapsRequired = 1;
 			[leftTopView addGestureRecognizer:leftTopRecognizer];
 		}
 
 		UITapGestureRecognizer *rightTopRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerRightTop:)];
-		if(GetPrefTouchesBool(@"taps2")){
+		if(numTaps = 2){
 			rightTopRecognizer.numberOfTapsRequired = 2;
 			[rightTopView addGestureRecognizer:rightTopRecognizer];
-		}else if(GetPrefTouchesBool(@"taps3")){
+		}else if(numTaps = 3){
 			rightTopRecognizer.numberOfTapsRequired = 3;
 			[rightTopView addGestureRecognizer:rightTopRecognizer];
-		}else if (GetPrefTouchesBool(@"taps4")){
+		}else if (numTaps = 4){
 			rightTopRecognizer.numberOfTapsRequired = 4;
 			[rightTopView addGestureRecognizer:rightTopRecognizer];
-		}else{
+		}else (numTaps = 1){
 			rightTopRecognizer.numberOfTapsRequired = 1;
 			[rightTopView addGestureRecognizer:rightTopRecognizer];
 		}
