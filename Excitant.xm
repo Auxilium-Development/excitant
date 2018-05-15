@@ -164,7 +164,6 @@ void updateSettings(CFNotificationCenterRef center,
 NSString *switchpath = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/com.chilaxan.ezswitchprefs.plist"];
 NSDictionary *switchsettings = [NSMutableDictionary dictionaryWithContentsOfFile:switchpath];
 
-static BOOL isEzSwitchEnabled = (BOOL)[[switchsettings objectForKey:@"switchenabled"]?:@FALSE boolValue];
 static NSInteger switchPreference = (NSInteger)[[switchsettings objectForKey:@"switchPreferences"]?:@9 integerValue];
 //End Mute Switch Prefs
 
@@ -644,32 +643,27 @@ static float width;
 //Mute Switch Function
 - (void)_updateRingerState:(int)arg1 withVisuals:(BOOL)arg2 updatePreferenceRegister:(BOOL)arg3 {
   loadSwitchApp();
-	if(!isEzSwitchEnabled) {
-	     %orig;
-	}
 	if(arg1) {
-		if (isEzSwitchEnabled) {
-			if (switchPreference == 0) {
-				[Excitant AUXtoggleFlash];
-				}
-			if (switchPreference == 1){
-				[Excitant AUXtoggleLPM];
-			}
-			if (switchPreference == 2) {
-                             [Excitant AUXtoggleAirplaneMode];
-			}
-                        if (switchPreference == 3) {
-                             [Excitant AUXtoggleMute]; //DOES NOT WORK YET
-			}
-			if (switchPreference == 4) {
-                             [Excitant AUXtoggleRotationLock];
-			}
-      if (switchPreference == 5) {
-                              [Excitant AUXlaunchApp:switchApp];
-      }
-		} else {
-			%orig;
+		if (switchPreference == 0) {
+			[Excitant AUXtoggleFlash];
 		}
+		if (switchPreference == 1){
+			[Excitant AUXtoggleLPM];
+		}
+		if (switchPreference == 2) {
+                        [Excitant AUXtoggleAirplaneMode];
+		}
+                if (switchPreference == 3) {
+                        [Excitant AUXtoggleMute];
+		}
+		if (switchPreference == 4) {
+                        [Excitant AUXtoggleRotationLock];
+		}
+      		if (switchPreference == 5) {
+                        [Excitant AUXlaunchApp:switchApp];
+      		}
+	} else {
+		%orig;
 	}
 }
 //End Mute Switch Function
