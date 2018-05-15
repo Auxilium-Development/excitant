@@ -1030,6 +1030,8 @@ If you're reading this listen to this xxxtentacion playlist:
 CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadVolPrefs, kSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
 reloadHijackPrefs();
 CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadHijackPrefs, kHijackSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
+reloadTouchesPrefs();
+CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadTouchesPrefs, kHijackSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
     	@autoreleasepool {
     		%init(volFunction);
     	}@autoreleasepool{

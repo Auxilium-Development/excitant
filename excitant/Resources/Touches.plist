@@ -22,6 +22,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTOUCHES.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTOUCHES.plist/saved</string>
 			<key>key</key>
 			<string>enableRB</string>
 			<key>label</key>
@@ -34,6 +36,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTOUCHES.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTOUCHES.plist/saved</string>
 			<key>key</key>
 			<string>enableRM</string>
 			<key>label</key>
@@ -46,6 +50,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTOUCHES.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTOUCHES.plist/saved</string>
 			<key>key</key>
 			<string>enableRT</string>
 			<key>label</key>
@@ -59,6 +65,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTOUCHES.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTOUCHES.plist/saved</string>
 			<key>key</key>
 			<string>enableLB</string>
 			<key>label</key>
@@ -72,6 +80,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTOUCHES.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTOUCHES.plist/saved</string>
 			<key>key</key>
 			<string>enableLM</string>
 			<key>label</key>
@@ -85,6 +95,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTOUCHES.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTOUCHES.plist/saved</string>
 			<key>key</key>
 			<string>enableLT</string>
 			<key>label</key>
@@ -405,6 +417,8 @@
 				<integer>1</integer>
 				<key>defaults</key>
 				<string>EXCITANTTOUCHES.plist</string>
+				<key>PostNotification</key>
+				<string>EXCITANTTOUCHES.plist/saved</string>
 				<key>key</key>
 				<string>numTaps</string>
 				<key>max</key>
@@ -426,6 +440,8 @@
 							<false/>
 							<key>defaults</key>
 							<string>EXCITANTTOUCHES.plist</string>
+							<key>PostNotification</key>
+							<string>EXCITANTTOUCHES.plist/saved</string>
 							<key>key</key>
 							<string>setColor</string>
 							<key>label</key>
@@ -448,7 +464,9 @@
 				<key>default</key>
 				<integer>100</integer> <!-- Default value of the slider -->
 				<key>defaults</key>
-				<string>EXCITANTTOUCHES.plist</string> <!-- Path to your Entry.plist (WithoutExtension) -->
+				<string>EXCITANTTOUCHES.plist</string>
+				<key>PostNotification</key>
+				<string>EXCITANTTOUCHES.plist/saved</string> <!-- Path to your Entry.plist (WithoutExtension) -->
 				<key>key</key>
 				<string>vHeight</string> <!-- Your key name here -->
 				<key>max</key>
@@ -467,7 +485,9 @@
 				<key>default</key>
 				<integer>10</integer> <!-- Default value of the slider -->
 				<key>defaults</key>
-				<string>EXCITANTTOUCHES.plist</string> <!-- Path to your Entry.plist (WithoutExtension) -->
+				<string>EXCITANTTOUCHES.plist</string>
+				<key>PostNotification</key>
+				<string>EXCITANTTOUCHES.plist/saved</string> <!-- Path to your Entry.plist (WithoutExtension) -->
 				<key>key</key>
 				<string>vWidth</string> <!-- Your key name here -->
 				<key>max</key>
