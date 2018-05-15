@@ -128,7 +128,10 @@ static BOOL enableRT;
 static BOOL enableLB;
 static BOOL enableLM;
 static BOOL enableLT;
+static BOOL setColor;
 static NSInteger numTaps;
+static float height;
+static float width;
 
 static void reloadTouchesPrefs() { //Vol Prefs
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
@@ -139,7 +142,11 @@ static void reloadTouchesPrefs() { //Vol Prefs
     enableLB = defaults[@"enableLB"] ? [defaults[@"enableLB"] boolValue] : NO;
     enableLM = defaults[@"enableLM"] ? [defaults[@"enableLM"] boolValue] : NO;
     enableLT = defaults[@"enableLT"] ? [defaults[@"enableLT"] boolValue] : NO;
-    numTaps = defaults[@"numTaps"];
+    enableColor = defaults[@"setColor"] ? [defaults[@"setColor"] boolValue] : NO;
+    numTaps = defaults[@"numTaps"] ? [defaults[@"numTaps"] intValue] : 1;
+    height = defaults[@"vHeight"] ? [defaults[@"vHeight"] floatValue] : 100;
+    width = defaults[@"vWidth"] ? [defaults[@"vWidth"] floatValue] : 10;
+
 }
 
 void updateSettings(CFNotificationCenterRef center,
