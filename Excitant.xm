@@ -128,7 +128,7 @@ static BOOL enableRT;
 static BOOL enableLB;
 static BOOL enableLM;
 static BOOL enableLT;
-static NSString numTaps;
+static NSInteger numTaps;
 
 static void reloadTouchesPrefs() { //Vol Prefs
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
