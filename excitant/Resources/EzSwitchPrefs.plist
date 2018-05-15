@@ -11,18 +11,10 @@
 						<string>Mute Switch</string>
 				</dict>
 				<dict>
-					<key>cell</key>
-						<string>PSSwitchCell</string>
-					<key>default</key>
-						<true/>
-					<key>defaults</key>
-						<string>com.chilaxan.ezswitchprefs</string>
-					<key>id</key>
-						<string>switchenabled</string>
-					<key>key</key>
-						<string>switchenabled</string>
-					<key>label</key>
-						<string>Enabled</string>
+				<key>cell</key>
+					<string>PSGroupCell</string>
+				<key>label</key>
+					<string>To disable this feature, select Mute in the list</string>
 				</dict>
 				<dict>
 					<key>PostNotification</key>
@@ -30,7 +22,7 @@
 					<key>cell</key>
 						<string>PSLinkListCell</string>
 					<key>default</key>
-						<integer>2</integer>
+						<integer>3</integer>
 					<key>defaults</key>
 						<string>com.chilaxan.ezswitchprefs</string>
 					<key>key</key>
@@ -55,10 +47,9 @@
 							<string>Toggle Flashlight</string>
 							<string>Toggle Low Power Mode</string>
 							<string>Toggle Airplane Mode</string>
-                            <string>Toggle Mute *Does not work yet</string>
-                            <string>Toggle Rotation Lock</string>
-														<string>Open an App</string>
-
+                           				<string>Toggle Mute</string>
+                        				<string>Toggle Rotation Lock</string>
+							<string>Open an App</string>
 						</array>
 				</dict>
 				<dict>
