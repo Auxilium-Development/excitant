@@ -122,6 +122,26 @@ static void reloadHijackPrefs() { //Vol Prefs
     tritapFlash = defaults[@"kTapFlash"] ? [defaults[@"kTapFlash"] boolValue] : NO;
 }
 
+static BOOL enableRB;
+static BOOL enableRM;
+static BOOL enableRT;
+static BOOL enableLB;
+static BOOL enableLM;
+static BOOL enableLT;
+static NSString numTaps;
+
+static void reloadTouchesPrefs() { //Vol Prefs
+    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
+    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH]];
+    enableRB = defaults[@"enableRB"] ? [defaults[@"enableRB"] boolValue] : NO;
+    enableRM = defaults[@"enableRM"] ? [defaults[@"enableRM"] boolValue] : NO;
+    enableRT = defaults[@"enableRT"] ? [defaults[@"enableRT"] boolValue] : NO;
+    enableLB = defaults[@"enableLB"] ? [defaults[@"enableLB"] boolValue] : NO;
+    enableLM = defaults[@"enableLM"] ? [defaults[@"enableLM"] boolValue] : NO;
+    enableLT = defaults[@"enableLT"] ? [defaults[@"enableLT"] boolValue] : NO;
+    numTaps = defaults[@"numTaps"];
+}
+
 void updateSettings(CFNotificationCenterRef center,
                     void *observer,
                     CFStringRef name,
@@ -129,6 +149,7 @@ void updateSettings(CFNotificationCenterRef center,
                     CFDictionaryRef userInfo) {
     reloadVolPrefs();
     reloadHijackPrefs();
+    reloadTouchesPrefs();
 }
 
 

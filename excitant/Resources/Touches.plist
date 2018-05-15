@@ -397,44 +397,27 @@
 			<key>footerText</key>
 			<string>Configuation Stuff</string>
 	</dict>
-	<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>EXCITANTTOUCHES.plist</string>
-			<key>key</key>
-			<string>taps2</string>
-			<key>label</key>
-			<string>Open with 2 Taps</string>
-	</dict>
 
 			<dict>
-					<key>cell</key>
-					<string>PSSwitchCell</string>
-					<key>default</key>
-					<false/>
-					<key>defaults</key>
-					<string>EXCITANTTOUCHES.plist</string>
-					<key>key</key>
-					<string>taps3</string>
-					<key>label</key>
-					<string>Open with 3 Taps</string>
-			</dict>
-
-			<dict>
-							<key>cell</key>
-							<string>PSSwitchCell</string>
-							<key>default</key>
-							<false/>
-							<key>defaults</key>
-							<string>EXCITANTTOUCHES.plist</string>
-							<key>key</key>
-							<string>taps4</string>
-							<key>label</key>
-							<string>Open with 4 Taps</string>
-			</dict>
+				<key>cell</key>
+				<string>PSSliderCell</string>
+				<key>default</key>
+				<integer>1</integer>
+				<key>defaults</key>
+				<string>EXCITANTTOUCHES.plist</string>
+				<key>key</key>
+				<string>numTaps</string>
+				<key>max</key>
+				<real>4</real> <!-- Enter your maximum value here -->
+				<key>min</key>
+				<key>1</key>
+				<key>showValue</key> <!-- Show the value of the slider. true or false. -->
+				<true/>
+				<key>segmentCount</key>
+				<integer>1</integer>
+				<key>label</key>
+				<string>Set Number of Taps</string>
+		</dict>
 
 			<dict>
 							<key>cell</key>
