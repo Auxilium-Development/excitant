@@ -1028,9 +1028,7 @@ reloadTouchesPrefs();
 CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadTouchesPrefs, kHijackSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
     	@autoreleasepool {
     		%init(volFunction);
-    	}@autoreleasepool{
-        %init(Main)
-        } //autoreleasepool for volskip, just applying it to everything rn
+        } %init(Main)//autoreleasepool for volskip, just applying it to everything rn
 	NSString *currentID = NSBundle.mainBundle.bundleIdentifier;
 	//NSDictionary *settings = [[NSDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.clarke1234.taptivatorprefs.plist"];
 	// uicache = [settings objectForKey:@"uicache"];
