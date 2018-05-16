@@ -398,8 +398,6 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
-			<key>PostNotification</key>
-			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>enableRespring</string>
 			<key>label</key>
@@ -418,8 +416,6 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
-			<key>PostNotification</key>
-			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>enableSleep</string>
 			<key>label</key>

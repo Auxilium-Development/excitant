@@ -172,7 +172,7 @@ static BOOL tapsleep;
 
 static void reloadTapTapPrefs() { //Vol Prefs
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
-    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:kTapTap]];
+    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH]];
     taptaps2 = defaults[@"taptaps2"] ? [defaults[@"taptaps2"] boolValue] : NO;
     taptaps3 = defaults[@"taptaps3"] ? [defaults[@"taptaps3"] boolValue] : NO;
     taptaps4 = defaults[@"taptaps4"] ? [defaults[@"taptaps4"] boolValue] : NO;
@@ -1009,7 +1009,7 @@ If you're reading this listen to this xxxtentacion playlist:
 %new
 
 - (void)launchApp {
-                      //TY Midnight :D
+  loadTapApp();                    //TY Midnight :D
 	[Excitant AUXlaunchApp:tapapp];
 }
 
