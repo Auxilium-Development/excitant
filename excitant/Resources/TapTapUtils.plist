@@ -26,6 +26,8 @@
 			<true/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>taptaps2</string>
 			<key>label</key>
@@ -39,6 +41,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>taptaps3</string>
 			<key>label</key>
@@ -52,6 +56,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>taptaps4</string>
 			<key>label</key>
@@ -72,6 +78,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>enableAppTap</string>
 			<key>label</key>
@@ -185,12 +193,14 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>enableUtils</string>
 			<key>label</key>
 			<string>Enable</string>
 		</dict>
-	
+
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
@@ -198,6 +208,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>uicache</string>
 			<key>label</key>
@@ -210,6 +222,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>respring</string>
 			<key>label</key>
@@ -222,6 +236,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>reboot</string>
 			<key>label</key>
@@ -234,6 +250,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>safemode</string>
 			<key>label</key>
@@ -246,6 +264,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>shutdown</string>
 			<key>label</key>
@@ -258,6 +278,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>sleep</string>
 			<key>label</key>
@@ -276,6 +298,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>enableFlash</string>
 			<key>label</key>
@@ -294,6 +318,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>enableLPM</string>
 			<key>label</key>
@@ -312,6 +338,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>enableAPM</string>
 			<key>label</key>
@@ -330,6 +358,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>enableRL</string>
 			<key>label</key>
@@ -348,6 +378,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>enableCC</string>
 			<key>label</key>
@@ -366,6 +398,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>enableRespring</string>
 			<key>label</key>
@@ -384,6 +418,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>EXCITANTTAPS.plist</string>
+			<key>PostNotification</key>
+			<string>EXCITANTTAPS.plist/saved</string>
 			<key>key</key>
 			<string>enableSleep</string>
 			<key>label</key>
@@ -407,4 +443,4 @@
 	<key>title</key>
 	<string>Tapping the Staus Bar</string>
 </dict>
-</plist> 
+</plist>

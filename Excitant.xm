@@ -12,6 +12,7 @@
 
 
 #define PLIST_PATH @"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"
+#define kTapTap (CFStringRef)@"EXCITANTTAPS.plist/saved"
 #define EXCITANTTOUCHES_PATH @"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"
 #define kVolPath @"/var/mobile/Library/Preferences/com.midnightchips.volume.plist"
 #define kHijackSettingsChangedNotification (CFStringRef)@"EXCITANTTOUCHES.plist/saved"
@@ -142,13 +143,55 @@ static void reloadTouchesPrefs() { //Vol Prefs
     enableLB = defaults[@"enableLB"] ? [defaults[@"enableLB"] boolValue] : NO;
     enableLM = defaults[@"enableLM"] ? [defaults[@"enableLM"] boolValue] : NO;
     enableLT = defaults[@"enableLT"] ? [defaults[@"enableLT"] boolValue] : NO;
-    enableColor = defaults[@"setColor"] ? [defaults[@"setColor"] boolValue] : NO;
+    setColor = defaults[@"setColor"] ? [defaults[@"setColor"] boolValue] : NO;
     numTaps = defaults[@"numTaps"] ? [defaults[@"numTaps"] intValue] : 1;
     height = defaults[@"vHeight"] ? [defaults[@"vHeight"] floatValue] : 100;
     width = defaults[@"vWidth"] ? [defaults[@"vWidth"] floatValue] : 10;
 
 }
+static BOOL taptaps2;
+static BOOL taptaps3;
+static BOOL taptaps4;
+static BOOL enableAppTap;
+static BOOL enableUtils;
+static BOOL uicache;
+static BOOL respring;
+static BOOL tapreboot;
+static BOOL safemode;
+static BOOL shutdown;
+static BOOL enableFlash;
+static BOOL enableLPM;
+static BOOL enableAPM;
+static BOOL enableRL;
+static BOOL enableCC;
+static BOOL enableRespring;
+static BOOL enableSleep;
+static BOOL tapsleep;
 
+
+
+static void reloadTapTapPrefs() { //Vol Prefs
+    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
+    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:kTapTap]];
+    taptaps2 = defaults[@"taptaps2"] ? [defaults[@"taptaps2"] boolValue] : NO;
+    taptaps3 = defaults[@"taptaps3"] ? [defaults[@"taptaps3"] boolValue] : NO;
+    taptaps4 = defaults[@"taptaps4"] ? [defaults[@"taptaps4"] boolValue] : NO;
+    enableAppTap = defaults[@"enableAppTap"] ? [defaults[@"enableAppTap"] boolValue] : NO;
+    enableUtils = defaults[@"enableUtils"] ? [defaults[@"enableUtils"] boolValue] : NO;
+    uicache = defaults[@"uicache"] ? [defaults[@"uicache"] boolValue] : NO;
+    respring = defaults[@"respring"] ? [defaults[@"respring"] boolValue] : NO;
+    tapreboot = defaults[@"reboot"] ? [defaults[@"reboot"] boolValue] : NO;
+    safemode = defaults[@"safemode"] ? [defaults[@"safemode"] boolValue] : NO;
+    shutdown = defaults[@"shutdown"] ? [defaults[@"shutdown"] boolValue] : NO;
+    enableFlash = defaults[@"enableFlash"] ? [defaults[@"enableFlash"] boolValue] : NO;
+    enableLPM = defaults[@"enableLPM"] ? [defaults[@"enableLPM"] boolValue] : NO;
+    enableAPM = defaults[@"enableAPM"] ? [defaults[@"enableAPM"] boolValue] : NO;
+    enableRL = defaults[@"enableRL"] ? [defaults[@"enableRL"] boolValue] : NO;
+    enableCC = defaults[@"enableCC"] ? [defaults[@"enableCC"] boolValue] : NO;
+    enableRespring = defaults[@"enableRespring"] ? [defaults[@"enableRespring"] boolValue] : NO;
+    enableSleep = defaults[@"enableSleep"] ? [defaults[@"enableSleep"] boolValue] : NO;
+    tapsleep = defaults[@"sleep"] ? [defaults[@"sleep"] boolValue] : NO;
+}
 void updateSettings(CFNotificationCenterRef center,
                     void *observer,
                     CFStringRef name,
@@ -157,6 +200,7 @@ void updateSettings(CFNotificationCenterRef center,
     reloadVolPrefs();
     reloadHijackPrefs();
     reloadTouchesPrefs();
+    reloadTapTapPrefs();
 }
 
 
@@ -181,6 +225,11 @@ static NSString *touchesLeftMiddle;
 static NSString *touchesLeftTop;
 
 
+//APPLIST DONT DELETE THESE ONE K THX
+static void loadTapApp() { //Triple Tap version
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"];
+tapapp = [prefs objectForKey:@"launchTapApp"]; //Setting up variables
+}
 
 static void loadPrefsTouchesRightBottom() { //Triple Tap version
 NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
@@ -211,7 +260,7 @@ static void loadPrefsTouchesLeftTop() { //Triple Tap version
 NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"];
 touchesLeftTop = [prefs objectForKey:@"touchesAppLeftTop"]; //Setting up variables
 }
-
+//STILL DONT DELETE THOSE K THX :) ^
 
 
 @implementation ExcitantWindow
@@ -540,91 +589,91 @@ static float height;
 static float width;
 */
 		UITapGestureRecognizer *rightBottomRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerBottomRight:)];
-		if(numTaps = 2){
+		if(numTaps == 2){
 	    rightBottomRecognizer.numberOfTapsRequired = 2;
 			[rightBottomView addGestureRecognizer:rightBottomRecognizer];
-		}else if(numTaps = 3){
+		}else if(numTaps == 3){
 			rightBottomRecognizer.numberOfTapsRequired = 3;
 			[rightBottomView addGestureRecognizer:rightBottomRecognizer];
-		}else if (numTaps = 4){
+		}else if (numTaps == 4){
 			rightBottomRecognizer.numberOfTapsRequired = 4;
 			[rightBottomView addGestureRecognizer:rightBottomRecognizer];
-		}else if (numTaps = 1){
+		}else if (numTaps == 1){
 			rightBottomRecognizer.numberOfTapsRequired = 1;
 	    [rightBottomView addGestureRecognizer:rightBottomRecognizer];
 		}
 
 		UITapGestureRecognizer *leftBottomRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerBottomLeft:)];
-		if(numTaps = 2){
+		if(numTaps == 2){
 			leftBottomRecognizer.numberOfTapsRequired = 2;
 			[leftBottomView addGestureRecognizer:leftBottomRecognizer];
-		}else if(numTaps = 3){
+		}else if(numTaps == 3){
 			leftBottomRecognizer.numberOfTapsRequired = 3;
 			[leftBottomView addGestureRecognizer:leftBottomRecognizer];
-		}else if (numTaps = 4){
+		}else if (numTaps == 4){
 			leftBottomRecognizer.numberOfTapsRequired = 4;
 			[leftBottomView addGestureRecognizer:leftBottomRecognizer];
-		}else if (numTaps = 1){
+		}else if (numTaps == 1){
 			leftBottomRecognizer.numberOfTapsRequired = 1;
 			[leftBottomView addGestureRecognizer:leftBottomRecognizer];
 		}
 
 		UITapGestureRecognizer *leftMiddleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerLeftMiddle:)];
-		if(numTaps = 2){
+		if(numTaps == 2){
 			leftMiddleRecognizer.numberOfTapsRequired = 2;
 			[leftMiddleView addGestureRecognizer:leftMiddleRecognizer];
-		}else if(numTaps = 3){
+		}else if(numTaps == 3){
 			leftMiddleRecognizer.numberOfTapsRequired = 3;
 			[leftMiddleView addGestureRecognizer:leftMiddleRecognizer];
-		}else if (numTaps = 4){
+		}else if (numTaps == 4){
 			leftMiddleRecognizer.numberOfTapsRequired = 4;
 			[leftMiddleView addGestureRecognizer:leftMiddleRecognizer];
-		}else (numTaps = 1){
+		}else if(numTaps == 1){
 			leftMiddleRecognizer.numberOfTapsRequired = 1;
 			[leftMiddleView addGestureRecognizer:leftMiddleRecognizer];
 		}
 
 		UITapGestureRecognizer *rightMiddleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerRightMiddle:)];
-		if(numTaps = 2){
+		if(numTaps == 2){
 			rightMiddleRecognizer.numberOfTapsRequired = 2;
 			[rightMiddleView addGestureRecognizer:rightMiddleRecognizer];
-		}else if(numTaps = 3){
+		}else if(numTaps == 3){
 			rightMiddleRecognizer.numberOfTapsRequired = 3;
 			[rightMiddleView addGestureRecognizer:rightMiddleRecognizer];
-		}else if (numTaps = 4){
+		}else if (numTaps == 4){
 			rightMiddleRecognizer.numberOfTapsRequired = 4;
 			[rightMiddleView addGestureRecognizer:rightMiddleRecognizer];
-		}else (numTaps = 1){
+		}else if (numTaps == 1){
 			rightMiddleRecognizer.numberOfTapsRequired = 1;
 			[rightMiddleView addGestureRecognizer:rightMiddleRecognizer];
 		}
 
 		UITapGestureRecognizer *leftTopRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerLeftTop:)];
-		if(numTaps = 2){
+		if(numTaps == 2){
 			leftTopRecognizer.numberOfTapsRequired = 2;
 			[leftTopView addGestureRecognizer:leftTopRecognizer];
-		}else if(numTaps = 3){
+		}else if(numTaps == 3){
 			leftTopRecognizer.numberOfTapsRequired = 3;
 			[leftTopView addGestureRecognizer:leftTopRecognizer];
-		}else if (numTaps = 4){
+		}else if (numTaps == 4){
 			leftTopRecognizer.numberOfTapsRequired = 4;
 			[leftTopView addGestureRecognizer:leftTopRecognizer];
-		}else (numTaps = 1){
+		}else if (numTaps == 1){
 			leftTopRecognizer.numberOfTapsRequired = 1;
 			[leftTopView addGestureRecognizer:leftTopRecognizer];
 		}
 
 		UITapGestureRecognizer *rightTopRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TouchRecognizerRightTop:)];
-		if(numTaps = 2){
+		if(numTaps == 2){
 			rightTopRecognizer.numberOfTapsRequired = 2;
 			[rightTopView addGestureRecognizer:rightTopRecognizer];
-		}else if(numTaps = 3){
+		}else if(numTaps == 3){
 			rightTopRecognizer.numberOfTapsRequired = 3;
 			[rightTopView addGestureRecognizer:rightTopRecognizer];
-		}else if (numTaps = 4){
+		}else if (numTaps == 4){
 			rightTopRecognizer.numberOfTapsRequired = 4;
 			[rightTopView addGestureRecognizer:rightTopRecognizer];
-		}else (numTaps = 1){
+		}else if (numTaps == 1){
 			rightTopRecognizer.numberOfTapsRequired = 1;
 			[rightTopView addGestureRecognizer:rightTopRecognizer];
 		}
@@ -874,22 +923,41 @@ If you're reading this listen to this xxxtentacion playlist:
                                         notify_post("com.kietha.taptapsleep");
                                     }];
 
-		if (GetPrefBool(@"uicache")){
+                                    /*static BOOL taptaps2;
+                                    static BOOL taptaps3;
+                                    static BOOL taptaps4;
+                                    static BOOL enableAppTap;
+                                    static BOOL enableUtils;
+                                    static BOOL uicache;
+                                    static BOOL respring;
+                                    static BOOL reboot;
+                                    static BOOL safemode;
+                                    static BOOL shutdown;
+                                    static BOOL enableFlash;
+                                    static BOOL enableLPM;
+                                    static BOOL enableAPM;
+                                    static BOOL enableRL;
+                                    static BOOL enableCC;
+                                    static BOOL enableRespring;
+                                    static BOOL enableSleep;
+*/
+
+		if (uicache == YES){
         	[confirmationAlertController addAction:confirmUiCache];
 		}
-		if (GetPrefBool(@"respring")){
+		if (respring == YES){
 	        [confirmationAlertController addAction:confirmRespring];
 		}
-		if (GetPrefBool(@"reboot")){
+		if (tapreboot == YES){
 			[confirmationAlertController addAction:confirmReboot];
 		}
-		if (GetPrefBool(@"safemode")){
+		if (safemode == YES){
 			[confirmationAlertController addAction:confirmSafemode];
 		}
-		if (GetPrefBool(@"shutdown")){
+		if (shutdown == YES){
 			[confirmationAlertController addAction:confirmShutdown];
 		}
-		if (GetPrefBool(@"sleep")){
+		if (tapsleep == YES){
 			[confirmationAlertController addAction:confirmSleep];
 		}
 		[confirmationAlertController addAction:confirmCancel];
@@ -941,8 +1009,7 @@ If you're reading this listen to this xxxtentacion playlist:
 %new
 
 - (void)launchApp {
-	NSDictionary *Tapprefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"];
-	tapapp = [Tapprefs objectForKey:@"launchAppTap"]; //doesnt work
+                      //TY Midnight :D
 	[Excitant AUXlaunchApp:tapapp];
 }
 
@@ -951,61 +1018,78 @@ If you're reading this listen to this xxxtentacion playlist:
 - (instancetype)initWithFrame:(CGRect)frame {
     self = %orig;
 	int taps;
-	if(GetPrefBool(@"taptaps2")){
+  /*static BOOL taptaps2;
+  static BOOL taptaps3;
+  static BOOL taptaps4;
+  static BOOL enableAppTap;
+  static BOOL enableUtils;
+  static BOOL uicache;
+  static BOOL respring;
+  static BOOL reboot;
+  static BOOL safemode;
+  static BOOL shutdown;
+  static BOOL enableFlash;
+  static BOOL enableLPM;
+  static BOOL enableAPM;
+  static BOOL enableRL;
+  static BOOL enableCC;
+  static BOOL enableRespring;
+  static BOOL enableSleep;*/
+	if(taptaps2 == YES){
 		taps = 2;
 	}
-	else if(GetPrefBool(@"taptaps3")){
+	else if(taptaps3 == YES){
 		taps = 3;
 	}
-	else if(GetPrefBool(@"taptaps4")){
+	else if(taptaps4 == YES){
 		taps = 4;
 	}
 	else {
 		taps = 2;
 	}
-    if(GetPrefBool(@"enableUtils")){
+    if(enableUtils == YES){
         UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TapTapUtils)];
         tapRecognizer.numberOfTapsRequired = taps;
         [self addGestureRecognizer:tapRecognizer];
 
         //return self;
     }
-	if(GetPrefBool(@"enableFlash")){
+	if(enableFlash == YES){
 		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(flash)];
         tapRecognizer.numberOfTapsRequired = taps;
         [self addGestureRecognizer:tapRecognizer];
 	}
-	if(GetPrefBool(@"enableLPM")){
+	if(enableLPM == YES){
 		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lpm)];
         tapRecognizer.numberOfTapsRequired = taps;
         [self addGestureRecognizer:tapRecognizer];
 	}
-	if(GetPrefBool(@"enableAPM")){
+	if(enableAPM == YES){
 		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(apm)];
         tapRecognizer.numberOfTapsRequired = taps;
         [self addGestureRecognizer:tapRecognizer];
 	}
-	if(GetPrefBool(@"enableRL")){
+	if(enableRL == YES){
 		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rotationLock)];
         tapRecognizer.numberOfTapsRequired = taps;
         [self addGestureRecognizer:tapRecognizer];
 	}
-	if(GetPrefBool(@"enableCC")){
+	if(enableCC == YES){
 		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(controlCenter)];
         tapRecognizer.numberOfTapsRequired = taps;
         [self addGestureRecognizer:tapRecognizer];
 	}
-	if(GetPrefBool(@"enableRespring")){
+	if(enableRespring == YES){
 		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(respring)];
         tapRecognizer.numberOfTapsRequired = taps;
         [self addGestureRecognizer:tapRecognizer];
 	}
-	if(GetPrefBool(@"enableSleep")){
+	if(enableSleep == YES){
 		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lockDevice)];
         tapRecognizer.numberOfTapsRequired = taps;
         [self addGestureRecognizer:tapRecognizer];
 	}
-	if(GetPrefBool(@"enableAppTap")){
+	if(enableAppTap == YES){
 		UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(launchApp)];
         tapRecognizer.numberOfTapsRequired = taps;
         [self addGestureRecognizer:tapRecognizer];
@@ -1026,6 +1110,8 @@ reloadHijackPrefs();
 CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadHijackPrefs, kHijackSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
 reloadTouchesPrefs();
 CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadTouchesPrefs, kHijackSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
+reloadTapTapPrefs();
+CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadTapTapPrefs, kTapTap, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
     	@autoreleasepool {
     		%init(volFunction);
         } %init(Main)//autoreleasepool for volskip, just applying it to everything rn
