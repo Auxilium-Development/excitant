@@ -142,9 +142,9 @@
 												<key>default</key>
 												<false/>
 												<key>defaults</key>
-												<string>com.midnightchips.volume.plist</string>
+												<string>com.auxilium.excitant</string>
 												<key>PostNotification</key>
-												<string>com.midnightchips.volume.plist/ReloadPrefs</string>
+												<string>com.auxilium.excitant/preferences.changed</string>
 												<key>key</key>
 												<string>kVolUpRespring</string>
 												<key>label</key>
@@ -156,9 +156,9 @@
 														<key>default</key>
 														<false/>
 														<key>defaults</key>
-														<string>com.midnightchips.volume.plist</string>
+														<string>com.auxilium.excitant</string>
 														<key>PostNotification</key>
-														<string>com.midnightchips.volume.plist/ReloadPrefs</string>
+														<string>com.auxilium.excitant/preferences.changed</string>
 														<key>key</key>
 														<string>kVolUpCC</string>
 														<key>label</key>
@@ -170,9 +170,9 @@
 															<key>default</key>
 															<false/>
 															<key>defaults</key>
-															<string>com.midnightchips.volume.plist</string>
+															<string>com.auxilium.excitant</string>
 															<key>PostNotification</key>
-															<string>com.midnightchips.volume.plist/ReloadPrefs</string>
+															<string>com.auxilium.excitant/preferences.changed</string>
 															<key>key</key>
 															<string>kVolUpBat</string>
 															<key>label</key>
@@ -184,9 +184,9 @@
 																<key>default</key>
 																<false/>
 																<key>defaults</key>
-																<string>com.midnightchips.volume.plist</string>
+																<string>com.auxilium.excitant</string>
 																<key>PostNotification</key>
-																<string>com.midnightchips.volume.plist/ReloadPrefs</string>
+																<string>com.auxilium.excitant/preferences.changed</string>
 																<key>key</key>
 																<string>kVolUpFlash</string>
 																<key>label</key>
@@ -198,9 +198,9 @@
 																	<key>default</key>
 																	<false/>
 																	<key>defaults</key>
-																	<string>com.midnightchips.volume.plist</string>
+																	<string>com.auxilium.excitant</string>
 																	<key>PostNotification</key>
-																	<string>com.midnightchips.volume.plist/ReloadPrefs</string>
+																	<string>com.auxilium.excitant/preferences.changed</string>
 																	<key>key</key>
 																	<string>kVolUpSkip</string>
 																	<key>label</key>
@@ -231,9 +231,9 @@
 															<key>default</key>
 															<false/>
 															<key>defaults</key>
-															<string>com.midnightchips.volume.plist</string>
+															<string>com.auxilium.excitant</string>
 															<key>PostNotification</key>
-															<string>com.midnightchips.volume.plist/ReloadPrefs</string>
+															<string>com.auxilium.excitant/preferences.changed</string>
 															<key>key</key>
 															<string>kVolDownRespring</string>
 															<key>label</key>
@@ -245,9 +245,9 @@
 																	<key>default</key>
 																	<false/>
 																	<key>defaults</key>
-																	<string>com.midnightchips.volume.plist</string>
+																	<string>com.auxilium.excitant</string>
 																	<key>PostNotification</key>
-																	<string>com.midnightchips.volume.plist/ReloadPrefs</string>
+																	<string>com.auxilium.excitant/preferences.changed</string>
 																	<key>key</key>
 																	<string>kVolDownCC</string>
 																	<key>label</key>
@@ -259,9 +259,9 @@
 																		<key>default</key>
 																		<false/>
 																		<key>defaults</key>
-																		<string>com.midnightchips.volume.plist</string>
+																		<string>com.auxilium.excitant</string>
 																		<key>PostNotification</key>
-																		<string>com.midnightchips.volume.plist/ReloadPrefs</string>
+																		<string>com.auxilium.excitant/preferences.changed</string>
 																		<key>key</key>
 																		<string>kVolDownBat</string>
 																		<key>label</key>
@@ -273,9 +273,9 @@
 																			<key>default</key>
 																			<false/>
 																			<key>defaults</key>
-																			<string>com.midnightchips.volume.plist</string>
+																			<string>com.auxilium.excitant</string>
 																			<key>PostNotification</key>
-																			<string>com.midnightchips.volume.plist/ReloadPrefs</string>
+																			<string>com.auxilium.excitant/preferences.changed</string>
 																			<key>key</key>
 																			<string>kVolDownFlash</string>
 																			<key>label</key>
@@ -287,9 +287,9 @@
 																				<key>default</key>
 																				<false/>
 																				<key>defaults</key>
-																				<string>com.midnightchips.volume.plist</string>
+																				<string>com.auxilium.excitant</string>
 																				<key>PostNotification</key>
-																				<string>com.midnightchips.volume.plist/ReloadPrefs</string>
+																				<string>com.auxilium.excitant/preferences.changed</string>
 																				<key>key</key>
 																				<string>kVolDownSkip</string>
 																				<key>label</key>

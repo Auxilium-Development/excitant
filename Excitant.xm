@@ -10,18 +10,27 @@
 #include <libexcitant.h>
 
 
+//Prefs
+@interface NSUserDefaults (Excitant)
+- (id)objectForKey:(NSString *)key inDomain:(NSString *)domain;
+- (void)setObject:(id)value forKey:(NSString *)key inDomain:(NSString *)domain;
+@end
 
-#define PLIST_PATH @"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"
-#define kTapTap (CFStringRef)@"EXCITANTTAPS.plist/saved"
+//Define Prefs
+static NSString *nsDomainString = @"com.auxilium.excitant";
+static NSString *nsNotificationString = @"com.auxilium.excitant/preferences.changed";
+
+/*#define PLIST_PATH @"/var/mobile/Library/Preferences/EXCITANTTAPS.plist"
+#define kTapTap (CFStringRef)@"com.auxilium.excitant/preferences.changed"
 #define EXCITANTTOUCHES_PATH @"/var/mobile/Library/Preferences/EXCITANTTOUCHES.plist"
 #define kVolPath @"/var/mobile/Library/Preferences/com.midnightchips.volume.plist"
 #define kHijackSettingsChangedNotification (CFStringRef)@"EXCITANTTOUCHES.plist/saved"
 //Testing Lonestar Prefs
 #define kIdentifier @"com.midnightchips.volume"
 #define kSettingsChangedNotification (CFStringRef)@"com.midnightchips.volume.plist/ReloadPrefs"
-#define kSettingsPath @"/var/mobile/Library/Preferences/com.midnightchips.volume.plist"
+#define kSettingsPath @"/var/mobile/Library/Preferences/com.midnightchips.volume.plist"*/
 // Status Bar Shit
-inline bool GetPrefBool(NSString *key) {
+/*inline bool GetPrefBool(NSString *key) {
   return [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:key] boolValue];
 }
 
@@ -35,13 +44,13 @@ inline float GetPrefFloat(NSString *key) {
 //Loading for UIView taps
 inline bool GetTouchBool(NSString *key) {
   return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] boolValue];
-}
+}*/
 /*inline bool GetVolumeBool(NSString *key) {
   return [[[NSDictionary dictionaryWithContentsOfFile:Volume_PATH] valueForKey:key] boolValue];
-}*/
+}
 inline float GetTouchFloats(NSString *key) {
   return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] floatValue];
-}
+}*/
 static NSString *tapapp;
 // End the Status Bar Shit
 //HomeHijack Stuff
@@ -62,15 +71,15 @@ switchApp = [prefs objectForKey:@"switchApp"]; //Setting up variables
 
 
 static void loadPrefsVolAppUp() { //volume version applist
-NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:kSettingsPath];
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.midnightchips.volume.plist"];
 volUp = [prefs objectForKey:@"volUp"]; //Setting up variables
 }
 
 static void loadPrefsVolAppDown() { //volume down applist
-NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:kSettingsPath];
+NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.midnightchips.volume.plist"];
 volDown = [prefs objectForKey:@"volDown"]; //Setting up variables
 }
-//Vol Prefs
+//Prefs
 static BOOL enableFlashUP;
 static BOOL enableRespringUP;
 static BOOL enablePowerUP;
@@ -81,26 +90,8 @@ static BOOL enableVolUpSkip;
 static BOOL enableVolDownSkip;
 static BOOL enableVolUpCC;
 static BOOL enableVolDownCC;
-
-
-static void reloadVolPrefs() { //Vol Prefs
-    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
-    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:kVolPath]];
-    enableFlashUP = defaults[@"kVolUpFlash"] ? [defaults[@"kVolUpFlash"] boolValue] : NO;
-    enableRespringUP = defaults[@"kVolUpRespring"] ? [defaults[@"kVolUpRespring"] boolValue] : NO;
-    enablePowerUP = defaults[@"kVolUpBat"] ? [defaults[@"kVolUpBat"] boolValue] : NO;
-    enableVolUpSkip = defaults[@"kVolUpSkip"] ? [defaults[@"kVolUpSkip"] boolValue] : NO;
-    enableVolUpCC = defaults[@"kVolUpCC"] ? [defaults[@"kVolUpCC"] boolValue] : NO;
-
-    enableFlashDown = defaults[@"kVolDownFlash"] ? [defaults[@"kVolDownFlash"] boolValue] : NO;
-    enableVolDownCC = defaults[@"kVolDownCC"] ? [defaults[@"kVolDownCC"] boolValue] : NO;
-    enableVolDownSkip = defaults[@"kVolDownSkip"] ? [defaults[@"kVolDownSkip"] boolValue] : NO;
-    enableRespringDown = defaults[@"kVolDownRespring"] ? [defaults[@"kVolDownRespring"] boolValue] : NO;
-    enablePowerDown = defaults[@"kVolDownBat"] ? [defaults[@"kVolDownBat"] boolValue] : NO;
-    NSLog(@"Toggled On %d", enableFlashDown);
-}
-
-
+//End Vol Prefs
+//Start HomeHijack
 static BOOL siriCC;
 static BOOL siriRespring;
 static BOOL siriBat;
@@ -109,20 +100,8 @@ static BOOL tritapCC;
 static BOOL tritapRespring;
 static BOOL tritapBat;
 static BOOL tritapFlash;
-
-static void reloadHijackPrefs() { //Vol Prefs
-    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
-    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH]];
-    siriCC = defaults[@"kCC"] ? [defaults[@"kCC"] boolValue] : NO;
-    siriRespring = defaults[@"kSiriRespring"] ? [defaults[@"kSiriRespring"] boolValue] : NO;
-    siriBat = defaults[@"kSiriBat"] ? [defaults[@"kSiriBat"] boolValue] : NO;
-    siriFlash = defaults[@"siriFlash"] ? [defaults[@"siriFlash"] boolValue] : NO;
-    tritapRespring = defaults[@"kRespring"] ? [defaults[@"kRespring"] boolValue] : NO;
-    tritapCC = defaults[@"kCCTap"] ? [defaults[@"kCCTap"] boolValue] : NO;
-    tritapBat = defaults[@"kTapBat"] ? [defaults[@"kTapBat"] boolValue] : NO;
-    tritapFlash = defaults[@"kTapFlash"] ? [defaults[@"kTapFlash"] boolValue] : NO;
-}
-
+//End HomeHijack
+//Start Touches
 static BOOL enableRB;
 static BOOL enableRM;
 static BOOL enableRT;
@@ -133,22 +112,8 @@ static BOOL setColor;
 static NSInteger numTaps;
 static float height;
 static float width;
-
-static void reloadTouchesPrefs() { //Vol Prefs
-    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
-    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH]];
-    enableRB = defaults[@"enableRB"] ? [defaults[@"enableRB"] boolValue] : NO;
-    enableRM = defaults[@"enableRM"] ? [defaults[@"enableRM"] boolValue] : NO;
-    enableRT = defaults[@"enableRT"] ? [defaults[@"enableRT"] boolValue] : NO;
-    enableLB = defaults[@"enableLB"] ? [defaults[@"enableLB"] boolValue] : NO;
-    enableLM = defaults[@"enableLM"] ? [defaults[@"enableLM"] boolValue] : NO;
-    enableLT = defaults[@"enableLT"] ? [defaults[@"enableLT"] boolValue] : NO;
-    setColor = defaults[@"setColor"] ? [defaults[@"setColor"] boolValue] : NO;
-    numTaps = defaults[@"numTaps"] ? [defaults[@"numTaps"] intValue] : 1;
-    height = defaults[@"vHeight"] ? [defaults[@"vHeight"] floatValue] : 100;
-    width = defaults[@"vWidth"] ? [defaults[@"vWidth"] floatValue] : 10;
-
-}
+//End Touches
+//Start TapTap
 static BOOL taptaps2;
 static BOOL taptaps3;
 static BOOL taptaps4;
@@ -167,41 +132,129 @@ static BOOL enableCC;
 static BOOL enableRespring;
 static BOOL enableSleep;
 static BOOL tapsleep;
+//End Tap TapTap
 
 
+static void notificationCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
 
-static void reloadTapTapPrefs() { //Vol Prefs
-    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
-    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH]];
-    taptaps2 = defaults[@"taptaps2"] ? [defaults[@"taptaps2"] boolValue] : NO;
-    taptaps3 = defaults[@"taptaps3"] ? [defaults[@"taptaps3"] boolValue] : NO;
-    taptaps4 = defaults[@"taptaps4"] ? [defaults[@"taptaps4"] boolValue] : NO;
-    enableAppTap = defaults[@"enableAppTap"] ? [defaults[@"enableAppTap"] boolValue] : NO;
-    enableUtils = defaults[@"enableUtils"] ? [defaults[@"enableUtils"] boolValue] : NO;
-    uicache = defaults[@"uicache"] ? [defaults[@"uicache"] boolValue] : NO;
-    respring = defaults[@"respring"] ? [defaults[@"respring"] boolValue] : NO;
-    tapreboot = defaults[@"reboot"] ? [defaults[@"reboot"] boolValue] : NO;
-    safemode = defaults[@"safemode"] ? [defaults[@"safemode"] boolValue] : NO;
-    shutdown = defaults[@"shutdown"] ? [defaults[@"shutdown"] boolValue] : NO;
-    enableFlash = defaults[@"enableFlash"] ? [defaults[@"enableFlash"] boolValue] : NO;
-    enableLPM = defaults[@"enableLPM"] ? [defaults[@"enableLPM"] boolValue] : NO;
-    enableAPM = defaults[@"enableAPM"] ? [defaults[@"enableAPM"] boolValue] : NO;
-    enableRL = defaults[@"enableRL"] ? [defaults[@"enableRL"] boolValue] : NO;
-    enableCC = defaults[@"enableCC"] ? [defaults[@"enableCC"] boolValue] : NO;
-    enableRespring = defaults[@"enableRespring"] ? [defaults[@"enableRespring"] boolValue] : NO;
-    enableSleep = defaults[@"enableSleep"] ? [defaults[@"enableSleep"] boolValue] : NO;
-    tapsleep = defaults[@"sleep"] ? [defaults[@"sleep"] boolValue] : NO;
+
+          //HomeHijack
+          NSNumber *enableSiriCC = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kCC" inDomain:nsDomainString];
+          NSNumber *enableSiriRespring = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kSiriRespring" inDomain:nsDomainString];
+          NSNumber *enabelSiriBat = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kSiriBat" inDomain:nsDomainString];
+          NSNumber *enableSiriFlash = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"siriFlash" inDomain:nsDomainString];
+          NSNumber *enableTritapCC = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kCCTap" inDomain:nsDomainString];
+          NSNumber *enableTritapRespring = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kRespring" inDomain:nsDomainString];
+          NSNumber *enableTritapBat = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kTapBat" inDomain:nsDomainString];
+          NSNumber *enableTritapFlash = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kTapFlash" inDomain:nsDomainString];
+
+          siriCC = (enableSiriCC)? [enableSiriCC boolValue]:NO;
+          siriRespring = (enableSiriRespring)? [enableSiriRespring boolValue]:NO;
+          siriBat = (enabelSiriBat)? [enabelSiriBat boolValue]:NO;
+          siriFlash = (enableSiriFlash)? [enableSiriFlash boolValue]:NO;
+          tritapCC = (enableTritapCC)? [enableTritapCC boolValue]:NO;
+          tritapRespring = (enableTritapRespring)? [enableTritapRespring boolValue]:NO;
+          tritapBat = (enableTritapBat)? [enableTritapBat boolValue]:NO;
+          tritapFlash = (enableTritapFlash)? [enableTritapFlash boolValue]:NO;
+          //End End HomeHijack
+          //TapTap
+          NSNumber *enabletaptaps2 = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps2" inDomain:nsDomainString];
+          NSNumber *enabletaptaps3 = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps3" inDomain:nsDomainString];
+          NSNumber *enabletaptaps4 = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps4" inDomain:nsDomainString];
+          NSNumber *enablenableAppTap = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableAppTap" inDomain:nsDomainString];
+          NSNumber *enableenableUtils = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableUtils" inDomain:nsDomainString];
+          NSNumber *enableuicache = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"uicache" inDomain:nsDomainString];
+          NSNumber *enablerespring = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"respring" inDomain:nsDomainString];
+          NSNumber *enabletapreboot = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"reboot" inDomain:nsDomainString];
+          NSNumber *enablesafemode = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"safemode" inDomain:nsDomainString];
+          NSNumber *enableshutdown = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"shutdown" inDomain:nsDomainString];
+          NSNumber *enableenableFlash = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableFlash" inDomain:nsDomainString];
+          NSNumber *enableenableLPM = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableLPM" inDomain:nsDomainString];
+          NSNumber *enableenableRL = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableRL" inDomain:nsDomainString];
+          NSNumber *enableenableCC = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableCC" inDomain:nsDomainString];
+          NSNumber *enableenableRespring = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableRespring" inDomain:nsDomainString];
+          NSNumber *enableenableSleep = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"sleep" inDomain:nsDomainString];
+          NSNumber *enabletapsleep = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableSleep" inDomain:nsDomainString];
+
+          taptaps2 = (enabletaptaps2)? [enabletaptaps2 boolValue]:NO;
+          taptaps3 = (enabletaptaps3)? [enabletaptaps3 boolValue]:NO;
+          taptaps4 = (enabletaptaps4)? [enabletaptaps4 boolValue]:NO;
+          enableAppTap = (enablenableAppTap)? [enablenableAppTap boolValue]:NO;
+          enableUtils = (enableenableUtils)? [enableenableUtils boolValue]:NO;
+          uicache = (enableuicache)? [enableuicache boolValue]:NO;
+          respring = (enablerespring)? [enablerespring boolValue]:NO;
+          tapreboot = (enabletapreboot)? [enabletapreboot boolValue]:NO;
+          safemode = (enablesafemode)? [enablesafemode boolValue]:NO;
+          shutdown = (enableshutdown)? [enableshutdown boolValue]:NO;
+          enableFlash = (enableenableFlash)? [enableenableFlash boolValue]:NO;
+          enableLPM = (enableenableLPM)? [enableenableLPM boolValue]:NO;
+          enableRL = (enableenableRL)? [enableenableRL boolValue]:NO;
+          enableCC  = (enableenableCC)? [enableenableCC boolValue]:NO;
+          enableRespring = (enableenableRespring)? [enableenableRespring boolValue]:NO;
+          enableSleep = (enableenableSleep)? [enableenableSleep boolValue]:NO;
+          tapsleep = (enabletapsleep)? [enabletapsleep boolValue]:NO;
+
+          //TapTap
+          //Start Touches
+          NSNumber *senableRB = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableUtils" inDomain:nsDomainString];
+          NSNumber *senableRM = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps2" inDomain:nsDomainString];
+          NSNumber *senableRT = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps3" inDomain:nsDomainString];
+          NSNumber *senableLB = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps4" inDomain:nsDomainString];
+          NSNumber *senableLM = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableAppTap" inDomain:nsDomainString];
+          NSNumber *senableLT = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableUtils" inDomain:nsDomainString];
+          NSNumber *ssetColor = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps2" inDomain:nsDomainString];
+          NSNumber *snumTaps = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps3" inDomain:nsDomainString];
+          NSNumber *sheight = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps4" inDomain:nsDomainString];
+          NSNumber *swidth = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableAppTap" inDomain:nsDomainString];
+
+          enableRB = (senableRB)? [senableRB boolValue]:NO;
+          enableRM = (senableRM)? [senableRM boolValue]:NO;
+          enableRT = (senableRT)? [senableRT boolValue]:NO;
+          enableLB = (senableLB)? [senableLB boolValue]:NO;
+          enableLM = (senableLM)? [senableLM boolValue]:NO;
+          enableLT = (senableLT)? [senableLT boolValue]:NO;
+          setColor = (ssetColor)? [ssetColor boolValue]:NO;
+          numTaps = (snumTaps)? [snumTaps intValue]:1;
+          height = (sheight)? [sheight floatValue]:100.0;
+          width = (swidth)? [swidth floatValue]:15.0;
+          //End Touches
+          //Start Volume
+          /*
+           enableFlashUP;
+           enableRespringUP;
+           enablePowerUP;
+           enableFlashDown;
+           enableRespringDown;
+           enablePowerDown;
+           enableVolUpSkip;
+           enableVolDownSkip;
+           enableVolUpCC;
+           enableVolDownCC;*/
+
+           NSNumber *senableFlashUP = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kVolUpFlash" inDomain:nsDomainString];
+           NSNumber *senableRespringUP = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kVolUpRespring" inDomain:nsDomainString];
+           NSNumber *senablePowerUP = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kVolUpBat" inDomain:nsDomainString];
+           NSNumber *senableFlashDown = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kVolDownFlash" inDomain:nsDomainString];
+           NSNumber *senableRespringDown = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kVolDownRespring" inDomain:nsDomainString];
+           NSNumber *senablePowerDown = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kVolDownBat" inDomain:nsDomainString];
+           NSNumber *senableVolUpSkip = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kVolUpSkip" inDomain:nsDomainString];
+           NSNumber *senableVolDownSkip = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kVolDownSkip" inDomain:nsDomainString];
+           NSNumber *senableVolUpCC = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kVolUpCC" inDomain:nsDomainString];
+           NSNumber *senableVolDownCC = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"kVolDownCC" inDomain:nsDomainString];
+
+           enableFlashUP = (senableFlashUP)? [senableFlashUP boolValue]:NO;
+           enableRespringUP = (senableRespringUP)? [senableRespringUP boolValue]:NO;
+           enablePowerUP = (senablePowerUP)? [senablePowerUP boolValue]:NO;
+           enableFlashDown = (senableFlashDown)? [senableFlashDown boolValue]:NO;
+           enableRespringDown = (senableRespringDown)? [senableRespringDown boolValue]:NO;
+           enablePowerDown = (senablePowerDown)? [senablePowerDown boolValue]:NO;
+           enableVolUpSkip = (senableVolUpSkip)? [senableVolUpSkip boolValue]:NO;
+           enableVolDownSkip = (senableVolDownSkip)? [senableVolDownSkip boolValue]:NO;
+           enableVolUpCC = (senableVolUpCC)? [senableVolUpCC boolValue]:NO;
+           enableVolDownCC = (senableVolDownCC)? [senableVolDownCC boolValue]:NO;
 }
-void updateSettings(CFNotificationCenterRef center,
-                    void *observer,
-                    CFStringRef name,
-                    const void *object,
-                    CFDictionaryRef userInfo) {
-    reloadVolPrefs();
-    reloadHijackPrefs();
-    reloadTouchesPrefs();
-    reloadTapTapPrefs();
-}
+
+
 
 
 //Mute Switch
@@ -212,9 +265,9 @@ static NSInteger switchPreference = (NSInteger)[[switchsettings objectForKey:@"s
 //End Mute Switch Prefs
 
 //Touches Prefs
-inline bool GetPrefTouchesBool(NSString *key) {
+/*inline bool GetPrefTouchesBool(NSString *key) {
 return [[[NSDictionary dictionaryWithContentsOfFile:EXCITANTTOUCHES_PATH] valueForKey:key] boolValue]; //Looks for bool
-}
+}*/
 
 //Touches Applist
 static NSString *touchesRightBottom;
@@ -345,7 +398,6 @@ BOOL volDownButtonIsDown;
     if ([[timer userInfo] intValue] == 1){
     //Battery Saver
     loadPrefsVolAppUp();
-    reloadVolPrefs();
     if(enablePowerUP == YES){
         [Excitant AUXtoggleLPM];
         NSLog(@"Running Toggle");
@@ -390,7 +442,6 @@ BOOL volDownButtonIsDown;
       static BOOL enablePowerDown*/
 	}else if ([[timer userInfo] intValue] == -1){
     loadPrefsVolAppDown();
-    reloadVolPrefs();
     //Battery Saver
     if(enablePowerDown == YES){
         [Excitant AUXtoggleLPM];
@@ -777,7 +828,6 @@ static float width;
 //Start HomeHijack
 %hook SBAssistantController
 -(void)_viewWillAppearOnMainScreen:(BOOL)arg1{
-    reloadHijackPrefs();
     if(siriCC == YES){
         [Excitant AUXcontrolCenter];
         %orig;
@@ -800,7 +850,6 @@ static float width;
 
 %hook SBAssistantWindow
 -(id)initWithScreen:(id)arg1 layoutStrategy:(id)arg2 debugName:(id)arg3 scene:(id)arg4 {
-    reloadHijackPrefs();
 
     if (selectedApp !=nil) {
         return NULL;
@@ -818,7 +867,6 @@ static float width;
 
 %hook SBHomeHardwareButtonActions
 -(void)performTriplePressUpActions{
-  reloadHijackPrefs();
   /*static BOOL siriCC;
   static BOOL siriRespring;
   static BOOL siriBat;
@@ -1104,14 +1152,13 @@ If you're reading this listen to this xxxtentacion playlist:
 
 //Prefs for TapTapUtils
 %ctor{
-  reloadVolPrefs();
-CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadVolPrefs, kSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
-reloadHijackPrefs();
-CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadHijackPrefs, kHijackSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
-reloadTouchesPrefs();
-CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadTouchesPrefs, kHijackSettingsChangedNotification, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
-reloadTapTapPrefs();
-CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadTapTapPrefs, kTapTap, NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
+  notificationCallback(NULL, NULL, NULL, NULL, NULL);
+  CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
+    NULL,
+    notificationCallback,
+    (CFStringRef)nsNotificationString,
+    NULL,
+    CFNotificationSuspensionBehaviorCoalesce);
     	@autoreleasepool {
     		%init(volFunction);
         } %init(Main)//autoreleasepool for volskip, just applying it to everything rn

@@ -142,13 +142,13 @@
             <key>default</key>
             <false/>
             <key>defaults</key>
-            <string>EXCITANTTOUCHES.plist</string>
+            <string>com.auxilium.excitant</string>
             <key>key</key>
             <string>kCC</string>
             <key>label</key>
             <string>Open The CC Rather then Siri</string>
 						<key>PostNotification</key>
-						<string>EXCITANTTOUCHES.plist/saved</string>
+						<string>com.auxilium.excitant/preferences.changed</string>
             </dict>
 						<dict>
 		            <key>cell</key>
@@ -156,13 +156,13 @@
 		            <key>default</key>
 		            <false/>
 		            <key>defaults</key>
-		            <string>EXCITANTTOUCHES.plist</string>
+		            <string>com.auxilium.excitant</string>
 		            <key>key</key>
 		            <string>kSiriRespring</string>
 		            <key>label</key>
 		            <string>Respring With Siri</string>
 								<key>PostNotification</key>
-								<string>EXCITANTTOUCHES.plist/saved</string>
+								<string>com.auxilium.excitant/preferences.changed</string>
 		            </dict>
 
 								<dict>
@@ -171,13 +171,13 @@
 											<key>default</key>
 											<false/>
 											<key>defaults</key>
-											<string>EXCITANTTOUCHES.plist</string>
+											<string>com.auxilium.excitant</string>
 											<key>key</key>
 											<string>kSiriBat</string>
 											<key>label</key>
 											<string>Turn On (and off) Low Power Mode</string>
 											<key>PostNotification</key>
-											<string>EXCITANTTOUCHES.plist/saved</string>
+											<string>com.auxilium.excitant/preferences.changed</string>
 									</dict>
 									<dict>
 												<key>cell</key>
@@ -185,13 +185,13 @@
 												<key>default</key>
 												<false/>
 												<key>defaults</key>
-												<string>EXCITANTTOUCHES.plist</string>
+												<string>com.auxilium.excitant</string>
 												<key>key</key>
 												<string>siriFlash</string>
 												<key>label</key>
 												<string>Turn On (and off) Torch</string>
 												<key>PostNotification</key>
-												<string>EXCITANTTOUCHES.plist/saved</string>
+												<string>com.auxilium.excitant/preferences.changed</string>
 										</dict>
 
 						<dict>
@@ -219,13 +219,13 @@
 									<key>default</key>
 									<false/>
 									<key>defaults</key>
-									<string>EXCITANTTOUCHES.plist</string>
+									<string>com.auxilium.excitant</string>
 									<key>key</key>
 									<string>kRespring</string>
 									<key>label</key>
 									<string>Respring your Phone</string>
 									<key>PostNotification</key>
-									<string>EXCITANTTOUCHES.plist/saved</string>
+									<string>com.auxilium.excitant/preferences.changed</string>
 									</dict>
 								<dict>
 											<key>cell</key>
@@ -233,13 +233,13 @@
 											<key>default</key>
 											<false/>
 											<key>defaults</key>
-											<string>EXCITANTTOUCHES.plist</string>
+											<string>com.auxilium.excitant</string>
 											<key>key</key>
 											<string>kCCTap</string>
 											<key>label</key>
 											<string>Open the CC</string>
 											<key>PostNotification</key>
-											<string>EXCITANTTOUCHES.plist/saved</string>
+											<string>com.auxilium.excitant/preferences.changed</string>
 									</dict>
 
 									<dict>
@@ -248,13 +248,13 @@
 												<key>default</key>
 												<false/>
 												<key>defaults</key>
-												<string>EXCITANTTOUCHES.plist</string>
+												<string>com.auxilium.excitant</string>
 												<key>key</key>
 												<string>kTapBat</string>
 												<key>label</key>
 												<string>Turn On (and off) Low Power Mode</string>
 												<key>PostNotification</key>
-												<string>EXCITANTTOUCHES.plist/saved</string>
+												<string>com.auxilium.excitant/preferences.changed</string>
 										</dict>
 										<dict>
 													<key>cell</key>
@@ -262,13 +262,13 @@
 													<key>default</key>
 													<false/>
 													<key>defaults</key>
-													<string>EXCITANTTOUCHES.plist</string>
+													<string>com.auxilium.excitant</string>
 													<key>key</key>
 													<string>kTapFlash</string>
 													<key>label</key>
 													<string>Turn On (and off) Torch</string>
 													<key>PostNotification</key>
-													<string>EXCITANTTOUCHES.plist/saved</string>
+													<string>com.auxilium.excitant/preferences.changed</string>
 											</dict>
 
 									<dict>
