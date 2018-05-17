@@ -10,6 +10,7 @@
 +(void)AUXlockDevice;
 +(void)AUXhomePress;
 +(BOOL)AUXisDeviceLocked;
++(void)AUXtoggleLocationServices;
 +(void)AUXtoggleBluetooth;
 +(BOOL)AUXisDeviceOnSB;
 +(BOOL)AUXisDeviceOnNC;
@@ -21,4 +22,13 @@
 +(void)AUXtoggleAppSwitcher;
 +(void)AUXcallSiri;
 +(void)AUXtoggleNC;
++(void)AUXraiseVol;
++(void)AUXlowerVol;
++(void)AUXsetVol:(float)arg1;
++(void)AUXwakeDevice;
++(void)AUXtoggleCellular;
++(void)AUXraiseBrightnessBy:(float)arg1;
++(void)AUXlowerBrightnessBy:(float)arg1;
++(void)AUXsetBrightness:(float)arg1;
++(int)AUXgetPowerLevel;
 @end
