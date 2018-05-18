@@ -430,7 +430,7 @@
 				<key>isSegmented</key>
 				<true/>
 				<key>segmentCount</key>
-				<integer>5</integer>
+				<real>3</real>
 				<key>label</key>
 				<string>Set Number of Taps</string>
 		</dict>

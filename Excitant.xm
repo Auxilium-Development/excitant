@@ -513,7 +513,7 @@ ExcitantView *rightTopView;
 
 %hook SpringBoard
 -(void)applicationDidFinishLaunching:(id)application {
-    %orig;
+          %orig;
 		UIWindow * screen = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen]bounds]];
 
 		rightBottomView=[[ExcitantView alloc]initWithFrame:CGRectMake(screen.bounds.size.width, screen.bounds.size.height, - width, - height)];
@@ -581,35 +581,25 @@ ExcitantView *rightTopView;
 		[window setHidden:NO];
 		[window setAlpha:1.0];
 		[window setBackgroundColor:[UIColor clearColor]];
-    /*static BOOL enableRB;
-    static BOOL enableRM;
-    static BOOL enableRT;
-    static BOOL enableLB;
-    static BOOL enableLM;
-    static BOOL enableLT;
-    static BOOL setColor;
-    static NSInteger numTaps;
-    static float height;
-    static float width;
-*/
+
         if(enableRB == YES){
         [window addSubview:rightBottomView];
-    }else {nil;}
+    }
       if(enableRM == YES){
 		[window addSubview:rightMiddleView];
-    }else {nil;}
+    }
        if(enableRT == YES){
 		[window addSubview:rightTopView];
-    }else {nil;}
+    }
        if(enableLB == YES){
 		[window addSubview:leftBottomView];
-    }else {nil;}
+    }
        if(enableLM == YES){
 		[window addSubview:leftMiddleView];
-    }else {nil;}
+    }
        if(enableLT == YES){
 		[window addSubview:leftTopView];
-    }else {nil;}
+    }
 
 /*UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(TapTapUtils)];
 tapRecognizer.numberOfTapsRequired = 2;
@@ -748,12 +738,12 @@ static float width;
 			[Excitant AUXtoggleRotationLock];
 			break;
 		  case 5:
-		   [Excitant AUXlaunchApp:switchApp];
+		          [Excitant AUXlaunchApp:switchApp];
 			break;
 		  default:
 			%orig;
 			break;
-	   } 
+	   }
 	}
 }
 //End Mute Switch Function
