@@ -728,29 +728,32 @@ static float width;
 }
 //End Side Subviews
 //Mute Switch Function
-- (void)_updateRingerState:(int)arg1 withVisuals:(BOOL)arg2 updatePreferenceRegister:(BOOL)arg3 {
+-(void)_updateRingerState:(int)arg1 withVisuals:(BOOL)arg2 updatePreferenceRegister:(BOOL)arg3 {
   loadSwitchApp();
 	if(arg1) {
-		if (switchPreference == 0) {
+		switch (switchPreference) {
+		  case 0:
 			[Excitant AUXtoggleFlash];
-		}
-		if (switchPreference == 1){
+			break;
+		  case 1:
 			[Excitant AUXtoggleLPM];
-		}
-		if (switchPreference == 2) {
-                        [Excitant AUXtoggleAirplaneMode];
-		}
-                if (switchPreference == 3) {
-                        [Excitant AUXtoggleMute];
-		}
-		if (switchPreference == 4) {
-                        [Excitant AUXtoggleRotationLock];
-		}
-      		if (switchPreference == 5) {
-                        [Excitant AUXlaunchApp:switchApp];
-      		}
-	} else {
-		%orig;
+			break;
+		  case 2:
+			[Excitant AUXtoggleAirplaneMode];
+			break;
+		  case 3:
+			[Excitant AUXtoggleMute];
+			break;
+		  case 4:
+			[Excitant AUXtoggleRotationLock];
+			break;
+		  case 5:
+		   [Excitant AUXlaunchApp:switchApp];
+			break;
+		  default:
+			%orig;
+			break;
+	   } 
 	}
 }
 //End Mute Switch Function
