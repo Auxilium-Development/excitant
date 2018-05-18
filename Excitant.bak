@@ -196,16 +196,16 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 
           //TapTap
           //Start Touches
-          NSNumber *senableRB = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableRB" inDomain:nsDomainString];
-          NSNumber *senableRM = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableRM" inDomain:nsDomainString];
-          NSNumber *senableRT = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableRT" inDomain:nsDomainString];
-          NSNumber *senableLB = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableLB" inDomain:nsDomainString];
-          NSNumber *senableLM = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableLM" inDomain:nsDomainString];
-          NSNumber *senableLT = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableLT" inDomain:nsDomainString];
-          NSNumber *ssetColor = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"setColor" inDomain:nsDomainString];
-          NSNumber *snumTaps = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"numTaps" inDomain:nsDomainString];
-          NSNumber *sheight = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"height" inDomain:nsDomainString];
-          NSNumber *swidth = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"width" inDomain:nsDomainString];
+          NSNumber *senableRB = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableUtils" inDomain:nsDomainString];
+          NSNumber *senableRM = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps2" inDomain:nsDomainString];
+          NSNumber *senableRT = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps3" inDomain:nsDomainString];
+          NSNumber *senableLB = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps4" inDomain:nsDomainString];
+          NSNumber *senableLM = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableAppTap" inDomain:nsDomainString];
+          NSNumber *senableLT = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableUtils" inDomain:nsDomainString];
+          NSNumber *ssetColor = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps2" inDomain:nsDomainString];
+          NSNumber *snumTaps = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps3" inDomain:nsDomainString];
+          NSNumber *sheight = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"taptaps4" inDomain:nsDomainString];
+          NSNumber *swidth = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"enableAppTap" inDomain:nsDomainString];
 
           enableRB = (senableRB)? [senableRB boolValue]:NO;
           enableRM = (senableRM)? [senableRM boolValue]:NO;
@@ -513,6 +513,19 @@ ExcitantView *rightTopView;
 
 %hook SpringBoard
 -(void)applicationDidFinishLaunching:(id)application {
+  /*
+  static BOOL enableRB;
+  static BOOL enableRM;
+  static BOOL enableRT;
+  static BOOL enableLB;
+  static BOOL enableLM;
+  static BOOL enableLT;
+  static BOOL setColor;
+  static NSInteger numTaps;
+  static float height;
+  static float width;
+*/
+//Side Subviews
     %orig;
 		UIWindow * screen = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen]bounds]];
 
